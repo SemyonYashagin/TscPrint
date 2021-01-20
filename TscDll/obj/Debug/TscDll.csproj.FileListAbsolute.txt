@@ -1,0 +1,14 @@
+D:\Codes\TscPrint\TscDll\bin\Debug\TscDll.dll
+D:\Codes\TscPrint\TscDll\bin\Debug\TscDll.pdb
+D:\Codes\TscPrint\TscDll\bin\Debug\tsclibnet.dll
+D:\Codes\TscPrint\TscDll\bin\Debug\zxing.dll
+D:\Codes\TscPrint\TscDll\bin\Debug\zxing.presentation.dll
+D:\Codes\TscPrint\TscDll\bin\Debug\zxing.xml
+D:\Codes\TscPrint\TscDll\bin\Debug\zxing.presentation.xml
+D:\Codes\TscPrint\TscDll\obj\Debug\TscDll.csproj.CoreCompileInputs.cache
+D:\Codes\TscPrint\TscDll\obj\Debug\TscDll.csproj.CopyComplete
+D:\Codes\TscPrint\TscDll\obj\Debug\TscDll.dll
+D:\Codes\TscPrint\TscDll\obj\Debug\TscDll.pdb
+D:\Codes\TscPrint\TscDll\bin\Debug\Newtonsoft.Json.dll
+D:\Codes\TscPrint\TscDll\bin\Debug\Newtonsoft.Json.xml
+D:\Codes\TscPrint\TscDll\obj\Debug\TscDll.csprojAssemblyReference.cache

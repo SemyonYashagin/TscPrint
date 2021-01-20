@@ -1,0 +1,16 @@
+D:\Codes\TscPrint\TscPrintTest\bin\Debug\TscPrintTest.exe.config
+D:\Codes\TscPrint\TscPrintTest\bin\Debug\TscPrintTest.exe
+D:\Codes\TscPrint\TscPrintTest\bin\Debug\TscPrintTest.pdb
+D:\Codes\TscPrint\TscPrintTest\bin\Debug\TscDll.dll
+D:\Codes\TscPrint\TscPrintTest\bin\Debug\tsclibnet.dll
+D:\Codes\TscPrint\TscPrintTest\bin\Debug\zxing.dll
+D:\Codes\TscPrint\TscPrintTest\bin\Debug\TscDll.pdb
+D:\Codes\TscPrint\TscPrintTest\bin\Debug\zxing.xml
+D:\Codes\TscPrint\TscPrintTest\obj\Debug\TscPrintTest.csprojAssemblyReference.cache
+D:\Codes\TscPrint\TscPrintTest\obj\Debug\TscPrintTest.Form1.resources
+D:\Codes\TscPrint\TscPrintTest\obj\Debug\TscPrintTest.Properties.Resources.resources
+D:\Codes\TscPrint\TscPrintTest\obj\Debug\TscPrintTest.csproj.GenerateResource.cache
+D:\Codes\TscPrint\TscPrintTest\obj\Debug\TscPrintTest.csproj.CoreCompileInputs.cache
+D:\Codes\TscPrint\TscPrintTest\obj\Debug\TscPrintTest.csproj.CopyComplete
+D:\Codes\TscPrint\TscPrintTest\obj\Debug\TscPrintTest.exe
+D:\Codes\TscPrint\TscPrintTest\obj\Debug\TscPrintTest.pdb
