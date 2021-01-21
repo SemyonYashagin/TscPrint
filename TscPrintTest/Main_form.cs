@@ -73,7 +73,7 @@ namespace TscPrintTest
         {
             //Progress_form progress = new Progress_form();
             //progress.ShowDialog();
-            TscHelper.Init_printer(driver);
+            //TscHelper.Init_printer(driver);
             TscHelper.PrintSgtins(driver, sgtin_values);
             
         }

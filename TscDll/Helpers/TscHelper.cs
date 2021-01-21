@@ -1,28 +1,28 @@
-﻿using System;
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
 using System.Drawing;
-using System.Linq;
-using System.Text;
+using System.Xml;
 using ZXing;
 
 namespace TscDll.Helpers
 {
     public class TscHelper
     {
-        public static void Init_printer(TSCSDK.driver driver)
+        public static void Init_printer()
         {
+            TSCSDK.driver driver = new TSCSDK.driver();
+            
             driver.openport("TSC MH240");
             driver.sendcommand("SIZE 43 mm, 25 mm"); //the size of a paper in the printer
-            //driver.sendcommand("SIZE 60 mm, 30 mm");
-            //driver.sendcommand("SIZE 100 mm, 50 mm");
-            //driver.sendcommand("AUTODETECT");
-            //driver.sendcommand("GAP 2 mm, 0");
+            driver.sendcommand("GAP 2 mm, 0");
             driver.sendcommand("SPEED 4");
             driver.sendcommand("DENSITY 12");
             driver.sendcommand("DIRECTION 1");
             driver.sendcommand("SET TEAR ON");
             driver.sendcommand("CODEPAGE UTF-8");
+
             driver.clearbuffer();
+            driver.printlabel("1", "1");
+            driver.closeport();
         }
 
         public static void PrintSgtins(TSCSDK.driver driver, List<string> sgtins)
@@ -82,7 +82,17 @@ namespace TscDll.Helpers
                 driver.clearbuffer();
             }
             driver.closeport();
-
         }
+
+        public static void TSLPrintSettings()
+        {
+            XmlTextReader settingsReader = new XmlTextReader("TSCPrinterSettings.xml");
+            settingsReader.Read();
+            while(settingsReader.Read())
+            {
+
+            }
+        }
+
     }
 }

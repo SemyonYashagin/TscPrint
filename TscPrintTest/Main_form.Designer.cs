@@ -48,7 +48,7 @@ namespace TscPrintTest
             this.DGV_Name_Gtin.Columns.AddRange(new System.Windows.Forms.DataGridViewColumn[] {
             this.Item_name,
             this.GTIN});
-            this.DGV_Name_Gtin.Location = new System.Drawing.Point(12, 39);
+            this.DGV_Name_Gtin.Location = new System.Drawing.Point(12, 106);
             this.DGV_Name_Gtin.Name = "DGV_Name_Gtin";
             this.DGV_Name_Gtin.ReadOnly = true;
             this.DGV_Name_Gtin.Size = new System.Drawing.Size(244, 179);
@@ -69,7 +69,7 @@ namespace TscPrintTest
             // 
             // But_SGTIN_print
             // 
-            this.But_SGTIN_print.Location = new System.Drawing.Point(12, 239);
+            this.But_SGTIN_print.Location = new System.Drawing.Point(351, 308);
             this.But_SGTIN_print.Name = "But_SGTIN_print";
             this.But_SGTIN_print.Size = new System.Drawing.Size(112, 30);
             this.But_SGTIN_print.TabIndex = 2;
@@ -79,7 +79,7 @@ namespace TscPrintTest
             // 
             // But_SSCC_print
             // 
-            this.But_SSCC_print.Location = new System.Drawing.Point(130, 239);
+            this.But_SSCC_print.Location = new System.Drawing.Point(469, 308);
             this.But_SSCC_print.Name = "But_SSCC_print";
             this.But_SSCC_print.Size = new System.Drawing.Size(126, 30);
             this.But_SSCC_print.TabIndex = 3;
@@ -92,7 +92,7 @@ namespace TscPrintTest
             this.DGV_Sgtin_Sscc.AllowUserToAddRows = false;
             this.DGV_Sgtin_Sscc.AllowUserToDeleteRows = false;
             this.DGV_Sgtin_Sscc.ColumnHeadersHeightSizeMode = System.Windows.Forms.DataGridViewColumnHeadersHeightSizeMode.AutoSize;
-            this.DGV_Sgtin_Sscc.Location = new System.Drawing.Point(262, 39);
+            this.DGV_Sgtin_Sscc.Location = new System.Drawing.Point(262, 106);
             this.DGV_Sgtin_Sscc.Name = "DGV_Sgtin_Sscc";
             this.DGV_Sgtin_Sscc.ReadOnly = true;
             this.DGV_Sgtin_Sscc.Size = new System.Drawing.Size(245, 179);
