@@ -36,7 +36,6 @@ namespace TscDll.Entities
         /// <summary>Коллекция упакованных SGTIN-ов</summary>
         public List<string> Sgtins { get; set; }
 
-
         /// <summary>Дочерние SSCC</summary>
         public List<Sscc> ChildSscc { get; set; }
 

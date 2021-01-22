@@ -1,6 +1,8 @@
 ﻿using System.Collections.Generic;
 using System.Drawing;
+using System.Xml.Serialization;
 using System.Xml;
+using System.IO;
 using ZXing;
 
 namespace TscDll.Helpers
@@ -19,7 +21,6 @@ namespace TscDll.Helpers
             driver.sendcommand("DIRECTION 1");
             driver.sendcommand("SET TEAR ON");
             driver.sendcommand("CODEPAGE UTF-8");
-
             driver.clearbuffer();
             driver.printlabel("1", "1");
             driver.closeport();
@@ -83,16 +84,5 @@ namespace TscDll.Helpers
             }
             driver.closeport();
         }
-
-        public static void TSLPrintSettings()
-        {
-            XmlTextReader settingsReader = new XmlTextReader("TSCPrinterSettings.xml");
-            settingsReader.Read();
-            while(settingsReader.Read())
-            {
-
-            }
-        }
-
     }
 }
