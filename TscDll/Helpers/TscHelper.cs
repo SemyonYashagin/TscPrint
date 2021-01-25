@@ -4,11 +4,59 @@ using System.Xml.Serialization;
 using System.Xml;
 using System.IO;
 using ZXing;
+using TSCSDK;
+using TscDll.Entities;
+using System;
+using TscDll.Extensions;
 
 namespace TscDll.Helpers
 {
     public class TscHelper
     {
+        public static Settings GetSettings()
+        {
+            string set = System.IO.File.ReadAllText(Environment.GetFolderPath(Environment.SpecialFolder.CommonApplicationData) + @"\TscPrinter\printerSettings.xml");
+            var settings = (Settings)set.ParseXML(typeof(Settings), System.Text.Encoding.GetEncoding("utf-16"));
+            return settings;
+        }
+
+        public static ResponseData SaveSettings(Settings settings)
+        {
+            ResponseData response = new ResponseData();
+
+            string xmlSetting = settings.ToXml();
+
+            string directory = Environment.GetFolderPath(Environment.SpecialFolder.CommonApplicationData) + @"\TscPrinter";
+            string fileSettings = directory + @"\printerSettings.xml"; //full directory
+
+            if (!System.IO.Directory.Exists(directory))
+            {
+                System.IO.Directory.CreateDirectory(directory);
+            }
+
+            using (StreamWriter outputFile = new StreamWriter(fileSettings))
+            {
+                outputFile.WriteLine(xmlSetting);
+            }
+
+            if (System.IO.Directory.Exists(directory))
+                response.IsSuccess = true;
+
+            return response;
+        }
+
+        public static string Printer_status(Settings settings)
+        {
+            driver driver = new driver();
+            bool status = driver.driver_status(settings.PrinterName);
+            if (status)
+            {
+                return "Готов к работе";
+            }
+            return "Ошибка инициализации";
+            
+        }
+
         public static void Init_printer()
         {
             TSCSDK.driver driver = new TSCSDK.driver();

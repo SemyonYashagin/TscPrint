@@ -29,147 +29,139 @@ namespace TscDll.Forms
         /// </summary>
         private void InitializeComponent()
         {
-            this.textBox1 = new System.Windows.Forms.TextBox();
+            this.tB_PrinterName = new System.Windows.Forms.TextBox();
             this.label1 = new System.Windows.Forms.Label();
             this.label2 = new System.Windows.Forms.Label();
-            this.textBox2 = new System.Windows.Forms.TextBox();
+            this.tB_PrinterDensity = new System.Windows.Forms.TextBox();
             this.label3 = new System.Windows.Forms.Label();
-            this.textBox3 = new System.Windows.Forms.TextBox();
             this.label4 = new System.Windows.Forms.Label();
-            this.textBox4 = new System.Windows.Forms.TextBox();
             this.label5 = new System.Windows.Forms.Label();
-            this.textBox5 = new System.Windows.Forms.TextBox();
-            this.label6 = new System.Windows.Forms.Label();
-            this.textBox6 = new System.Windows.Forms.TextBox();
-            this.button1 = new System.Windows.Forms.Button();
+            this.tB_PrinterSpeed = new System.Windows.Forms.TextBox();
+            this.Button_Synch = new System.Windows.Forms.Button();
+            this.cB_SgtinSize = new System.Windows.Forms.ComboBox();
+            this.cB_SsccSize = new System.Windows.Forms.ComboBox();
             this.SuspendLayout();
             // 
-            // textBox1
+            // tB_PrinterName
             // 
-            this.textBox1.Location = new System.Drawing.Point(76, 32);
-            this.textBox1.Name = "textBox1";
-            this.textBox1.Size = new System.Drawing.Size(191, 20);
-            this.textBox1.TabIndex = 0;
+            this.tB_PrinterName.Location = new System.Drawing.Point(76, 25);
+            this.tB_PrinterName.Name = "tB_PrinterName";
+            this.tB_PrinterName.Size = new System.Drawing.Size(191, 20);
+            this.tB_PrinterName.TabIndex = 0;
             // 
             // label1
             // 
             this.label1.AutoSize = true;
-            this.label1.Location = new System.Drawing.Point(13, 38);
+            this.label1.Location = new System.Drawing.Point(13, 9);
             this.label1.Name = "label1";
-            this.label1.Size = new System.Drawing.Size(35, 13);
+            this.label1.Size = new System.Drawing.Size(133, 13);
             this.label1.TabIndex = 1;
-            this.label1.Text = "label1";
+            this.label1.Text = "Наименование принтера";
             // 
             // label2
             // 
             this.label2.AutoSize = true;
-            this.label2.Location = new System.Drawing.Point(13, 222);
+            this.label2.Location = new System.Drawing.Point(12, 226);
             this.label2.Name = "label2";
-            this.label2.Size = new System.Drawing.Size(35, 13);
+            this.label2.Size = new System.Drawing.Size(122, 13);
             this.label2.TabIndex = 3;
-            this.label2.Text = "label2";
+            this.label2.Text = "Насыщенность печати";
             // 
-            // textBox2
+            // tB_PrinterDensity
             // 
-            this.textBox2.Location = new System.Drawing.Point(76, 216);
-            this.textBox2.Name = "textBox2";
-            this.textBox2.Size = new System.Drawing.Size(191, 20);
-            this.textBox2.TabIndex = 2;
+            this.tB_PrinterDensity.Location = new System.Drawing.Point(76, 242);
+            this.tB_PrinterDensity.Name = "tB_PrinterDensity";
+            this.tB_PrinterDensity.Size = new System.Drawing.Size(191, 20);
+            this.tB_PrinterDensity.TabIndex = 2;
             // 
             // label3
             // 
             this.label3.AutoSize = true;
-            this.label3.Location = new System.Drawing.Point(13, 92);
+            this.label3.BackColor = System.Drawing.SystemColors.Control;
+            this.label3.Location = new System.Drawing.Point(13, 62);
             this.label3.Name = "label3";
-            this.label3.Size = new System.Drawing.Size(35, 13);
+            this.label3.Size = new System.Drawing.Size(204, 13);
             this.label3.TabIndex = 5;
-            this.label3.Text = "label3";
-            // 
-            // textBox3
-            // 
-            this.textBox3.Location = new System.Drawing.Point(76, 86);
-            this.textBox3.Name = "textBox3";
-            this.textBox3.Size = new System.Drawing.Size(191, 20);
-            this.textBox3.TabIndex = 4;
+            this.label3.Text = "Размер этикеток для печати SGTIN-ов";
             // 
             // label4
             // 
             this.label4.AutoSize = true;
-            this.label4.Location = new System.Drawing.Point(13, 131);
+            this.label4.Location = new System.Drawing.Point(12, 118);
             this.label4.Name = "label4";
-            this.label4.Size = new System.Drawing.Size(35, 13);
+            this.label4.Size = new System.Drawing.Size(184, 13);
             this.label4.TabIndex = 7;
-            this.label4.Text = "label4";
-            // 
-            // textBox4
-            // 
-            this.textBox4.Location = new System.Drawing.Point(76, 125);
-            this.textBox4.Name = "textBox4";
-            this.textBox4.Size = new System.Drawing.Size(191, 20);
-            this.textBox4.TabIndex = 6;
+            this.label4.Text = "Размер этикеток для печати SSCC";
             // 
             // label5
             // 
             this.label5.AutoSize = true;
-            this.label5.Location = new System.Drawing.Point(13, 180);
+            this.label5.Location = new System.Drawing.Point(13, 174);
             this.label5.Name = "label5";
-            this.label5.Size = new System.Drawing.Size(35, 13);
+            this.label5.Size = new System.Drawing.Size(92, 13);
             this.label5.TabIndex = 9;
-            this.label5.Text = "label5";
+            this.label5.Text = "Скорость печати";
             // 
-            // textBox5
+            // tB_PrinterSpeed
             // 
-            this.textBox5.Location = new System.Drawing.Point(76, 174);
-            this.textBox5.Name = "textBox5";
-            this.textBox5.Size = new System.Drawing.Size(191, 20);
-            this.textBox5.TabIndex = 8;
+            this.tB_PrinterSpeed.Location = new System.Drawing.Point(76, 190);
+            this.tB_PrinterSpeed.Name = "tB_PrinterSpeed";
+            this.tB_PrinterSpeed.Size = new System.Drawing.Size(191, 20);
+            this.tB_PrinterSpeed.TabIndex = 8;
             // 
-            // label6
+            // Button_Synch
             // 
-            this.label6.AutoSize = true;
-            this.label6.Location = new System.Drawing.Point(13, 272);
-            this.label6.Name = "label6";
-            this.label6.Size = new System.Drawing.Size(35, 13);
-            this.label6.TabIndex = 11;
-            this.label6.Text = "label6";
+            this.Button_Synch.Location = new System.Drawing.Point(49, 278);
+            this.Button_Synch.Name = "Button_Synch";
+            this.Button_Synch.Size = new System.Drawing.Size(185, 23);
+            this.Button_Synch.TabIndex = 12;
+            this.Button_Synch.Text = "Сохранить";
+            this.Button_Synch.UseVisualStyleBackColor = true;
+            this.Button_Synch.Click += new System.EventHandler(this.Button_Synch_Click);
             // 
-            // textBox6
+            // cB_SgtinSize
             // 
-            this.textBox6.Location = new System.Drawing.Point(76, 266);
-            this.textBox6.Name = "textBox6";
-            this.textBox6.Size = new System.Drawing.Size(191, 20);
-            this.textBox6.TabIndex = 10;
+            this.cB_SgtinSize.FormattingEnabled = true;
+            this.cB_SgtinSize.Items.AddRange(new object[] {
+            "43 mm, 25 mm",
+            "100 mm, 50 mm"});
+            this.cB_SgtinSize.Location = new System.Drawing.Point(76, 79);
+            this.cB_SgtinSize.Name = "cB_SgtinSize";
+            this.cB_SgtinSize.Size = new System.Drawing.Size(191, 21);
+            this.cB_SgtinSize.TabIndex = 13;
             // 
-            // button1
+            // cB_SsccSize
             // 
-            this.button1.Location = new System.Drawing.Point(50, 317);
-            this.button1.Name = "button1";
-            this.button1.Size = new System.Drawing.Size(185, 23);
-            this.button1.TabIndex = 12;
-            this.button1.Text = "Синхронировать";
-            this.button1.UseVisualStyleBackColor = true;
-            this.button1.Click += new System.EventHandler(this.button1_Click);
+            this.cB_SsccSize.FormattingEnabled = true;
+            this.cB_SsccSize.Items.AddRange(new object[] {
+            "43 mm, 25 mm",
+            "100 mm, 50 mm"});
+            this.cB_SsccSize.Location = new System.Drawing.Point(76, 135);
+            this.cB_SsccSize.Name = "cB_SsccSize";
+            this.cB_SsccSize.Size = new System.Drawing.Size(191, 21);
+            this.cB_SsccSize.TabIndex = 14;
             // 
             // PrintSettings
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-            this.ClientSize = new System.Drawing.Size(300, 356);
-            this.Controls.Add(this.button1);
-            this.Controls.Add(this.label6);
-            this.Controls.Add(this.textBox6);
+            this.ClientSize = new System.Drawing.Size(289, 313);
+            this.Controls.Add(this.cB_SsccSize);
+            this.Controls.Add(this.cB_SgtinSize);
+            this.Controls.Add(this.Button_Synch);
             this.Controls.Add(this.label5);
-            this.Controls.Add(this.textBox5);
+            this.Controls.Add(this.tB_PrinterSpeed);
             this.Controls.Add(this.label4);
-            this.Controls.Add(this.textBox4);
             this.Controls.Add(this.label3);
-            this.Controls.Add(this.textBox3);
             this.Controls.Add(this.label2);
-            this.Controls.Add(this.textBox2);
+            this.Controls.Add(this.tB_PrinterDensity);
             this.Controls.Add(this.label1);
-            this.Controls.Add(this.textBox1);
+            this.Controls.Add(this.tB_PrinterName);
+            this.FormBorderStyle = System.Windows.Forms.FormBorderStyle.FixedSingle;
+            this.MaximizeBox = false;
             this.Name = "PrintSettings";
-            this.Text = "PrintSettings";
+            this.StartPosition = System.Windows.Forms.FormStartPosition.CenterParent;
+            this.Text = "Настройки принтера";
             this.ResumeLayout(false);
             this.PerformLayout();
 
@@ -177,18 +169,16 @@ namespace TscDll.Forms
 
         #endregion
 
-        private System.Windows.Forms.TextBox textBox1;
+        private System.Windows.Forms.TextBox tB_PrinterName;
         private System.Windows.Forms.Label label1;
         private System.Windows.Forms.Label label2;
-        private System.Windows.Forms.TextBox textBox2;
+        private System.Windows.Forms.TextBox tB_PrinterDensity;
         private System.Windows.Forms.Label label3;
-        private System.Windows.Forms.TextBox textBox3;
         private System.Windows.Forms.Label label4;
-        private System.Windows.Forms.TextBox textBox4;
         private System.Windows.Forms.Label label5;
-        private System.Windows.Forms.TextBox textBox5;
-        private System.Windows.Forms.Label label6;
-        private System.Windows.Forms.TextBox textBox6;
-        private System.Windows.Forms.Button button1;
+        private System.Windows.Forms.TextBox tB_PrinterSpeed;
+        private System.Windows.Forms.Button Button_Synch;
+        private System.Windows.Forms.ComboBox cB_SgtinSize;
+        private System.Windows.Forms.ComboBox cB_SsccSize;
     }
 }

@@ -21,12 +21,9 @@ namespace TscPrintTest
         {
             InitializeComponent();
 
-            printUnits = new List<MarkPrintUnit>();
-            UnitsInitialize(printUnits);
-
             foreach (MarkPrintUnit unit in printUnits)
             {
-                DGV_Name_Gtin.Rows.Add(unit.Nomen, unit.Gtin);
+                DGV_Name_Gtin.Rows.Add(unit.NomenProduct, unit.Gtin);
             }
 
             ResponseData k = Print.PrintSgtinSscc(printUnits);
@@ -41,33 +38,7 @@ namespace TscPrintTest
             }
         }
 
-        private void UnitsInitialize(List<MarkPrintUnit> printUnits)
-        {
-            printUnits.Add(new MarkPrintUnit
-            {
-                Nomen = "Сыр",
-                Gtin = "04630030160342",
-                PartyId = 1,
-                Ssccs = new Sscc
-                {
-                    SsccValue = "46500997801035207",
-                    ChildSscc = new List<Sscc>
-                    {
-                       new Sscc {
-                                    SsccValue = "46500997801035208",
-                                    ParentSscc = "46500997801035207",
-                                    Sgtins = new List<string> { "010463003016034221641556169149391EE01", "010463003016034221641556169149391EE02" }
-                                 },
-
-                       new Sscc {
-                                    SsccValue = "46500997801035209",
-                                    ParentSscc = "46500997801035207",
-                                    Sgtins = new List<string> { "010463003016034221641556169149391EE03", "010463003016034221641556169149391EE04" }
-                                 }
-                    }
-                }
-            });
-        }
+        
 
         private void But_SGTIN_print_Click(object sender, System.EventArgs e)
         {
@@ -93,7 +64,7 @@ namespace TscPrintTest
                 if (DGV_Name_Gtin.Rows[e.RowIndex].Cells[e.ColumnIndex].Value != null)
                 {
                     DGV_Name_Gtin.CurrentRow.Selected = true;                    
-                    ViewHelper.GetSgtinANDSscc(sgtin_values, sscc_values, printUnits[e.RowIndex].Ssccs);
+                    ViewHelper.GetSgtinANDSscc(sgtin_values, sscc_values, printUnits[e.RowIndex].Units);
                     DGV_Sgtin_Sscc.AutoGenerateColumns = true;
                     DGV_Sgtin_Sscc.DataSource = ViewHelper.Put_dataToDGV(sgtin_values, sscc_values);
                 }

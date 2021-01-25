@@ -10,42 +10,59 @@ using System.Threading.Tasks;
 using System.Windows.Forms;
 using TscDll.Entities;
 using TscDll.Extensions;
+using TscDll.Helpers;
 
 namespace TscDll.Forms
 {
     public partial class PrintSettings : Form
     {
+        public Boolean Status { get; set; }
+
         public PrintSettings()
         {
             InitializeComponent();
+            cB_SgtinSize.DropDownStyle = ComboBoxStyle.DropDownList;
+            cB_SsccSize.DropDownStyle = ComboBoxStyle.DropDownList;
+            
+            Settings settings = TscHelper.GetSettings();
+            if (settings != null)
+            {
+                tB_PrinterName.Text = settings.PrinterName;
+                cB_SgtinSize.Text = settings.SgtinSizes;
+                cB_SsccSize.Text = settings.SsccSizes;
+                tB_PrinterSpeed.Text = settings.Speed;
+                tB_PrinterDensity.Text = settings.Density;
+            }
+            else MessageBox.Show("Исходные данные не найдены");
+
         }
 
-        private void button1_Click(object sender, EventArgs e)
+        private void Button_Synch_Click(object sender, EventArgs e)
         {
+            Main_form main = new Main_form();
             var k = new Settings()
             {
-                PrinterName = textBox1.Text,
-                SgtinSizes = textBox2.Text
+                PrinterName = tB_PrinterName.Text,
+                SgtinSizes = cB_SgtinSize.Text,
+                SsccSizes= cB_SsccSize.Text,
+                Speed = tB_PrinterSpeed.Text,
+                Density = tB_PrinterDensity.Text
+
             };
-            SaveSettings(k);
-        }
 
-        private void SaveSettings(Settings settings)
-        {
-            string xmlSetting = settings.ToXml();
+            ResponseData response = TscHelper.SaveSettings(k);
 
-            string directory = Environment.GetFolderPath(Environment.SpecialFolder.CommonApplicationData) + @"\TscPrinter";
-            string fileSettings = directory + @"\printerSettings.xml";
-
-            if (!System.IO.Directory.Exists(directory))
+            if (response.IsSuccess)
             {
-                System.IO.Directory.CreateDirectory(directory);
+                MessageBox.Show("Данные загружены");
+                TscHelper.GetSettings();
+
+                Close();
+                
             }
-
-            // Write the string array to a new file named "WriteLines.txt".
-            using (StreamWriter outputFile = new StreamWriter(fileSettings))
+            else
             {
-                outputFile.WriteLine(xmlSetting);
+                MessageBox.Show(response.ErrorMessage);
             }
         }
     }

@@ -1,8 +1,11 @@
 ﻿using Newtonsoft.Json;
 using System;
+using System.Collections.Generic;
 using System.IO;
+using System.Linq;
 using System.Text;
 using System.Xml;
+using System.Xml.Linq;
 using System.Xml.Serialization;
 
 namespace TscDll.Extensions
@@ -35,6 +38,7 @@ namespace TscDll.Extensions
         /// <returns></returns>
         public static object ParseXML(this string str, Type T, Encoding encoding = null)
         {
+
             var reader = XmlReader.Create(str.Trim().ToStream(encoding), new XmlReaderSettings() { ConformanceLevel = ConformanceLevel.Document });
             return new XmlSerializer(T).Deserialize(reader);
         }
@@ -59,22 +63,6 @@ namespace TscDll.Extensions
             writer.Flush();
             stream.Position = 0;
             return stream;
-        }
-
-        public static string Serialize<T>(this T value)
-        {
-            if (value == null) return string.Empty;
-
-            var xmlSerializer = new XmlSerializer(typeof(T));
-
-            using (var stringWriter = new StringWriter())
-            {
-                using (var xmlWriter = XmlWriter.Create(stringWriter, new XmlWriterSettings { Indent = true }))
-                {
-                    xmlSerializer.Serialize(xmlWriter, value);
-                    return stringWriter.ToString();
-                }
-            }
         }
     }
 }

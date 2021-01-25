@@ -80,14 +80,13 @@
     <Compile Include="Forms\PrintSettings.Designer.cs">
       <DependentUpon>PrintSettings.cs</DependentUpon>
     </Compile>
-    <Compile Include="Forms\Progress_form.cs">
+    <Compile Include="Forms\Adding_NewSize.cs">
       <SubType>Form</SubType>
     </Compile>
-    <Compile Include="Forms\Progress_form.Designer.cs">
-      <DependentUpon>Progress_form.cs</DependentUpon>
+    <Compile Include="Forms\Adding_NewSize.Designer.cs">
+      <DependentUpon>Adding_NewSize.cs</DependentUpon>
     </Compile>
     <Compile Include="Helpers\BarcodeHelper.cs" />
-    <Compile Include="Helpers\Printer_Initialization.cs" />
     <Compile Include="Helpers\TscHelper.cs" />
     <Compile Include="Helpers\ViewHelper.cs" />
     <Compile Include="Print.cs" />
@@ -113,8 +112,8 @@
     <EmbeddedResource Include="Forms\PrintSettings.resx">
       <DependentUpon>PrintSettings.cs</DependentUpon>
     </EmbeddedResource>
-    <EmbeddedResource Include="Forms\Progress_form.resx">
-      <DependentUpon>Progress_form.cs</DependentUpon>
+    <EmbeddedResource Include="Forms\Adding_NewSize.resx">
+      <DependentUpon>Adding_NewSize.cs</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="Properties\licenses.licx" />
     <EmbeddedResource Include="Properties\Resources.resx">

@@ -10,16 +10,16 @@ namespace TscDll.Helpers
 {
     public class ViewHelper
     {
-        public static void GetSgtinANDSscc(List<string> All_Sgtin, List<string> All_Sscc, Sscc unit)
+        public static void GetSgtinANDSscc(List<string> All_Sgtin, List<string> All_Sscc, Unit unit)
         {
-            if (unit.ChildSscc != null)
+            if (unit.Units != null)
             {
-                foreach (Sscc item_sscc in unit.ChildSscc)
+                foreach (Unit item_sscc in unit.Units)
                 {
                     GetSgtinANDSscc(All_Sgtin, All_Sscc, item_sscc);
                 }
             }
-            if (unit.Sgtins != null)
+            if (unit.Units != null)
             {
                 foreach (string sgtin in unit.Sgtins)
                 {
