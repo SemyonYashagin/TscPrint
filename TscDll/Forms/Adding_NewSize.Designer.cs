@@ -31,10 +31,10 @@ namespace TscDll.Forms
         {
             this.groupBox1 = new System.Windows.Forms.GroupBox();
             this.button_AddnewSize = new System.Windows.Forms.Button();
-            this.label1 = new System.Windows.Forms.Label();
-            this.label2 = new System.Windows.Forms.Label();
-            this.tB_newSizeWidth = new System.Windows.Forms.TextBox();
             this.tB_newSizeHeight = new System.Windows.Forms.TextBox();
+            this.tB_newSizeWidth = new System.Windows.Forms.TextBox();
+            this.label2 = new System.Windows.Forms.Label();
+            this.label1 = new System.Windows.Forms.Label();
             this.groupBox1.SuspendLayout();
             this.SuspendLayout();
             // 
@@ -62,14 +62,23 @@ namespace TscDll.Forms
             this.button_AddnewSize.UseVisualStyleBackColor = true;
             this.button_AddnewSize.Click += new System.EventHandler(this.button_AddnewSize_Click);
             // 
-            // label1
+            // tB_newSizeHeight
             // 
-            this.label1.AutoSize = true;
-            this.label1.Location = new System.Drawing.Point(18, 23);
-            this.label1.Name = "label1";
-            this.label1.Size = new System.Drawing.Size(71, 13);
-            this.label1.TabIndex = 0;
-            this.label1.Text = "Ширина (мм)";
+            this.tB_newSizeHeight.Location = new System.Drawing.Point(94, 51);
+            this.tB_newSizeHeight.Name = "tB_newSizeHeight";
+            this.tB_newSizeHeight.ShortcutsEnabled = false;
+            this.tB_newSizeHeight.Size = new System.Drawing.Size(100, 20);
+            this.tB_newSizeHeight.TabIndex = 3;
+            this.tB_newSizeHeight.KeyPress += new System.Windows.Forms.KeyPressEventHandler(this.tB_newSizeHeight_KeyPress);
+            // 
+            // tB_newSizeWidth
+            // 
+            this.tB_newSizeWidth.Location = new System.Drawing.Point(95, 20);
+            this.tB_newSizeWidth.Name = "tB_newSizeWidth";
+            this.tB_newSizeWidth.ShortcutsEnabled = false;
+            this.tB_newSizeWidth.Size = new System.Drawing.Size(100, 20);
+            this.tB_newSizeWidth.TabIndex = 2;
+            this.tB_newSizeWidth.KeyPress += new System.Windows.Forms.KeyPressEventHandler(this.tB_newSizeWidth_KeyPress);
             // 
             // label2
             // 
@@ -80,26 +89,23 @@ namespace TscDll.Forms
             this.label2.TabIndex = 1;
             this.label2.Text = "Высота (мм)";
             // 
-            // tB_newSizeWidth
+            // label1
             // 
-            this.tB_newSizeWidth.Location = new System.Drawing.Point(95, 20);
-            this.tB_newSizeWidth.Name = "tB_newSizeWidth";
-            this.tB_newSizeWidth.Size = new System.Drawing.Size(100, 20);
-            this.tB_newSizeWidth.TabIndex = 2;
-            // 
-            // tB_newSizeHeight
-            // 
-            this.tB_newSizeHeight.Location = new System.Drawing.Point(94, 51);
-            this.tB_newSizeHeight.Name = "tB_newSizeHeight";
-            this.tB_newSizeHeight.Size = new System.Drawing.Size(100, 20);
-            this.tB_newSizeHeight.TabIndex = 3;
+            this.label1.AutoSize = true;
+            this.label1.Location = new System.Drawing.Point(18, 23);
+            this.label1.Name = "label1";
+            this.label1.Size = new System.Drawing.Size(71, 13);
+            this.label1.TabIndex = 0;
+            this.label1.Text = "Ширина (мм)";
             // 
             // Adding_NewSize
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
+            this.AutoValidate = System.Windows.Forms.AutoValidate.EnablePreventFocusChange;
             this.ClientSize = new System.Drawing.Size(269, 140);
             this.Controls.Add(this.groupBox1);
+            this.FormBorderStyle = System.Windows.Forms.FormBorderStyle.FixedSingle;
             this.MaximizeBox = false;
             this.Name = "Adding_NewSize";
             this.StartPosition = System.Windows.Forms.FormStartPosition.CenterParent;

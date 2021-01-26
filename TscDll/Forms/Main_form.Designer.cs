@@ -42,7 +42,7 @@ namespace TscDll.Forms
             this.cb_sizes = new System.Windows.Forms.ComboBox();
             this.panel2 = new System.Windows.Forms.Panel();
             this.label3 = new System.Windows.Forms.Label();
-            this.button2 = new System.Windows.Forms.Button();
+            this.buttonPrint = new System.Windows.Forms.Button();
             this.gridControl1 = new DevExpress.XtraGrid.GridControl();
             this.gridView1 = new DevExpress.XtraGrid.Views.Grid.GridView();
             this.ProductName = new DevExpress.XtraGrid.Columns.GridColumn();
@@ -161,7 +161,7 @@ namespace TscDll.Forms
             // panel2
             // 
             this.panel2.Controls.Add(this.label3);
-            this.panel2.Controls.Add(this.button2);
+            this.panel2.Controls.Add(this.buttonPrint);
             this.panel2.Controls.Add(this.cb_sizes);
             this.panel2.Dock = System.Windows.Forms.DockStyle.Bottom;
             this.panel2.Location = new System.Drawing.Point(0, 488);
@@ -178,14 +178,14 @@ namespace TscDll.Forms
             this.label3.TabIndex = 5;
             this.label3.Text = "Режим печати:";
             // 
-            // button2
+            // buttonPrint
             // 
-            this.button2.Location = new System.Drawing.Point(235, 6);
-            this.button2.Name = "button2";
-            this.button2.Size = new System.Drawing.Size(166, 23);
-            this.button2.TabIndex = 5;
-            this.button2.Text = "Печать";
-            this.button2.UseVisualStyleBackColor = true;
+            this.buttonPrint.Location = new System.Drawing.Point(235, 6);
+            this.buttonPrint.Name = "buttonPrint";
+            this.buttonPrint.Size = new System.Drawing.Size(166, 23);
+            this.buttonPrint.TabIndex = 5;
+            this.buttonPrint.Text = "Печать";
+            this.buttonPrint.UseVisualStyleBackColor = true;
             // 
             // gridControl1
             // 
@@ -317,7 +317,7 @@ namespace TscDll.Forms
         private System.Windows.Forms.TextBox tB_PrinterStatus;
         private System.Windows.Forms.Button button3;
         private System.Windows.Forms.Label label3;
-        private System.Windows.Forms.Button button2;
+        private System.Windows.Forms.Button buttonPrint;
         private System.Windows.Forms.SplitContainer splitContainer;
         private DevExpress.XtraGrid.Columns.GridColumn Gtin;
         private DevExpress.XtraGrid.Columns.GridColumn SgtinCount;

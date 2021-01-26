@@ -1,7 +1,5 @@
 ﻿using System.Collections.Generic;
 using System.Drawing;
-using System.Xml.Serialization;
-using System.Xml;
 using System.IO;
 using ZXing;
 using TSCSDK;
@@ -13,13 +11,45 @@ namespace TscDll.Helpers
 {
     public class TscHelper
     {
+        public static Boolean FileExist()
+        {
+            string directory = Environment.GetFolderPath(Environment.SpecialFolder.CommonApplicationData) + @"\TscPrinter";
+            string fileSettings = directory + @"\printerSettings.xml"; //full directory
+            if (File.Exists(fileSettings)) 
+                return true;
+            return false;
+        }
+        
         public static Settings GetSettings()
         {
-            string set = System.IO.File.ReadAllText(Environment.GetFolderPath(Environment.SpecialFolder.CommonApplicationData) + @"\TscPrinter\printerSettings.xml");
-            var settings = (Settings)set.ParseXML(typeof(Settings), System.Text.Encoding.GetEncoding("utf-16"));
-            return settings;
+            string directory = Environment.GetFolderPath(Environment.SpecialFolder.CommonApplicationData) + @"\TscPrinter";
+            string fileSettings = directory + @"\printerSettings.xml"; //full directory
+            if (FileExist())
+            {
+                string set = System.IO.File.ReadAllText(Environment.GetFolderPath(Environment.SpecialFolder.CommonApplicationData) + @"\TscPrinter\printerSettings.xml");
+                var settings = (Settings)set.ParseXML(typeof(Settings), System.Text.Encoding.GetEncoding("utf-16"));
+                return settings;
+            }
+            return null;
         }
+        
+        public static void CreateFile(Settings settings)
+        {
+            string xmlSetting = settings.ToXml();
 
+            string directory = Environment.GetFolderPath(Environment.SpecialFolder.CommonApplicationData) + @"\TscPrinter";
+            string fileSettings = directory + @"\printerSettings.xml"; //full directory
+
+            if (!System.IO.Directory.Exists(directory))
+            {
+                System.IO.Directory.CreateDirectory(directory);
+            }
+
+            using (StreamWriter outputFile = new StreamWriter(fileSettings))
+            {
+                outputFile.WriteLine(xmlSetting);
+            }
+        }
         public static ResponseData SaveSettings(Settings settings)
         {
             ResponseData response = new ResponseData();
@@ -45,16 +75,17 @@ namespace TscDll.Helpers
             return response;
         }
 
-        public static string Printer_status(Settings settings)
+        public static Boolean Printer_status(Settings settings)
         {
-            driver driver = new driver();
-            bool status = driver.driver_status(settings.PrinterName);
-            if (status)
+            if (FileExist())
             {
-                return "Готов к работе";
+                driver driver = new driver();
+                if (driver.driver_status(settings.PrinterName))
+                {
+                    return true;
+                }
             }
-            return "Ошибка инициализации";
-            
+            return false;            
         }
 
         public static void Init_printer()

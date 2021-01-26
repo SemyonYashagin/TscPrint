@@ -4,10 +4,6 @@ using System.Windows.Forms;
 using TscDll.Entities;
 using TscDll.Helpers;
 using System.Drawing;
-using TscDll.Extensions;
-using System.Xml.Serialization;
-using TSCSDK;
-using System.Data;
 
 namespace TscDll.Forms
 {
@@ -22,7 +18,7 @@ namespace TscDll.Forms
             UpdateFields();
             List<MarkPrintUnit> printUnits = new List<MarkPrintUnit>();
             UnitsInitialize(printUnits);
-
+            buttonPrint.Enabled = false;            
         }
 
         private void UpdatePrinterStatus()
@@ -32,42 +28,52 @@ namespace TscDll.Forms
 
         private void UpdateFields()
         {
-            tB_PrinterStatus.Text = TscHelper.Printer_status(settings).ToString();
-            tB_PrinterStatus.Text = TscHelper.Printer_status(settings).ToString();
-            if (tB_PrinterStatus.Text == "Готов к работе") tB_PrinterStatus.BackColor = Color.Green;
-            else tB_PrinterStatus.BackColor = Color.Red;
-            tB_Sgtin.Text = settings.SgtinSizes;
-            tB_Sscc.Text = settings.SsccSizes;
+            if(TscHelper.Printer_status(settings))
+            {
+                tB_PrinterStatus.Text = "Готов к работе";
+                tB_PrinterStatus.BackColor = Color.Green;
+            }
+            else
+            {
+                tB_PrinterStatus.Text = "Ошибка инициализации";
+                tB_PrinterStatus.BackColor = Color.Red;
+            }
+           
+            if (TscHelper.FileExist())
+            {
+                tB_Sgtin.Text = settings.SgtinSize;
+                tB_Sscc.Text = settings.SsccSize;
+            }
         }
 
         private void Main_form_Load(object sender, EventArgs e)
         {
             cb_sizes.Items.Clear();
             cb_sizes.DropDownStyle = ComboBoxStyle.DropDownList;
-            cb_sizes.Items.Add("SGTIN (43*25 mm)");
-            cb_sizes.Items.Add("SSCC (100*50 mm)");
+            cb_sizes.Items.Add("SGTIN");
+            cb_sizes.Items.Add("SSCC");
 
         }
 
         private void comboBox1_TextChanged_1(object sender, EventArgs e)
         {
             Object selectedItem = cb_sizes.SelectedItem;
-            string message = "Вы уверены что установлен рулон этикеток: " + selectedItem.ToString() + "?";
+            string message = "Вы уверены что установлен рулон этикеток для печати " + selectedItem.ToString() + "?";
             const string caption = "Проверка";
             var result = MessageBox.Show(message, caption, MessageBoxButtons.YesNo, MessageBoxIcon.Question);
 
-            if (selectedItem.ToString() == "SGTIN (43*25 mm)")
+            if (selectedItem.ToString() == "SGTIN")
             {
                 if (result == DialogResult.No)
                 {
-                    MessageBox.Show("Вставьте рулон " + selectedItem.ToString());
+                    MessageBox.Show("Вставьте рулон для " + selectedItem.ToString());
                 }
             }
             else
             {
                 if (result == DialogResult.No)
                 {
-                    MessageBox.Show("Вставьте рулон " + selectedItem.ToString());
+                    MessageBox.Show("Вставьте рулон для " + selectedItem.ToString());
                 }
             }
         }

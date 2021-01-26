@@ -16,22 +16,37 @@ namespace TscDll.Forms
 {
     public partial class PrintSettings : Form
     {
-        public Boolean Status { get; set; }
-
         public PrintSettings()
         {
             InitializeComponent();
             cB_SgtinSize.DropDownStyle = ComboBoxStyle.DropDownList;
             cB_SsccSize.DropDownStyle = ComboBoxStyle.DropDownList;
-            
+
             Settings settings = TscHelper.GetSettings();
             if (settings != null)
             {
+                cB_SgtinSize.SelectedValue = settings.SgtinSize;
+                cB_SsccSize.Text = settings.SsccSize;
+
                 tB_PrinterName.Text = settings.PrinterName;
-                cB_SgtinSize.Text = settings.SgtinSizes;
-                cB_SsccSize.Text = settings.SsccSizes;
-                tB_PrinterSpeed.Text = settings.Speed;
-                tB_PrinterDensity.Text = settings.Density;
+                if (settings.Speed < 2 || settings.Speed > 12)
+                    numericSpeed.Value = numericSpeed.Minimum;
+                else
+                    numericSpeed.Value = settings.Speed;
+                
+                if (settings.Density > 15)
+                    numericDensity.Value = numericDensity.Maximum;
+                else
+                    numericDensity.Value = settings.Density;
+
+                foreach (string sgtin in settings.SgtinList)
+                {
+                    cB_SgtinSize.Items.Add(sgtin);
+                }
+                foreach (string sscc in settings.SsccList)
+                {
+                    cB_SsccSize.Items.Add(sscc);
+                }
             }
             else MessageBox.Show("Исходные данные не найдены");
 
@@ -39,26 +54,21 @@ namespace TscDll.Forms
 
         private void Button_Synch_Click(object sender, EventArgs e)
         {
-            Main_form main = new Main_form();
-            var k = new Settings()
-            {
-                PrinterName = tB_PrinterName.Text,
-                SgtinSizes = cB_SgtinSize.Text,
-                SsccSizes= cB_SsccSize.Text,
-                Speed = tB_PrinterSpeed.Text,
-                Density = tB_PrinterDensity.Text
+            Settings newset = TscHelper.GetSettings();
 
-            };
+            newset.PrinterName = tB_PrinterName.Text;
+            newset.SgtinSize = cB_SgtinSize.Text;
+            newset.SsccSize = cB_SsccSize.Text;
+            newset.Speed = numericSpeed.Value;
+            newset.Density = numericDensity.Value;
 
-            ResponseData response = TscHelper.SaveSettings(k);
+            ResponseData response = TscHelper.SaveSettings(newset);
 
             if (response.IsSuccess)
             {
                 MessageBox.Show("Данные загружены");
                 TscHelper.GetSettings();
-
-                Close();
-                
+                Close();               
             }
             else
             {

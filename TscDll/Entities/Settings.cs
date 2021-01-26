@@ -9,9 +9,11 @@ namespace TscDll.Entities
     public class Settings
     {
         public string PrinterName { get; set; }
-        public string SgtinSizes { get; set; }
-        public string SsccSizes { get; set; }
-        public string Speed { get; set; }
-        public string Density { get; set; }
+        public string SgtinSize { get; set; }
+        public List<string> SgtinList { set; get; }
+        public string SsccSize { get; set; }
+        public List<string> SsccList { set; get; }
+        public decimal Speed { get; set; }
+        public decimal Density { get; set; }
     }
 }

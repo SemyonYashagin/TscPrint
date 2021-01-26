@@ -32,14 +32,16 @@ namespace TscDll.Forms
             this.tB_PrinterName = new System.Windows.Forms.TextBox();
             this.label1 = new System.Windows.Forms.Label();
             this.label2 = new System.Windows.Forms.Label();
-            this.tB_PrinterDensity = new System.Windows.Forms.TextBox();
             this.label3 = new System.Windows.Forms.Label();
             this.label4 = new System.Windows.Forms.Label();
             this.label5 = new System.Windows.Forms.Label();
-            this.tB_PrinterSpeed = new System.Windows.Forms.TextBox();
             this.Button_Synch = new System.Windows.Forms.Button();
             this.cB_SgtinSize = new System.Windows.Forms.ComboBox();
             this.cB_SsccSize = new System.Windows.Forms.ComboBox();
+            this.numericSpeed = new System.Windows.Forms.NumericUpDown();
+            this.numericDensity = new System.Windows.Forms.NumericUpDown();
+            ((System.ComponentModel.ISupportInitialize)(this.numericSpeed)).BeginInit();
+            ((System.ComponentModel.ISupportInitialize)(this.numericDensity)).BeginInit();
             this.SuspendLayout();
             // 
             // tB_PrinterName
@@ -66,13 +68,6 @@ namespace TscDll.Forms
             this.label2.Size = new System.Drawing.Size(122, 13);
             this.label2.TabIndex = 3;
             this.label2.Text = "Насыщенность печати";
-            // 
-            // tB_PrinterDensity
-            // 
-            this.tB_PrinterDensity.Location = new System.Drawing.Point(76, 242);
-            this.tB_PrinterDensity.Name = "tB_PrinterDensity";
-            this.tB_PrinterDensity.Size = new System.Drawing.Size(191, 20);
-            this.tB_PrinterDensity.TabIndex = 2;
             // 
             // label3
             // 
@@ -102,13 +97,6 @@ namespace TscDll.Forms
             this.label5.TabIndex = 9;
             this.label5.Text = "Скорость печати";
             // 
-            // tB_PrinterSpeed
-            // 
-            this.tB_PrinterSpeed.Location = new System.Drawing.Point(76, 190);
-            this.tB_PrinterSpeed.Name = "tB_PrinterSpeed";
-            this.tB_PrinterSpeed.Size = new System.Drawing.Size(191, 20);
-            this.tB_PrinterSpeed.TabIndex = 8;
-            // 
             // Button_Synch
             // 
             this.Button_Synch.Location = new System.Drawing.Point(49, 278);
@@ -122,9 +110,6 @@ namespace TscDll.Forms
             // cB_SgtinSize
             // 
             this.cB_SgtinSize.FormattingEnabled = true;
-            this.cB_SgtinSize.Items.AddRange(new object[] {
-            "43 mm, 25 mm",
-            "100 mm, 50 mm"});
             this.cB_SgtinSize.Location = new System.Drawing.Point(76, 79);
             this.cB_SgtinSize.Name = "cB_SgtinSize";
             this.cB_SgtinSize.Size = new System.Drawing.Size(191, 21);
@@ -133,28 +118,61 @@ namespace TscDll.Forms
             // cB_SsccSize
             // 
             this.cB_SsccSize.FormattingEnabled = true;
-            this.cB_SsccSize.Items.AddRange(new object[] {
-            "43 mm, 25 mm",
-            "100 mm, 50 mm"});
             this.cB_SsccSize.Location = new System.Drawing.Point(76, 135);
             this.cB_SsccSize.Name = "cB_SsccSize";
             this.cB_SsccSize.Size = new System.Drawing.Size(191, 21);
             this.cB_SsccSize.TabIndex = 14;
             // 
+            // numericSpeed
+            // 
+            this.numericSpeed.Location = new System.Drawing.Point(76, 190);
+            this.numericSpeed.Maximum = new decimal(new int[] {
+            12,
+            0,
+            0,
+            0});
+            this.numericSpeed.Minimum = new decimal(new int[] {
+            2,
+            0,
+            0,
+            0});
+            this.numericSpeed.Name = "numericSpeed";
+            this.numericSpeed.ReadOnly = true;
+            this.numericSpeed.Size = new System.Drawing.Size(191, 20);
+            this.numericSpeed.TabIndex = 15;
+            this.numericSpeed.Value = new decimal(new int[] {
+            2,
+            0,
+            0,
+            0});
+            // 
+            // numericDensity
+            // 
+            this.numericDensity.Location = new System.Drawing.Point(76, 242);
+            this.numericDensity.Maximum = new decimal(new int[] {
+            15,
+            0,
+            0,
+            0});
+            this.numericDensity.Name = "numericDensity";
+            this.numericDensity.ReadOnly = true;
+            this.numericDensity.Size = new System.Drawing.Size(191, 20);
+            this.numericDensity.TabIndex = 16;
+            // 
             // PrintSettings
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-            this.ClientSize = new System.Drawing.Size(289, 313);
+            this.ClientSize = new System.Drawing.Size(283, 313);
+            this.Controls.Add(this.numericDensity);
+            this.Controls.Add(this.numericSpeed);
             this.Controls.Add(this.cB_SsccSize);
             this.Controls.Add(this.cB_SgtinSize);
             this.Controls.Add(this.Button_Synch);
             this.Controls.Add(this.label5);
-            this.Controls.Add(this.tB_PrinterSpeed);
             this.Controls.Add(this.label4);
             this.Controls.Add(this.label3);
             this.Controls.Add(this.label2);
-            this.Controls.Add(this.tB_PrinterDensity);
             this.Controls.Add(this.label1);
             this.Controls.Add(this.tB_PrinterName);
             this.FormBorderStyle = System.Windows.Forms.FormBorderStyle.FixedSingle;
@@ -162,6 +180,8 @@ namespace TscDll.Forms
             this.Name = "PrintSettings";
             this.StartPosition = System.Windows.Forms.FormStartPosition.CenterParent;
             this.Text = "Настройки принтера";
+            ((System.ComponentModel.ISupportInitialize)(this.numericSpeed)).EndInit();
+            ((System.ComponentModel.ISupportInitialize)(this.numericDensity)).EndInit();
             this.ResumeLayout(false);
             this.PerformLayout();
 
@@ -172,13 +192,13 @@ namespace TscDll.Forms
         private System.Windows.Forms.TextBox tB_PrinterName;
         private System.Windows.Forms.Label label1;
         private System.Windows.Forms.Label label2;
-        private System.Windows.Forms.TextBox tB_PrinterDensity;
         private System.Windows.Forms.Label label3;
         private System.Windows.Forms.Label label4;
         private System.Windows.Forms.Label label5;
-        private System.Windows.Forms.TextBox tB_PrinterSpeed;
         private System.Windows.Forms.Button Button_Synch;
         private System.Windows.Forms.ComboBox cB_SgtinSize;
         private System.Windows.Forms.ComboBox cB_SsccSize;
+        private System.Windows.Forms.NumericUpDown numericSpeed;
+        private System.Windows.Forms.NumericUpDown numericDensity;
     }
 }
