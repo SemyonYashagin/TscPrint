@@ -7,20 +7,38 @@ namespace TscDll.Forms
 {
     public partial class Adding_NewSize : Form
     {
+        private ToolTip t_Tip;
         public Adding_NewSize()
         {
             InitializeComponent();
+            t_Tip = new ToolTip
+            {
+                Active = true,
+                AutoPopDelay = 4000,
+                InitialDelay = 600,
+                IsBalloon = true,
+                ToolTipIcon = ToolTipIcon.Info,
+                ShowAlways = true
+            };
+            t_Tip.SetToolTip(label1, "от 30 до 100 мм");
+            t_Tip.SetToolTip(label2, "от 20 до 200 мм");
+            t_Tip.SetToolTip(groupBox1, "Ширина: от 30 до 100 мм \r\n Высота: от 20 до 200 мм");
         }
 
         private void button_AddnewSize_Click(object sender, EventArgs e)
         {
-            if(AddToXMLData())
+            if (AddToXMLNewSize()==1)
             {
-                MessageBox.Show("Размер добавлен");
+                MessageBox.Show("Размер записан ранее");
+            }
+            else if (AddToXMLNewSize() == 2)
+            {
+                MessageBox.Show("Некорректные значения");
             }
             else
             {
-                MessageBox.Show("Размер записан ранее");
+                MessageBox.Show("Новый размер добавлен");
+                Close();
             }
         }
 
@@ -39,8 +57,11 @@ namespace TscDll.Forms
                 e.Handled = true;
             }
         }
-
-        private bool AddToXMLData()
+        /// <summary>
+        /// Добавление нового размера в XML 
+        /// </summary>
+        /// <returns></returns>
+        private int AddToXMLNewSize()
         {
             string newSize = tB_newSizeWidth.Text + " mm, " + tB_newSizeHeight.Text + " mm";
 
@@ -60,7 +81,7 @@ namespace TscDll.Forms
                     {
                         if (newSize == sgtinSize)
                         {
-                            return false;
+                            return 1;
                         }
                     }
 
@@ -68,8 +89,10 @@ namespace TscDll.Forms
                     newSetting.SsccList.Add(newSize);
                     ResponseData response = TscHelper.SaveSettings(newSetting);
                 }
+                else return 2;
             }
-            return true;
-        }
+            else return 2;
+            return 3;
+        }       
     }
 }

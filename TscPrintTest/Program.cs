@@ -17,7 +17,7 @@ namespace TscPrintTest
         {
             Application.EnableVisualStyles();
             Application.SetCompatibleTextRenderingDefault(false);
-            Application.Run(new TscDll.Forms.Main_form());
+            Application.Run(new Main_form());
         }
     }
 }

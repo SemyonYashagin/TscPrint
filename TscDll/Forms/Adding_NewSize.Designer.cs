@@ -30,7 +30,7 @@ namespace TscDll.Forms
         private void InitializeComponent()
         {
             this.groupBox1 = new System.Windows.Forms.GroupBox();
-            this.button_AddnewSize = new System.Windows.Forms.Button();
+            this.button_PutNewSize = new System.Windows.Forms.Button();
             this.tB_newSizeHeight = new System.Windows.Forms.TextBox();
             this.tB_newSizeWidth = new System.Windows.Forms.TextBox();
             this.label2 = new System.Windows.Forms.Label();
@@ -40,7 +40,7 @@ namespace TscDll.Forms
             // 
             // groupBox1
             // 
-            this.groupBox1.Controls.Add(this.button_AddnewSize);
+            this.groupBox1.Controls.Add(this.button_PutNewSize);
             this.groupBox1.Controls.Add(this.tB_newSizeHeight);
             this.groupBox1.Controls.Add(this.tB_newSizeWidth);
             this.groupBox1.Controls.Add(this.label2);
@@ -52,15 +52,15 @@ namespace TscDll.Forms
             this.groupBox1.TabStop = false;
             this.groupBox1.Text = "Добавление нового размера этикетки";
             // 
-            // button_AddnewSize
+            // button_PutNewSize
             // 
-            this.button_AddnewSize.Location = new System.Drawing.Point(55, 77);
-            this.button_AddnewSize.Name = "button_AddnewSize";
-            this.button_AddnewSize.Size = new System.Drawing.Size(116, 23);
-            this.button_AddnewSize.TabIndex = 1;
-            this.button_AddnewSize.Text = "Добавить";
-            this.button_AddnewSize.UseVisualStyleBackColor = true;
-            this.button_AddnewSize.Click += new System.EventHandler(this.button_AddnewSize_Click);
+            this.button_PutNewSize.Location = new System.Drawing.Point(55, 77);
+            this.button_PutNewSize.Name = "button_PutNewSize";
+            this.button_PutNewSize.Size = new System.Drawing.Size(116, 23);
+            this.button_PutNewSize.TabIndex = 1;
+            this.button_PutNewSize.Text = "Добавить";
+            this.button_PutNewSize.UseVisualStyleBackColor = true;
+            this.button_PutNewSize.Click += new System.EventHandler(this.button_AddnewSize_Click);
             // 
             // tB_newSizeHeight
             // 
@@ -119,7 +119,7 @@ namespace TscDll.Forms
         #endregion
 
         private System.Windows.Forms.GroupBox groupBox1;
-        private System.Windows.Forms.Button button_AddnewSize;
+        private System.Windows.Forms.Button button_PutNewSize;
         private System.Windows.Forms.TextBox tB_newSizeHeight;
         private System.Windows.Forms.TextBox tB_newSizeWidth;
         private System.Windows.Forms.Label label2;

@@ -34,9 +34,8 @@ namespace TscDll.Forms
             this.label4 = new System.Windows.Forms.Label();
             this.tB_Sscc = new System.Windows.Forms.TextBox();
             this.tB_Sgtin = new System.Windows.Forms.TextBox();
-            this.button3 = new System.Windows.Forms.Button();
             this.label1 = new System.Windows.Forms.Label();
-            this.button1 = new System.Windows.Forms.Button();
+            this.Button_PrinterSettings = new System.Windows.Forms.Button();
             this.tB_PrinterStatus = new System.Windows.Forms.TextBox();
             this.label2 = new System.Windows.Forms.Label();
             this.cb_sizes = new System.Windows.Forms.ComboBox();
@@ -64,10 +63,10 @@ namespace TscDll.Forms
             // 
             // groupBox1
             // 
+            this.groupBox1.Controls.Add(this.Button_PrinterSettings);
             this.groupBox1.Controls.Add(this.label4);
             this.groupBox1.Controls.Add(this.tB_Sscc);
             this.groupBox1.Controls.Add(this.tB_Sgtin);
-            this.groupBox1.Controls.Add(this.button3);
             this.groupBox1.Controls.Add(this.label1);
             this.groupBox1.Location = new System.Drawing.Point(12, 12);
             this.groupBox1.Name = "groupBox1";
@@ -90,7 +89,7 @@ namespace TscDll.Forms
             this.tB_Sscc.Location = new System.Drawing.Point(75, 46);
             this.tB_Sscc.Name = "tB_Sscc";
             this.tB_Sscc.ReadOnly = true;
-            this.tB_Sscc.Size = new System.Drawing.Size(132, 20);
+            this.tB_Sscc.Size = new System.Drawing.Size(170, 20);
             this.tB_Sscc.TabIndex = 7;
             // 
             // tB_Sgtin
@@ -98,20 +97,8 @@ namespace TscDll.Forms
             this.tB_Sgtin.Location = new System.Drawing.Point(75, 22);
             this.tB_Sgtin.Name = "tB_Sgtin";
             this.tB_Sgtin.ReadOnly = true;
-            this.tB_Sgtin.Size = new System.Drawing.Size(132, 20);
+            this.tB_Sgtin.Size = new System.Drawing.Size(170, 20);
             this.tB_Sgtin.TabIndex = 6;
-            // 
-            // button3
-            // 
-            this.button3.Image = global::TscDll.Properties.Resources.add;
-            this.button3.ImageAlign = System.Drawing.ContentAlignment.MiddleLeft;
-            this.button3.Location = new System.Drawing.Point(213, 25);
-            this.button3.Name = "button3";
-            this.button3.Size = new System.Drawing.Size(156, 37);
-            this.button3.TabIndex = 5;
-            this.button3.Text = "Новый размер";
-            this.button3.UseVisualStyleBackColor = true;
-            this.button3.Click += new System.EventHandler(this.button3_Click);
             // 
             // label1
             // 
@@ -122,28 +109,29 @@ namespace TscDll.Forms
             this.label1.TabIndex = 0;
             this.label1.Text = "SGTIN";
             // 
-            // button1
+            // Button_PrinterSettings
             // 
-            this.button1.Location = new System.Drawing.Point(213, 35);
-            this.button1.Name = "button1";
-            this.button1.Size = new System.Drawing.Size(156, 23);
-            this.button1.TabIndex = 4;
-            this.button1.Text = "Настройки";
-            this.button1.UseVisualStyleBackColor = true;
-            this.button1.Click += new System.EventHandler(this.button1_Click);
+            this.Button_PrinterSettings.Location = new System.Drawing.Point(249, 25);
+            this.Button_PrinterSettings.Name = "Button_PrinterSettings";
+            this.Button_PrinterSettings.Size = new System.Drawing.Size(140, 37);
+            this.Button_PrinterSettings.TabIndex = 4;
+            this.Button_PrinterSettings.Text = "Настройки";
+            this.Button_PrinterSettings.UseVisualStyleBackColor = true;
+            this.Button_PrinterSettings.Click += new System.EventHandler(this.button1_Click);
             // 
             // tB_PrinterStatus
             // 
-            this.tB_PrinterStatus.Location = new System.Drawing.Point(75, 37);
+            this.tB_PrinterStatus.BackColor = System.Drawing.SystemColors.Control;
+            this.tB_PrinterStatus.Location = new System.Drawing.Point(85, 30);
             this.tB_PrinterStatus.Name = "tB_PrinterStatus";
             this.tB_PrinterStatus.ReadOnly = true;
-            this.tB_PrinterStatus.Size = new System.Drawing.Size(132, 20);
+            this.tB_PrinterStatus.Size = new System.Drawing.Size(283, 20);
             this.tB_PrinterStatus.TabIndex = 3;
             // 
             // label2
             // 
             this.label2.AutoSize = true;
-            this.label2.Location = new System.Drawing.Point(6, 35);
+            this.label2.Location = new System.Drawing.Point(11, 24);
             this.label2.Name = "label2";
             this.label2.Size = new System.Drawing.Size(64, 26);
             this.label2.TabIndex = 2;
@@ -193,7 +181,7 @@ namespace TscDll.Forms
             this.gridControl1.Location = new System.Drawing.Point(0, 0);
             this.gridControl1.MainView = this.gridView1;
             this.gridControl1.Name = "gridControl1";
-            this.gridControl1.Size = new System.Drawing.Size(420, 276);
+            this.gridControl1.Size = new System.Drawing.Size(420, 306);
             this.gridControl1.TabIndex = 3;
             this.gridControl1.ViewCollection.AddRange(new DevExpress.XtraGrid.Views.Base.BaseView[] {
             this.gridView1});
@@ -210,6 +198,7 @@ namespace TscDll.Forms
             this.gridView1.OptionsBehavior.AllowAddRows = DevExpress.Utils.DefaultBoolean.False;
             this.gridView1.OptionsBehavior.AllowDeleteRows = DevExpress.Utils.DefaultBoolean.False;
             this.gridView1.OptionsBehavior.Editable = false;
+            this.gridView1.OptionsBehavior.ReadOnly = true;
             this.gridView1.OptionsView.ShowGroupPanel = false;
             // 
             // ProductName
@@ -217,6 +206,7 @@ namespace TscDll.Forms
             this.ProductName.Caption = "Наименование";
             this.ProductName.FieldName = "ProductName";
             this.ProductName.Name = "ProductName";
+            this.ProductName.OptionsColumn.AllowMove = false;
             this.ProductName.Visible = true;
             this.ProductName.VisibleIndex = 0;
             // 
@@ -225,14 +215,16 @@ namespace TscDll.Forms
             this.Gtin.Caption = "GTIN";
             this.Gtin.FieldName = "Gtin";
             this.Gtin.Name = "Gtin";
+            this.Gtin.OptionsColumn.AllowMove = false;
             this.Gtin.Visible = true;
             this.Gtin.VisibleIndex = 1;
             // 
             // SgtinCount
             // 
-            this.SgtinCount.Caption = "Кол-во SGTIN";
+            this.SgtinCount.Caption = "Кол-во SGTIN-ов";
             this.SgtinCount.FieldName = "SgtinCount";
             this.SgtinCount.Name = "SgtinCount";
+            this.SgtinCount.OptionsColumn.AllowMove = false;
             this.SgtinCount.Visible = true;
             this.SgtinCount.VisibleIndex = 2;
             // 
@@ -241,6 +233,7 @@ namespace TscDll.Forms
             this.SsccCount.Caption = "Кол-во SSCC";
             this.SsccCount.FieldName = "SsccCount";
             this.SsccCount.Name = "SsccCount";
+            this.SsccCount.OptionsColumn.AllowMove = false;
             this.SsccCount.Visible = true;
             this.SsccCount.VisibleIndex = 3;
             // 
@@ -260,17 +253,16 @@ namespace TscDll.Forms
             // 
             this.splitContainer.Panel2.Controls.Add(this.gridControl1);
             this.splitContainer.Size = new System.Drawing.Size(420, 488);
-            this.splitContainer.SplitterDistance = 208;
+            this.splitContainer.SplitterDistance = 178;
             this.splitContainer.TabIndex = 4;
             // 
             // groupBox2
             // 
-            this.groupBox2.Controls.Add(this.button1);
             this.groupBox2.Controls.Add(this.tB_PrinterStatus);
             this.groupBox2.Controls.Add(this.label2);
             this.groupBox2.Location = new System.Drawing.Point(12, 106);
             this.groupBox2.Name = "groupBox2";
-            this.groupBox2.Size = new System.Drawing.Size(396, 82);
+            this.groupBox2.Size = new System.Drawing.Size(396, 61);
             this.groupBox2.TabIndex = 5;
             this.groupBox2.TabStop = false;
             this.groupBox2.Text = "Принтер";
@@ -313,9 +305,8 @@ namespace TscDll.Forms
         private System.Windows.Forms.ComboBox cb_sizes;
         private System.Windows.Forms.Label label1;
         private System.Windows.Forms.Label label2;
-        private System.Windows.Forms.Button button1;
+        private System.Windows.Forms.Button Button_PrinterSettings;
         private System.Windows.Forms.TextBox tB_PrinterStatus;
-        private System.Windows.Forms.Button button3;
         private System.Windows.Forms.Label label3;
         private System.Windows.Forms.Button buttonPrint;
         private System.Windows.Forms.SplitContainer splitContainer;

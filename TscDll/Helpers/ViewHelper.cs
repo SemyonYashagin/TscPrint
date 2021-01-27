@@ -10,6 +10,12 @@ namespace TscDll.Helpers
 {
     public class ViewHelper
     {
+        /// <summary>
+        /// Изъятие SGTIN-ов и SSCC из объекта класса Unit
+        /// </summary>
+        /// <param name="All_Sgtin">Список SGTIN-ов</param>
+        /// <param name="All_Sscc">Список SSCC</param>
+        /// <param name="unit">Объект класса Unit</param>
         public static void GetSgtinANDSscc(List<string> All_Sgtin, List<string> All_Sscc, Unit unit)
         {
             if (unit.Units != null)
@@ -28,7 +34,12 @@ namespace TscDll.Helpers
             }
             All_Sscc.Add(unit.SsccValue);
         }
-
+        /// <summary>
+        /// Ввод данные в DataGridView
+        /// </summary>
+        /// <param name="Sgtin">Список SGTIN-ов</param>
+        /// <param name="Sscc">Список SSCC</param>
+        /// <returns>объект класса DataTable</returns>
         public static DataTable Put_dataToDGV(List<string> Sgtin, List<string> Sscc)
         {
             var dictionary = new Dictionary<string, List<string>>

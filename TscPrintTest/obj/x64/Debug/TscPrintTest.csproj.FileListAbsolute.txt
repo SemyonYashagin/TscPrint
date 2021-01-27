@@ -82,7 +82,6 @@ D:\Codes\TscPrint\TscPrintTest\bin\x64\Debug\ja\DevExpress.Office.v15.1.Core.res
 D:\Codes\TscPrint\TscPrintTest\bin\x64\Debug\ru\DevExpress.Office.v15.1.Core.resources.dll
 D:\Codes\TscPrint\TscPrintTest\obj\x64\Debug\TscPrintTest.csprojAssemblyReference.cache
 D:\Codes\TscPrint\TscPrintTest\obj\x64\Debug\TscPrintTest.Main_form.resources
-D:\Codes\TscPrint\TscPrintTest\obj\x64\Debug\TscPrintTest.Progress_form.resources
 D:\Codes\TscPrint\TscPrintTest\obj\x64\Debug\TscPrintTest.Properties.Resources.resources
 D:\Codes\TscPrint\TscPrintTest\obj\x64\Debug\TscPrintTest.csproj.GenerateResource.cache
 D:\Codes\TscPrint\TscPrintTest\obj\x64\Debug\TscPrintTest.csproj.CoreCompileInputs.cache

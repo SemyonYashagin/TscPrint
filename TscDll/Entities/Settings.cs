@@ -6,9 +6,12 @@ using System.Threading.Tasks;
 
 namespace TscDll.Entities
 {
+    /// <summary>
+    /// Класс для работы с настройками принтера
+    /// </summary>
     public class Settings
     {
-        public string PrinterName { get; set; }
+        public string PrinterName { get; set; }       
         public string SgtinSize { get; set; }
         public List<string> SgtinList { set; get; }
         public string SsccSize { get; set; }

@@ -4,6 +4,7 @@ using System.Windows.Forms;
 using TscDll.Entities;
 using TscDll.Helpers;
 using System.Drawing;
+using TscDll.Extensions;
 
 namespace TscDll.Forms
 {
@@ -18,25 +19,30 @@ namespace TscDll.Forms
             UpdateFields();
             List<MarkPrintUnit> printUnits = new List<MarkPrintUnit>();
             UnitsInitialize(printUnits);
-            buttonPrint.Enabled = false;            
+            buttonPrint.Enabled = false;
+            gridControl1.DataSource = ObjectExtensions.ToDataTable(printUnits);
         }
-
+        /// <summary>
+        /// Обновление статуса принтера
+        /// </summary>
         private void UpdatePrinterStatus()
         {
             this.settings = TscHelper.GetSettings();
         }
-
+        /// <summary>
+        /// Обновление полей Main_form формы
+        /// </summary>
         private void UpdateFields()
         {
             if(TscHelper.Printer_status(settings))
             {
                 tB_PrinterStatus.Text = "Готов к работе";
-                tB_PrinterStatus.BackColor = Color.Green;
+                tB_PrinterStatus.BackColor = Color.FromArgb(192, 255, 192);
             }
             else
             {
                 tB_PrinterStatus.Text = "Ошибка инициализации";
-                tB_PrinterStatus.BackColor = Color.Red;
+                tB_PrinterStatus.BackColor = Color.FromArgb(255, 192, 192);
             }
            
             if (TscHelper.FileExist())
@@ -112,6 +118,34 @@ namespace TscDll.Forms
 
                 
             });
+
+            printUnits.Add(new MarkPrintUnit
+            {
+                NomenProduct = "Молоко",
+                Gtin = "04630030160343",
+                PartyId = 1,
+                Units = new Unit
+                {
+                    SsccValue = "46500997801035207",
+                    Units = new List<Unit>
+                    {
+                       new Unit {
+                                    SsccValue = "46500997801035208",
+                                    Sgtins = new List<string> { "010463003016034221641556169149391EE01", "010463003016034221641556169149391EE02", "010463003016034221641556169149391EE02" }
+                                 },
+
+                       new Unit {
+                                    SsccValue = "46500997801035209",
+                                    Sgtins = new List<string> { "010463003016034221641556169149391EE03", "010463003016034221641556169149391EE04" }
+                                },
+                       new Unit {
+                                    SsccValue = "46500997801035209",
+                                    Sgtins = new List<string> { "010463003016034221641556169149391EE03", "010463003016034221641556169149391EE04" }
+                                 }
+
+                    }
+                }
+            });
         }
 
         private void button3_Click(object sender, EventArgs e)
@@ -120,4 +154,6 @@ namespace TscDll.Forms
             newSize.ShowDialog();
         }
     }
+
+
 }

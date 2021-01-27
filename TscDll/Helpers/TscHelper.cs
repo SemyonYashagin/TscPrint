@@ -6,11 +6,17 @@ using TSCSDK;
 using TscDll.Entities;
 using System;
 using TscDll.Extensions;
+using System.Drawing.Drawing2D;
+using System.Drawing.Imaging;
 
 namespace TscDll.Helpers
 {
     public class TscHelper
     {
+        /// <summary>
+        /// Проверка на существовании файла в котором храняться настройки принтера
+        /// </summary>
+        /// <returns>true - файл найден, иначе false</returns>
         public static Boolean FileExist()
         {
             string directory = Environment.GetFolderPath(Environment.SpecialFolder.CommonApplicationData) + @"\TscPrinter";
@@ -19,7 +25,10 @@ namespace TscDll.Helpers
                 return true;
             return false;
         }
-        
+        /// <summary>
+        /// Возвращает настройки принтера из XML
+        /// </summary>
+        /// <returns>Класс Settings</returns>
         public static Settings GetSettings()
         {
             string directory = Environment.GetFolderPath(Environment.SpecialFolder.CommonApplicationData) + @"\TscPrinter";
@@ -32,7 +41,10 @@ namespace TscDll.Helpers
             }
             return null;
         }
-        
+        /// <summary>
+        /// Создает файл XML c настройками принтера
+        /// </summary>
+        /// <param name="settings">Объект класса Settings</param>
         public static void CreateFile(Settings settings)
         {
             string xmlSetting = settings.ToXml();
@@ -50,6 +62,11 @@ namespace TscDll.Helpers
                 outputFile.WriteLine(xmlSetting);
             }
         }
+        /// <summary>
+        /// Сохраняет настройки принтера в XML 
+        /// </summary>
+        /// <param name="settings">Объект класса Settings</param>
+        /// <returns>true - настройки сохранены успешно, иначе false</returns>
         public static ResponseData SaveSettings(Settings settings)
         {
             ResponseData response = new ResponseData();
@@ -74,7 +91,11 @@ namespace TscDll.Helpers
 
             return response;
         }
-
+        /// <summary>
+        /// Проверка статуса подключения принтера
+        /// </summary>
+        /// <param name="settings">Объект класса Settings</param>
+        /// <returns>true - принтер подключен, иначе false</returns>
         public static Boolean Printer_status(Settings settings)
         {
             if (FileExist())
@@ -87,24 +108,117 @@ namespace TscDll.Helpers
             }
             return false;            
         }
-
-        public static void Init_printer()
+        /// <summary>
+        /// Инициализация принтера
+        /// </summary>
+        public static bool Init_printer(int width, int height)
         {
+            if (!Helpers.TscHelper.FileExist())
+            {
+                return false;
+            }
+            Settings printer_set = TscHelper.GetSettings();
+
+            if (!TscHelper.Printer_status(printer_set))
+            {
+                return false;
+            }
+
             TSCSDK.driver driver = new TSCSDK.driver();
-            
-            driver.openport("TSC MH240");
-            driver.sendcommand("SIZE 43 mm, 25 mm"); //the size of a paper in the printer
+            string size = "SIZE " + width + " mm, " + height + " mm";
+            string speed = "SPEED " + printer_set.Speed;
+            string density = "DENSITY " + printer_set.Density;
+
+            driver.openport(printer_set.PrinterName);
+            driver.sendcommand(size); //the size of a paper in the printer
             driver.sendcommand("GAP 2 mm, 0");
-            driver.sendcommand("SPEED 4");
-            driver.sendcommand("DENSITY 12");
+            driver.sendcommand(speed);
+            driver.sendcommand(density);
             driver.sendcommand("DIRECTION 1");
             driver.sendcommand("SET TEAR ON");
             driver.sendcommand("CODEPAGE UTF-8");
             driver.clearbuffer();
+
+            return true;
+        }
+        /// <summary>
+        /// Метод для изменения размера Bitmap под конкретную этикетку
+        /// </summary>
+        /// <param name="gs128">GS128 формата Bitmap</param>
+        /// <param name="width">Ширина этикетки</param>
+        /// <param name="height">Высота этикетки</param>
+        /// <returns></returns>
+        public static Bitmap ResizeBitmap(Bitmap gs128, int width, int height)
+        {
+            int w = width * 11;
+            int h = height * 11;
+            //Bitmap resized = new Bitmap(gs128, new Size(w, h));
+
+            float scale = Math.Min(width / gs128.Width, height / gs128.Height);
+
+            var bmp = new Bitmap(gs128, w, h);
+            var graph = Graphics.FromImage(bmp);
+
+            graph.InterpolationMode = InterpolationMode.HighQualityBicubic;
+            graph.CompositingQuality = CompositingQuality.HighQuality;
+            graph.SmoothingMode = SmoothingMode.AntiAlias;
+            graph.PixelOffsetMode = PixelOffsetMode.HighQuality;
+
+            graph.DrawImage(gs128, w, h);
+
+            return bmp;
+        }
+
+
+        /// <summary>
+        /// Resize the image to the specified width and height.
+        /// </summary>
+        /// <param name="image">The image to resize.</param>
+        /// <param name="width">The width to resize to.</param>
+        /// <param name="height">The height to resize to.</param>
+        /// <returns>The resized image.</returns>
+        public static Bitmap ResizeImage(Bitmap image, int width, int height)
+        {
+            var destRect = new Rectangle(0, 0, width * 11, height * 11);
+            var destImage = new Bitmap(width * 11, height * 11);
+
+            destImage.SetResolution(image.HorizontalResolution, image.VerticalResolution);
+
+            using (var graphics = Graphics.FromImage(destImage))
+            {
+                graphics.CompositingMode = CompositingMode.SourceCopy;
+                graphics.CompositingQuality = CompositingQuality.HighQuality;
+                graphics.InterpolationMode = InterpolationMode.HighQualityBicubic;
+                graphics.SmoothingMode = SmoothingMode.HighQuality;
+                graphics.PixelOffsetMode = PixelOffsetMode.HighQuality;
+
+                using (var wrapMode = new ImageAttributes())
+                {
+                    wrapMode.SetWrapMode(WrapMode.TileFlipXY);
+                    graphics.DrawImage(image, destRect, 0, 0, image.Width, image.Height, GraphicsUnit.Pixel, wrapMode);
+                }
+            }
+
+            return destImage;
+        }
+
+        /// <summary>
+        /// Печать файла формата Bitmap на этикетке
+        /// </summary>
+        /// <param name="bitmap">Картинка в формате Bitmap</param>
+        public static void PrintPicture(Bitmap bitmap)
+        {
+            driver driver = new driver();
+            driver.send_bitmap(0, 0, bitmap);
             driver.printlabel("1", "1");
             driver.closeport();
         }
 
+        /// <summary>
+        /// Печать SGTIN-ов в форме datamatrix
+        /// </summary>
+        /// <param name="driver">Объект класса TSCSDK.driver</param>
+        /// <param name="sgtins">Список SGTIN-ов</param>
         public static void PrintSgtins(TSCSDK.driver driver, List<string> sgtins)
         {
             List<Bitmap> list_of_datamatrix = new List<Bitmap>();
@@ -139,7 +253,11 @@ namespace TscDll.Helpers
             }
             driver.closeport();
         }
-
+        /// <summary>
+        /// Печать SSCC в форме штрихкодов
+        /// </summary>
+        /// <param name="driver">Объект класса TSCSDK.driver</param>
+        /// <param name="sscc">Список SSCC</param>
         public static void PrintSscc(TSCSDK.driver driver, List<string> sscc)
         {
             List<Bitmap> list_of_barcodes = new List<Bitmap>();

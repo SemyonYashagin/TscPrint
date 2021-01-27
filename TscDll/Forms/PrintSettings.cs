@@ -1,15 +1,6 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.ComponentModel;
-using System.Data;
-using System.Drawing;
-using System.IO;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 using System.Windows.Forms;
 using TscDll.Entities;
-using TscDll.Extensions;
 using TscDll.Helpers;
 
 namespace TscDll.Forms
@@ -74,6 +65,12 @@ namespace TscDll.Forms
             {
                 MessageBox.Show(response.ErrorMessage);
             }
+        }
+
+        private void Button_AddNewSize_Click(object sender, EventArgs e)
+        {
+            Adding_NewSize newSize = new Adding_NewSize();
+            newSize.ShowDialog();
         }
     }
 }
