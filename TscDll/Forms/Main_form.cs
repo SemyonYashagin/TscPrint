@@ -17,11 +17,15 @@ namespace TscDll.Forms
             InitializeComponent();
             UpdatePrinterStatus();
             UpdateFields();
-            List<MarkPrintUnit> printUnits = new List<MarkPrintUnit>();
-            UnitsInitialize(printUnits);
             buttonPrint.Enabled = false;
-            gridControl1.DataSource = ObjectExtensions.ToDataTable(printUnits);
+           
         }
+
+        public void InputToGV(List<MarkPrintUnit> units)
+        {
+            gridControl1.DataSource = ObjectExtensions.ToDataTable(units);
+        }
+        
         /// <summary>
         /// Обновление статуса принтера
         /// </summary>
@@ -34,21 +38,24 @@ namespace TscDll.Forms
         /// </summary>
         private void UpdateFields()
         {
-            if(TscHelper.Printer_status(settings))
+            if (TscHelper.Printer_status(settings))
             {
                 tB_PrinterStatus.Text = "Готов к работе";
                 tB_PrinterStatus.BackColor = Color.FromArgb(192, 255, 192);
+                cb_sizes.Enabled = true;
             }
             else
             {
                 tB_PrinterStatus.Text = "Ошибка инициализации";
                 tB_PrinterStatus.BackColor = Color.FromArgb(255, 192, 192);
+                cb_sizes.Enabled = false;
             }
-           
-            if (TscHelper.FileExist())
+
+            if (TscHelper.FileExist() && settings.SgtinSize!= null && settings.SsccSize!= null)
             {
-                tB_Sgtin.Text = settings.SgtinSize;
-                tB_Sscc.Text = settings.SsccSize;
+
+                tB_Sgtin.Text = settings.SgtinSize.Size;
+                tB_Sscc.Text = settings.SsccSize.Size;
             }
         }
 
@@ -73,13 +80,23 @@ namespace TscDll.Forms
                 if (result == DialogResult.No)
                 {
                     MessageBox.Show("Вставьте рулон для " + selectedItem.ToString());
+                    buttonPrint.Enabled = false;
+                }
+                else
+                {
+                    buttonPrint.Enabled = true;
                 }
             }
-            else
+            if (selectedItem.ToString() == "SSCC")
             {
                 if (result == DialogResult.No)
                 {
                     MessageBox.Show("Вставьте рулон для " + selectedItem.ToString());
+                    buttonPrint.Enabled = false;
+                }
+                else
+                {
+                    buttonPrint.Enabled = true;
                 }
             }
         }
@@ -92,68 +109,28 @@ namespace TscDll.Forms
             UpdateFields();
         }
 
-        private void UnitsInitialize(List<MarkPrintUnit> printUnits)
-        {
-            printUnits.Add(new MarkPrintUnit
-            {
-                NomenProduct = "Сыр",
-                Gtin = "04630030160342",
-                PartyId = 1,
-                Units = new Unit
-                {
-                    SsccValue = "46500997801035207",
-                    Units = new List<Unit>
-                    {
-                       new Unit {
-                                    SsccValue = "46500997801035208",
-                                    Sgtins = new List<string> { "010463003016034221641556169149391EE01", "010463003016034221641556169149391EE02" }
-                                 },
-
-                       new Unit {
-                                    SsccValue = "46500997801035209",
-                                    Sgtins = new List<string> { "010463003016034221641556169149391EE03", "010463003016034221641556169149391EE04" }
-                                 }
-                    }
-                }
-
-                
-            });
-
-            printUnits.Add(new MarkPrintUnit
-            {
-                NomenProduct = "Молоко",
-                Gtin = "04630030160343",
-                PartyId = 1,
-                Units = new Unit
-                {
-                    SsccValue = "46500997801035207",
-                    Units = new List<Unit>
-                    {
-                       new Unit {
-                                    SsccValue = "46500997801035208",
-                                    Sgtins = new List<string> { "010463003016034221641556169149391EE01", "010463003016034221641556169149391EE02", "010463003016034221641556169149391EE02" }
-                                 },
-
-                       new Unit {
-                                    SsccValue = "46500997801035209",
-                                    Sgtins = new List<string> { "010463003016034221641556169149391EE03", "010463003016034221641556169149391EE04" }
-                                },
-                       new Unit {
-                                    SsccValue = "46500997801035209",
-                                    Sgtins = new List<string> { "010463003016034221641556169149391EE03", "010463003016034221641556169149391EE04" }
-                                 }
-
-                    }
-                }
-            });
-        }
-
         private void button3_Click(object sender, EventArgs e)
         {
             Adding_NewSize newSize = new Adding_NewSize();
             newSize.ShowDialog();
         }
+
+        private void buttonPrint_Click(object sender, EventArgs e)
+        {
+            if(cb_sizes.SelectedItem.ToString() == "SGTIN")//print sgtins
+            {
+                Settings set = TscHelper.GetSettings();
+                TscHelper.Init_printer(set.SgtinSize.Width, set.SgtinSize.Height);
+                //TscHelper.PrintSgtins(set.SgtinSize.Width, set.SgtinSize.Height, )
+                
+                
+                
+
+            }
+            else//print sscces
+            {
+
+            }
+        }
     }
-
-
 }

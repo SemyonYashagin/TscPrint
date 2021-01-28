@@ -31,8 +31,6 @@ namespace TscDll.Helpers
         /// <returns>Класс Settings</returns>
         public static Settings GetSettings()
         {
-            string directory = Environment.GetFolderPath(Environment.SpecialFolder.CommonApplicationData) + @"\TscPrinter";
-            string fileSettings = directory + @"\printerSettings.xml"; //full directory
             if (FileExist())
             {
                 string set = System.IO.File.ReadAllText(Environment.GetFolderPath(Environment.SpecialFolder.CommonApplicationData) + @"\TscPrinter\printerSettings.xml");
@@ -101,10 +99,11 @@ namespace TscDll.Helpers
             if (FileExist())
             {
                 driver driver = new driver();
+                
                 if (driver.driver_status(settings.PrinterName))
                 {
                     return true;
-                }
+                }  
             }
             return false;            
         }
@@ -141,34 +140,6 @@ namespace TscDll.Helpers
 
             return true;
         }
-        /// <summary>
-        /// Метод для изменения размера Bitmap под конкретную этикетку
-        /// </summary>
-        /// <param name="gs128">GS128 формата Bitmap</param>
-        /// <param name="width">Ширина этикетки</param>
-        /// <param name="height">Высота этикетки</param>
-        /// <returns></returns>
-        public static Bitmap ResizeBitmap(Bitmap gs128, int width, int height)
-        {
-            int w = width * 11;
-            int h = height * 11;
-            //Bitmap resized = new Bitmap(gs128, new Size(w, h));
-
-            float scale = Math.Min(width / gs128.Width, height / gs128.Height);
-
-            var bmp = new Bitmap(gs128, w, h);
-            var graph = Graphics.FromImage(bmp);
-
-            graph.InterpolationMode = InterpolationMode.HighQualityBicubic;
-            graph.CompositingQuality = CompositingQuality.HighQuality;
-            graph.SmoothingMode = SmoothingMode.AntiAlias;
-            graph.PixelOffsetMode = PixelOffsetMode.HighQuality;
-
-            graph.DrawImage(gs128, w, h);
-
-            return bmp;
-        }
-
 
         /// <summary>
         /// Resize the image to the specified width and height.
@@ -217,10 +188,11 @@ namespace TscDll.Helpers
         /// <summary>
         /// Печать SGTIN-ов в форме datamatrix
         /// </summary>
-        /// <param name="driver">Объект класса TSCSDK.driver</param>
         /// <param name="sgtins">Список SGTIN-ов</param>
-        public static void PrintSgtins(TSCSDK.driver driver, List<string> sgtins)
+        public static void PrintSgtins(int width, int height, List<string> sgtins)
         {
+            driver driver = new driver();
+
             List<Bitmap> list_of_datamatrix = new List<Bitmap>();
 
             var writer = new BarcodeWriter

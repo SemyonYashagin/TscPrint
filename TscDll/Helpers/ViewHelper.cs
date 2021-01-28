@@ -11,30 +11,6 @@ namespace TscDll.Helpers
     public class ViewHelper
     {
         /// <summary>
-        /// Изъятие SGTIN-ов и SSCC из объекта класса Unit
-        /// </summary>
-        /// <param name="All_Sgtin">Список SGTIN-ов</param>
-        /// <param name="All_Sscc">Список SSCC</param>
-        /// <param name="unit">Объект класса Unit</param>
-        public static void GetSgtinANDSscc(List<string> All_Sgtin, List<string> All_Sscc, Unit unit)
-        {
-            if (unit.Units != null)
-            {
-                foreach (Unit item_sscc in unit.Units)
-                {
-                    GetSgtinANDSscc(All_Sgtin, All_Sscc, item_sscc);
-                }
-            }
-            if (unit.Units != null)
-            {
-                foreach (string sgtin in unit.Sgtins)
-                {
-                    All_Sgtin.Add(sgtin);
-                }
-            }
-            All_Sscc.Add(unit.SsccValue);
-        }
-        /// <summary>
         /// Ввод данные в DataGridView
         /// </summary>
         /// <param name="Sgtin">Список SGTIN-ов</param>

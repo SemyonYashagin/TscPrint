@@ -7,37 +7,17 @@ namespace TscDll.Forms
 {
     public partial class PrintSettings : Form
     {
+
+        Settings settings = TscHelper.GetSettings();
         public PrintSettings()
         {
             InitializeComponent();
             cB_SgtinSize.DropDownStyle = ComboBoxStyle.DropDownList;
             cB_SsccSize.DropDownStyle = ComboBoxStyle.DropDownList;
 
-            Settings settings = TscHelper.GetSettings();
             if (settings != null)
             {
-                cB_SgtinSize.SelectedValue = settings.SgtinSize;
-                cB_SsccSize.Text = settings.SsccSize;
-
-                tB_PrinterName.Text = settings.PrinterName;
-                if (settings.Speed < 2 || settings.Speed > 12)
-                    numericSpeed.Value = numericSpeed.Minimum;
-                else
-                    numericSpeed.Value = settings.Speed;
-                
-                if (settings.Density > 15)
-                    numericDensity.Value = numericDensity.Maximum;
-                else
-                    numericDensity.Value = settings.Density;
-
-                foreach (string sgtin in settings.SgtinList)
-                {
-                    cB_SgtinSize.Items.Add(sgtin);
-                }
-                foreach (string sscc in settings.SsccList)
-                {
-                    cB_SsccSize.Items.Add(sscc);
-                }
+                UpdateFields();
             }
             else MessageBox.Show("Исходные данные не найдены");
 
@@ -45,32 +25,88 @@ namespace TscDll.Forms
 
         private void Button_Synch_Click(object sender, EventArgs e)
         {
-            Settings newset = TscHelper.GetSettings();
-
-            newset.PrinterName = tB_PrinterName.Text;
-            newset.SgtinSize = cB_SgtinSize.Text;
-            newset.SsccSize = cB_SsccSize.Text;
-            newset.Speed = numericSpeed.Value;
-            newset.Density = numericDensity.Value;
-
-            ResponseData response = TscHelper.SaveSettings(newset);
-
-            if (response.IsSuccess)
+            if (TscHelper.FileExist() && cB_SgtinSize.Text!="" && cB_SsccSize.Text!="" && tB_PrinterName.Text!="")
             {
-                MessageBox.Show("Данные загружены");
-                TscHelper.GetSettings();
-                Close();               
+                Settings newset = TscHelper.GetSettings();
+
+                newset.PrinterName = tB_PrinterName.Text;
+                newset.SgtinSize = new Intvalue
+                {
+                    Size = cB_SgtinSize.Text,
+                    Width = GetValue(newset, cB_SgtinSize.Text).Width,
+                    Height = GetValue(newset, cB_SgtinSize.Text).Height
+                };
+                newset.SsccSize = new Intvalue
+                {
+                    Size = cB_SsccSize.Text,
+                    Width = GetValue(newset, cB_SsccSize.Text).Width,
+                    Height = GetValue(newset, cB_SsccSize.Text).Height
+                };
+                newset.Speed = numericSpeed.Value;
+                newset.Density = numericDensity.Value;
+
+                ResponseData response = TscHelper.SaveSettings(newset);
+
+                if (response.IsSuccess)
+                {
+                    MessageBox.Show("Данные загружены");
+                    TscHelper.GetSettings();
+                    Close();
+                }
+                else
+                {
+                    MessageBox.Show(response.ErrorMessage);
+                }
             }
             else
             {
-                MessageBox.Show(response.ErrorMessage);
+                MessageBox.Show("Введите данные");
             }
+        }
+
+        private Intvalue GetValue(Settings set, string size)
+        {
+            foreach (Intvalue value in set.SgtinList)
+            {
+                if (size == value.Size)
+                    return value;
+            }
+            return null;
         }
 
         private void Button_AddNewSize_Click(object sender, EventArgs e)
         {
             Adding_NewSize newSize = new Adding_NewSize();
             newSize.ShowDialog();
+            UpdateFields();
+        }
+        private void UpdateFields()
+        {
+            if (TscHelper.FileExist())
+            {
+                Settings settings = TscHelper.GetSettings();
+                cB_SgtinSize.Items.Clear();
+                cB_SsccSize.Items.Clear();
+                tB_PrinterName.Text = settings.PrinterName;
+                if (settings.Speed < 2 || settings.Speed > 12)
+                    numericSpeed.Value = numericSpeed.Minimum;
+                else
+                    numericSpeed.Value = settings.Speed;
+
+                if (settings.Density > 15)
+                    numericDensity.Value = numericDensity.Maximum;
+                else
+                    numericDensity.Value = settings.Density;
+
+                foreach (Intvalue sgtin in settings.SgtinList)
+                {
+                    cB_SgtinSize.Items.Add(sgtin.Size);
+                }
+                foreach (Intvalue sscc in settings.SsccList)
+                {
+                    cB_SsccSize.Items.Add(sscc.Size);
+                }
+            }
         }
     }
 }

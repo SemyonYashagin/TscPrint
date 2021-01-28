@@ -44,7 +44,5 @@ namespace TscDll.Helpers
             Bitmap barcode = new Bitmap(writer.Write(code));
             return barcode;
         }
-
-
     }
 }

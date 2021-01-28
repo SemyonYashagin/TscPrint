@@ -31,11 +31,11 @@ namespace TscDll.Forms
         {
             System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(Main_form));
             this.groupBox1 = new System.Windows.Forms.GroupBox();
+            this.Button_PrinterSettings = new System.Windows.Forms.Button();
             this.label4 = new System.Windows.Forms.Label();
             this.tB_Sscc = new System.Windows.Forms.TextBox();
             this.tB_Sgtin = new System.Windows.Forms.TextBox();
             this.label1 = new System.Windows.Forms.Label();
-            this.Button_PrinterSettings = new System.Windows.Forms.Button();
             this.tB_PrinterStatus = new System.Windows.Forms.TextBox();
             this.label2 = new System.Windows.Forms.Label();
             this.cb_sizes = new System.Windows.Forms.ComboBox();
@@ -75,6 +75,16 @@ namespace TscDll.Forms
             this.groupBox1.TabStop = false;
             this.groupBox1.Text = "Размеры этикеток";
             // 
+            // Button_PrinterSettings
+            // 
+            this.Button_PrinterSettings.Location = new System.Drawing.Point(249, 25);
+            this.Button_PrinterSettings.Name = "Button_PrinterSettings";
+            this.Button_PrinterSettings.Size = new System.Drawing.Size(140, 37);
+            this.Button_PrinterSettings.TabIndex = 4;
+            this.Button_PrinterSettings.Text = "Настройки";
+            this.Button_PrinterSettings.UseVisualStyleBackColor = true;
+            this.Button_PrinterSettings.Click += new System.EventHandler(this.button1_Click);
+            // 
             // label4
             // 
             this.label4.AutoSize = true;
@@ -108,16 +118,6 @@ namespace TscDll.Forms
             this.label1.Size = new System.Drawing.Size(40, 13);
             this.label1.TabIndex = 0;
             this.label1.Text = "SGTIN";
-            // 
-            // Button_PrinterSettings
-            // 
-            this.Button_PrinterSettings.Location = new System.Drawing.Point(249, 25);
-            this.Button_PrinterSettings.Name = "Button_PrinterSettings";
-            this.Button_PrinterSettings.Size = new System.Drawing.Size(140, 37);
-            this.Button_PrinterSettings.TabIndex = 4;
-            this.Button_PrinterSettings.Text = "Настройки";
-            this.Button_PrinterSettings.UseVisualStyleBackColor = true;
-            this.Button_PrinterSettings.Click += new System.EventHandler(this.button1_Click);
             // 
             // tB_PrinterStatus
             // 
@@ -174,6 +174,7 @@ namespace TscDll.Forms
             this.buttonPrint.TabIndex = 5;
             this.buttonPrint.Text = "Печать";
             this.buttonPrint.UseVisualStyleBackColor = true;
+            this.buttonPrint.Click += new System.EventHandler(this.buttonPrint_Click);
             // 
             // gridControl1
             // 

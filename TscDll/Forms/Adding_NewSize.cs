@@ -63,7 +63,7 @@ namespace TscDll.Forms
         /// <returns></returns>
         private int AddToXMLNewSize()
         {
-            string newSize = tB_newSizeWidth.Text + " mm, " + tB_newSizeHeight.Text + " mm";
+            Intvalue intvalue = new Intvalue();
 
             if (!TscHelper.FileExist())
             {
@@ -75,18 +75,22 @@ namespace TscDll.Forms
             {
                 if (tB_newSizeHeight.TextLength != 0 && tB_newSizeWidth.TextLength != 0 && (width <= 100 && width >= 30) && (height <= 200 && height >= 20))
                 {
+                    intvalue.Size = tB_newSizeWidth.Text + " mm, " + tB_newSizeHeight.Text + " mm";
+                    intvalue.Width = Convert.ToInt32(tB_newSizeWidth.Text);//width
+                    intvalue.Height = Convert.ToInt32(tB_newSizeHeight.Text);//height
+
                     Settings newSetting = TscHelper.GetSettings();
 
-                    foreach (string sgtinSize in newSetting.SgtinList)
+                    foreach (Intvalue sgtinSize in newSetting.SgtinList)
                     {
-                        if (newSize == sgtinSize)
+                        if (intvalue.Size == sgtinSize.Size)
                         {
                             return 1;
                         }
                     }
 
-                    newSetting.SgtinList.Add(newSize);
-                    newSetting.SsccList.Add(newSize);
+                    newSetting.SgtinList.Add(intvalue);
+                    newSetting.SsccList.Add(intvalue);
                     ResponseData response = TscHelper.SaveSettings(newSetting);
                 }
                 else return 2;

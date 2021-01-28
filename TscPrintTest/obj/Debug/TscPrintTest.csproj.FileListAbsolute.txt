@@ -87,4 +87,4 @@ D:\Codes\TscPrint\TscPrintTest\bin\Debug\de\DevExpress.Office.v15.1.Core.resourc
 D:\Codes\TscPrint\TscPrintTest\bin\Debug\es\DevExpress.Office.v15.1.Core.resources.dll
 D:\Codes\TscPrint\TscPrintTest\bin\Debug\ja\DevExpress.Office.v15.1.Core.resources.dll
 D:\Codes\TscPrint\TscPrintTest\bin\Debug\ru\DevExpress.Office.v15.1.Core.resources.dll
-D:\Codes\TscPrint\TscPrintTest\obj\Debug\TscPrintTest.Main_form.resources
+D:\Codes\TscPrint\TscPrintTest\obj\Debug\TscPrintTest.Test_form.resources
