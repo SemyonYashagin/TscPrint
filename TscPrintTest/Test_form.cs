@@ -31,16 +31,16 @@ namespace TscPrintTest
                 PartyId = 1,
                 Units = new Unit
                 {
-                    SsccValue = "46500997801035207",
+                    SsccValue = "46500997801035211",
                     Units = new List<Unit>
                     {
                        new Unit {
-                                    SsccValue = "46500997801035208",
+                                    SsccValue = "46500997801035212",
                                     Sgtins = new List<string> { "010463003016034221641556169149391EE01", "010463003016034221641556169149391EE02" }
                                  },
 
                        new Unit {
-                                    SsccValue = "46500997801035209",
+                                    SsccValue = "46500997801035213",
                                     Sgtins = new List<string> { "010463003016034221641556169149391EE03", "010463003016034221641556169149391EE04" }
                                  }
                     }
@@ -56,21 +56,21 @@ namespace TscPrintTest
                 PartyId = 1,
                 Units = new Unit
                 {
-                    SsccValue = "46500997801035207",
+                    SsccValue = "46500997801035221",
                     Units = new List<Unit>
                     {
                        new Unit {
-                                    SsccValue = "46500997801035208",
-                                    Sgtins = new List<string> { "010463003016034221641556169149391EE01", "010463003016034221641556169149391EE02", "010463003016034221641556169149391EE02" }
+                                    SsccValue = "46500997801035222",
+                                    Sgtins = new List<string> { "010463003016034221641556169149391EE05", "010463003016034221641556169149391EE06", "010463003016034221641556169149391EE07" }
                                  },
 
                        new Unit {
-                                    SsccValue = "46500997801035209",
-                                    Sgtins = new List<string> { "010463003016034221641556169149391EE03", "010463003016034221641556169149391EE04" }
+                                    SsccValue = "46500997801035223",
+                                    Sgtins = new List<string> { "010463003016034221641556169149391EE08", "010463003016034221641556169149391EE09" }
                                 },
                        new Unit {
-                                    SsccValue = "46500997801035209",
-                                    Sgtins = new List<string> { "010463003016034221641556169149391EE03", "010463003016034221641556169149391EE04" }
+                                    SsccValue = "46500997801035224",
+                                    Sgtins = new List<string> { "010463003016034221641556169149391EE10", "010463003016034221641556169149391EE11" }
                                  }
 
                     }
@@ -80,7 +80,9 @@ namespace TscPrintTest
 
         private void button2_Click(object sender, EventArgs e)
         {
-            TscDll.Print.PrintSgtinSscc(printUnits);
+            TscDll.Print print = new TscDll.Print();
+            
+            print.PrintSgtinSscc(printUnits);
             Close();
         }
     }

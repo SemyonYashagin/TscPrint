@@ -8,16 +8,12 @@ namespace TscDll
 {
     public class Print
     {
-        public Print()
-        {
-        }
-
         /// <summary>
         /// Метод для печати SGTIN-ов
         /// </summary>
         /// <param name="markPrintUnits">Объекты для печати</param>
         /// <returns></returns>
-        public static ResponseData PrintSgtinSscc(List<MarkPrintUnit> markPrintUnits)
+        public ResponseData PrintSgtinSscc(List<MarkPrintUnit> markPrintUnits)
         {
             ResponseData response = new ResponseData();
 
@@ -28,6 +24,7 @@ namespace TscDll
 
             return response;
         }
+
         /// <summary>
         /// Распечатывает штрихкод GS128 
         /// </summary>
@@ -35,12 +32,10 @@ namespace TscDll
         /// <returns></returns>
         public static ResponseData PrintGS128(System.Drawing.Bitmap bitmap)
         {
-            int width = 100;
-            int height = 50;
+            Settings settings = TscHelper.GetSettings();
             ResponseData response = new ResponseData();
-            TscHelper.Init_printer(width, height);
-            //TscHelper.PrintPicture(TscHelper.ResizeBitmap(bitmap, width, height));
-            Bitmap gs128 = TscHelper.ResizeImage(bitmap, width, height);
+            TscHelper.Init_printer(settings.SsccSize.Width, settings.SsccSize.Height);
+            Bitmap gs128 = TscHelper.ResizeImage(bitmap, settings.SsccSize.Width, settings.SsccSize.Height);
             TscHelper.PrintPicture(gs128);
             return response;
         }

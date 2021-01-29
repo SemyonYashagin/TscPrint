@@ -180,7 +180,8 @@ namespace TscDll.Helpers
         public static void PrintPicture(Bitmap bitmap)
         {
             driver driver = new driver();
-            driver.send_bitmap(0, 0, bitmap);
+            
+            driver.send_bitmap(0, 20, bitmap);
             driver.printlabel("1", "1");
             driver.closeport();
         }
@@ -198,7 +199,7 @@ namespace TscDll.Helpers
             var writer = new BarcodeWriter
             {
                 Format = BarcodeFormat.DATA_MATRIX,
-                Options = { Width = 150, Height = 150, Margin = 4 } //the size of a datamatrix
+                Options = { Width = height * 9, Height = height * 9, Margin = 4 } //the size of a datamatrix
             };
 
             foreach (string str in sgtins)
@@ -207,21 +208,23 @@ namespace TscDll.Helpers
             }
 
             int k = 0;//the number of SGTIN
-            int y = 5;// the first position
+            int y = (height * 10) / 2;// the first position
             foreach (Bitmap bitmap in list_of_datamatrix)
             {
-                driver.windowsfont(180, y, 30, 0, 0, 0, "arial.TTF", sgtins[k].Substring(2, 14));// print GTIN
+                driver.windowsfont(height * 9 + 10, y, 30, 0, 0, 0, "arial.TTF", sgtins[k].Substring(2, 14));// print GTIN
                 y += 25;
-                driver.windowsfont(180, y, 30, 0, 0, 0, "arial.TTF", sgtins[k].Substring(18, 13)); //print serial number
+                driver.windowsfont(height * 9 + 10, y, 30, 0, 0, 0, "arial.TTF", sgtins[k].Substring(18, 13)); //print serial number
                 y += 50;
-                driver.windowsfont(180, y, 72, 0, 0, 0, "arial.TTF", "2927");// print the number which connect to SSCC code
+                driver.windowsfont(height * 9 + 10, y, 72, 0, 0, 0, "arial.TTF", "2927");// print the number which connect to SSCC code
 
-                driver.send_bitmap(5, 5, bitmap);//print a datamatrix
+                //driver.send_bitmap(5, (height*11 - height*9) , bitmap);//print a datamatrix
+                driver.send_bitmap(0, (height * 11 - height * 9), bitmap);
                 k++;
                 y = 0;
 
                 driver.printlabel("1", "1");
                 driver.clearbuffer();
+                break;//delete (only for printing one label)
             }
             driver.closeport();
         }
@@ -230,14 +233,15 @@ namespace TscDll.Helpers
         /// </summary>
         /// <param name="driver">Объект класса TSCSDK.driver</param>
         /// <param name="sscc">Список SSCC</param>
-        public static void PrintSscc(TSCSDK.driver driver, List<string> sscc)
+        public static void PrintSscc(int width, int height, List<string> sscc)
         {
+            driver driver = new driver();
             List<Bitmap> list_of_barcodes = new List<Bitmap>();
 
             var writer = new BarcodeWriter
             {
                 Format = BarcodeFormat.CODE_128,
-                Options = { Width = 300, Height = 150, } //the size of a datamatrix
+                Options = { Width = width * 11, Height = height * 8 } //the size of a barcode
             };
 
             foreach (string str in sscc)
@@ -247,9 +251,10 @@ namespace TscDll.Helpers
 
             foreach (Bitmap bitmap in list_of_barcodes)
             {
-                driver.send_bitmap(1, 1, bitmap);//print a datamatrix                
+                driver.send_bitmap(0, (height*12)/4, bitmap);//print a barcode             
                 driver.printlabel("1", "1");
                 driver.clearbuffer();
+                break;//delete (only for printing one label)
             }
             driver.closeport();
         }

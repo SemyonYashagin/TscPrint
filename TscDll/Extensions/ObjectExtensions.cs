@@ -153,6 +153,5 @@ namespace TscDll.Extensions
             }
             All_Sscc.Add(unit.SsccValue);
         }
-
     }
 }

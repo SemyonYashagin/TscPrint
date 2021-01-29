@@ -11,6 +11,7 @@ namespace TscDll.Forms
 
     public partial class Main_form : Form
     {
+        List<MarkPrintUnit> markPrints = new List<MarkPrintUnit>();
         private Settings settings;
         public Main_form()
         {
@@ -24,6 +25,7 @@ namespace TscDll.Forms
         public void InputToGV(List<MarkPrintUnit> units)
         {
             gridControl1.DataSource = ObjectExtensions.ToDataTable(units);
+            markPrints = units;
         }
         
         /// <summary>
@@ -117,20 +119,99 @@ namespace TscDll.Forms
 
         private void buttonPrint_Click(object sender, EventArgs e)
         {
-            if(cb_sizes.SelectedItem.ToString() == "SGTIN")//print sgtins
+            if (cb_sizes.SelectedItem.ToString() == "SGTIN")//print sgtins
             {
+                List<string> sgtins = new List<string>();
+                sgtins = GetSgtin(sgtins, markPrints);
                 Settings set = TscHelper.GetSettings();
                 TscHelper.Init_printer(set.SgtinSize.Width, set.SgtinSize.Height);
-                //TscHelper.PrintSgtins(set.SgtinSize.Width, set.SgtinSize.Height, )
-                
-                
-                
+                TscHelper.PrintSgtins(set.SgtinSize.Width, set.SgtinSize.Height, sgtins);
+                buttonPrint.Enabled = false;
 
             }
             else//print sscces
             {
+                List<string> sscces = new List<string>();
+                sscces = GetSscc(sscces, markPrints);
+                Settings set = TscHelper.GetSettings();
+                TscHelper.Init_printer(set.SsccSize.Width, set.SsccSize.Height);
+                TscHelper.PrintSscc(set.SsccSize.Width, set.SsccSize.Height, sscces);
+                buttonPrint.Enabled = false;
 
             }
+        }
+
+        /// <summary>
+        /// Метод для взятия Sgtin-ов из объекта List<MarkPrintUnit>
+        /// </summary>
+        /// <param name="sgtins"></param>
+        /// <param name="units"></param>
+        /// <returns></returns>
+        private List<string> GetSgtin(List<string> sgtins, List<MarkPrintUnit> units)
+        {
+            foreach (MarkPrintUnit unit in units)
+            {
+                GetSgtinRecur(sgtins, unit.Units);
+            }
+
+            return sgtins;
+        }
+
+        /// <summary>
+        /// Метод для рекурсивного взятия Sgtin-ов из объекта Unit
+        /// </summary>
+        /// <param name="All_Sgtin"></param>
+        /// <param name="unit"></param>
+        private void GetSgtinRecur(List<string> All_Sgtin, Unit unit)
+        {
+            if (unit.Units != null)
+            {
+                foreach (Unit item_sscc in unit.Units)
+                {
+                    GetSgtinRecur(All_Sgtin, item_sscc);
+                }
+            }
+            if (unit.Units == null)
+            {
+                foreach (string sgtin in unit.Sgtins)
+                {
+                    All_Sgtin.Add(sgtin);
+                }
+            }
+        }
+
+        /// <summary>
+        /// Метод для взятия Sscc из объекта List<MarkPrintUnit>
+        /// </summary>
+        /// <param name="sscces"></param>
+        /// <param name="units"></param>
+        /// <returns></returns>
+        private List<string> GetSscc(List<string> sscces, List<MarkPrintUnit> units)
+        {
+            foreach (MarkPrintUnit unit in units)
+            {
+                GetSsccRecur(sscces, unit.Units);
+            }
+
+            return sscces;
+        }
+
+        /// <summary>
+        /// Метод для рекурсивного взятия Sscc из объекта Unit
+        /// </summary>
+        /// <param name="All_Sscc"></param>
+        /// <param name="unit"></param>
+        private void GetSsccRecur(List<string> All_Sscc, Unit unit)
+        {
+            if (unit.Units != null)
+            {
+                foreach (Unit item_sscc in unit.Units)
+                {
+                    GetSsccRecur(All_Sscc, item_sscc);
+                }
+            }
+
+            All_Sscc.Add(unit.SsccValue);
         }
     }
 }
