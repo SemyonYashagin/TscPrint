@@ -19,7 +19,9 @@ namespace TscPrintTest
         private void button1_Click(object sender, EventArgs e)
         {
             Bitmap gs128 = (Bitmap)Image.FromFile("D:\\Codes\\GS128.jpg");
-            TscDll.Print.PrintGS128(gs128);
+            ResponseData response =  TscDll.Print.PrintGS128(gs128);
+            if (response.IsSuccess) MessageBox.Show("Печать прошла успешна");
+            else MessageBox.Show(response.ErrorMessage);
         }
 
         private void UnitsInitialize(List<MarkPrintUnit> printUnits)
@@ -80,9 +82,7 @@ namespace TscPrintTest
 
         private void button2_Click(object sender, EventArgs e)
         {
-            TscDll.Print print = new TscDll.Print();
-            
-            print.PrintSgtinSscc(printUnits);
+            TscDll.Print.PrintSgtinSscc(printUnits);
             Close();
         }
     }

@@ -8,6 +8,8 @@ using System;
 using TscDll.Extensions;
 using System.Drawing.Drawing2D;
 using System.Drawing.Imaging;
+using System.Threading;
+using System.Threading.Tasks;
 
 namespace TscDll.Helpers
 {
@@ -134,7 +136,8 @@ namespace TscDll.Helpers
             driver.sendcommand(speed);
             driver.sendcommand(density);
             driver.sendcommand("DIRECTION 1");
-            driver.sendcommand("SET TEAR ON");
+            //driver.sendcommand("SET TEAR ON");
+            driver.sendcommand("SET REWIND ON");
             driver.sendcommand("CODEPAGE UTF-8");
             driver.clearbuffer();
 
@@ -178,7 +181,7 @@ namespace TscDll.Helpers
         /// </summary>
         /// <param name="bitmap">Картинка в формате Bitmap</param>
         public static void PrintPicture(Bitmap bitmap)
-        {
+        {           
             driver driver = new driver();
             
             driver.send_bitmap(0, 20, bitmap);
@@ -193,7 +196,7 @@ namespace TscDll.Helpers
         public static void PrintSgtins(int width, int height, List<string> sgtins)
         {
             driver driver = new driver();
-
+            driver.clearbuffer();
             List<Bitmap> list_of_datamatrix = new List<Bitmap>();
 
             var writer = new BarcodeWriter
@@ -220,11 +223,11 @@ namespace TscDll.Helpers
                 //driver.send_bitmap(5, (height*11 - height*9) , bitmap);//print a datamatrix
                 driver.send_bitmap(0, (height * 11 - height * 9), bitmap);
                 k++;
-                y = 0;
+                y = (height * 10) / 2;
 
                 driver.printlabel("1", "1");
                 driver.clearbuffer();
-                break;//delete (only for printing one label)
+                //break;//delete (only for printing one label)
             }
             driver.closeport();
         }
@@ -254,9 +257,27 @@ namespace TscDll.Helpers
                 driver.send_bitmap(0, (height*12)/4, bitmap);//print a barcode             
                 driver.printlabel("1", "1");
                 driver.clearbuffer();
-                break;//delete (only for printing one label)
+                //break;//delete (only for printing one label)
             }
             driver.closeport();
+        }
+
+        public static bool CheckLabelSize(int height)
+        {
+            ethernet ethernet = new ethernet();
+            ethernet.openport("192.168.36.101", 9100);
+            ethernet.sendcommand("AUTODETECT");
+            Thread.Sleep(3000);
+            int printer_height = Convert.ToInt32(ethernet.sendcommand_getstring("OUT NET \"\"; GETSETTING$(\"CONFIG\", \"TSPL\", \"PAPER SIZE\")"));
+
+            if (printer_height <= (height * 11.8) && printer_height >= ((height * 11.8) - 20))
+            {
+                ethernet.closeport();
+                return true;
+            }
+
+            ethernet.closeport();
+            return false;
         }
     }
 }

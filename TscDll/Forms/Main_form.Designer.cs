@@ -44,7 +44,7 @@ namespace TscDll.Forms
             this.buttonPrint = new System.Windows.Forms.Button();
             this.gridControl1 = new DevExpress.XtraGrid.GridControl();
             this.gridView1 = new DevExpress.XtraGrid.Views.Grid.GridView();
-            this.ProductName = new DevExpress.XtraGrid.Columns.GridColumn();
+            this.ProductNomen = new DevExpress.XtraGrid.Columns.GridColumn();
             this.Gtin = new DevExpress.XtraGrid.Columns.GridColumn();
             this.SgtinCount = new DevExpress.XtraGrid.Columns.GridColumn();
             this.SsccCount = new DevExpress.XtraGrid.Columns.GridColumn();
@@ -190,7 +190,7 @@ namespace TscDll.Forms
             // gridView1
             // 
             this.gridView1.Columns.AddRange(new DevExpress.XtraGrid.Columns.GridColumn[] {
-            this.ProductName,
+            this.ProductNomen,
             this.Gtin,
             this.SgtinCount,
             this.SsccCount});
@@ -202,14 +202,14 @@ namespace TscDll.Forms
             this.gridView1.OptionsBehavior.ReadOnly = true;
             this.gridView1.OptionsView.ShowGroupPanel = false;
             // 
-            // ProductName
+            // ProductNomen
             // 
-            this.ProductName.Caption = "Наименование";
-            this.ProductName.FieldName = "ProductName";
-            this.ProductName.Name = "ProductName";
-            this.ProductName.OptionsColumn.AllowMove = false;
-            this.ProductName.Visible = true;
-            this.ProductName.VisibleIndex = 0;
+            this.ProductNomen.Caption = "Наименование";
+            this.ProductNomen.FieldName = "ProductNomen";
+            this.ProductNomen.Name = "ProductNomen";
+            this.ProductNomen.OptionsColumn.AllowMove = false;
+            this.ProductNomen.Visible = true;
+            this.ProductNomen.VisibleIndex = 0;
             // 
             // Gtin
             // 
@@ -318,6 +318,6 @@ namespace TscDll.Forms
         private System.Windows.Forms.TextBox tB_Sgtin;
         private System.Windows.Forms.Label label4;
         private System.Windows.Forms.GroupBox groupBox2;
-        public DevExpress.XtraGrid.Columns.GridColumn ProductName;
+        public DevExpress.XtraGrid.Columns.GridColumn ProductNomen;
     }
 }
