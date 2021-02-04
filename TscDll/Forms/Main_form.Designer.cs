@@ -44,7 +44,7 @@ namespace TscDll.Forms
             this.buttonPrint = new System.Windows.Forms.Button();
             this.gridControl1 = new DevExpress.XtraGrid.GridControl();
             this.gridView1 = new DevExpress.XtraGrid.Views.Grid.GridView();
-            this.ProdName = new DevExpress.XtraGrid.Columns.GridColumn();
+            this.ProductName = new DevExpress.XtraGrid.Columns.GridColumn();
             this.Gtin = new DevExpress.XtraGrid.Columns.GridColumn();
             this.SgtinCount = new DevExpress.XtraGrid.Columns.GridColumn();
             this.SsccCount = new DevExpress.XtraGrid.Columns.GridColumn();
@@ -192,7 +192,7 @@ namespace TscDll.Forms
             // gridView1
             // 
             this.gridView1.Columns.AddRange(new DevExpress.XtraGrid.Columns.GridColumn[] {
-            this.ProdName,
+            this.ProductName,
             this.Gtin,
             this.SgtinCount,
             this.SsccCount});
@@ -206,12 +206,12 @@ namespace TscDll.Forms
             // 
             // ProductName
             // 
-            this.ProdName.Caption = "Наименование";
-            this.ProdName.FieldName = "ProductName";
-            this.ProdName.Name = "ProductName";
-            this.ProdName.OptionsColumn.AllowMove = false;
-            this.ProdName.Visible = true;
-            this.ProdName.VisibleIndex = 0;
+            this.ProductName.Caption = "Наименование";
+            this.ProductName.FieldName = "ProductName";
+            this.ProductName.Name = "ProductName";
+            this.ProductName.OptionsColumn.AllowMove = false;
+            this.ProductName.Visible = true;
+            this.ProductName.VisibleIndex = 0;
             // 
             // Gtin
             // 
@@ -342,5 +342,6 @@ namespace TscDll.Forms
         public DevExpress.XtraGrid.Columns.GridColumn ProdName;
         private System.Windows.Forms.TextBox tB_PrinterMode;
         private System.Windows.Forms.Label label5;
+        public DevExpress.XtraGrid.Columns.GridColumn ProductName;
     }
 }

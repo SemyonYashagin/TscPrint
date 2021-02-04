@@ -33,8 +33,7 @@ namespace TscDll
         /// <param name="bitmap">Объект Bitmap</param>
         /// <returns></returns>
         public static ResponseData PrintGS128(Bitmap bitmap)
-        {
-            ethernet driver = new ethernet();   
+        { 
             Settings settings = TscHelper.GetSettings();
             ResponseData response = new ResponseData();
             if (!TscHelper.FileExist() || settings == null)

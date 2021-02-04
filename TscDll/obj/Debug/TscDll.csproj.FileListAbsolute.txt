@@ -76,6 +76,7 @@ D:\Codes\TscPrint\TscDll\bin\Debug\de\DevExpress.Office.v15.1.Core.resources.dll
 D:\Codes\TscPrint\TscDll\bin\Debug\es\DevExpress.Office.v15.1.Core.resources.dll
 D:\Codes\TscPrint\TscDll\bin\Debug\ja\DevExpress.Office.v15.1.Core.resources.dll
 D:\Codes\TscPrint\TscDll\bin\Debug\ru\DevExpress.Office.v15.1.Core.resources.dll
+D:\Codes\TscPrint\TscDll\obj\Debug\TscDll.csprojAssemblyReference.cache
 D:\Codes\TscPrint\TscDll\obj\Debug\TscDll.Forms.Main_form.resources
 D:\Codes\TscPrint\TscDll\obj\Debug\TscDll.Forms.PrintSettings.resources
 D:\Codes\TscPrint\TscDll\obj\Debug\TscDll.Forms.Adding_NewSize.resources
@@ -86,4 +87,4 @@ D:\Codes\TscPrint\TscDll\obj\Debug\TscDll.csproj.CoreCompileInputs.cache
 D:\Codes\TscPrint\TscDll\obj\Debug\TscDll.csproj.CopyComplete
 D:\Codes\TscPrint\TscDll\obj\Debug\TscDll.dll
 D:\Codes\TscPrint\TscDll\obj\Debug\TscDll.pdb
-D:\Codes\TscPrint\TscDll\obj\Debug\TscDll.csprojAssemblyReference.cache
+D:\Codes\TscPrint\TscDll\obj\Debug\TscDll.Forms.ProgressForm.resources

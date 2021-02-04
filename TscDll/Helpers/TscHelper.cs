@@ -1,13 +1,13 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
 using System.Drawing;
-using System.IO;
-using ZXing;
-using TSCSDK;
-using TscDll.Entities;
-using System;
-using TscDll.Extensions;
 using System.Drawing.Drawing2D;
 using System.Drawing.Imaging;
+using System.IO;
+using TscDll.Entities;
+using TscDll.Extensions;
+using TSCSDK;
+using ZXing;
 using ZXing.Rendering;
 
 namespace TscDll.Helpers
@@ -151,6 +151,8 @@ namespace TscDll.Helpers
             driver.sendcommand("CODEPAGE UTF-8");
             driver.clearbuffer();
 
+            driver.sendcommand("FORMFEED");
+
 
             return true;
         }
@@ -196,7 +198,6 @@ namespace TscDll.Helpers
 
             driver.send_bitmap(0, 40, bitmap);
             driver.printlabel("1", "1");
-            driver.sendcommand("FORMFEED");
             driver.closeport();
         }
 
@@ -223,13 +224,19 @@ namespace TscDll.Helpers
 
             int k = 0;//the number of SGTIN
             int y = (height * 10) / 2;// the first position
+            int x = height * 9 + 10;
+            int multisize = width / height;
+
             foreach (Bitmap bitmap in list_of_datamatrix)
             {
-                driver.windowsfont(height * 9 + 10, y, width - height + 12, 0, 0, 0, "3", sgtins[k].Substring(2, 14));// print GTIN
+                string gtin = sgtins[k].Substring(2, 14);
+                string sn = sgtins[k].Substring(18, 13);
+                
+                driver.sendcommand($"TEXT {x}, {y}, \"3\",0 , {multisize}, {multisize}, \"{gtin}\"");
                 y += height + 5;
-                driver.windowsfont(height * 9 + 10, y, width - height + 12, 0, 0, 0, "3", sgtins[k].Substring(18, 13)); //print serial number
+                driver.sendcommand($"TEXT {x}, {y}, \"3\", 0, {multisize}, {multisize}, \"{sn}\"");
                 y += 50;
-                driver.windowsfont(height * 9 + 10, y, 72, 0, 0, 0, "3", "2927");// print the number which connect to SSCC code
+                driver.sendcommand($"TEXT {x}, {y}, \"3\", 0, {multisize}, {multisize}, \"2927\"");
 
                 driver.send_bitmap(0, (height * 11 - height * 9), bitmap);
                 k++;
@@ -239,7 +246,6 @@ namespace TscDll.Helpers
                 driver.clearbuffer();
                 //break;//delete (only for printing one label)
             }
-            driver.sendcommand("FORMFEED");
             driver.closeport();
         }
         /// <summary>
@@ -247,8 +253,15 @@ namespace TscDll.Helpers
         /// </summary>
         /// <param name="driver">Объект класса TSCSDK.driver</param>
         /// <param name="sscc">Список SSCC</param>
-        public static void PrintSscc(int width, int height, List<string> sscc)
+        public static ResponseData PrintSscc(int width, int height, List<string> sscc)
         {
+            ResponseData response = new ResponseData();
+            if(sscc.Count==0)
+            {
+                response.ErrorMessage = "SSCC не обнаружено";
+                return response;
+            }
+
             driver driver = new driver();
             List<Bitmap> list_of_barcodes = new List<Bitmap>();
             FontFamily fontFamily = new FontFamily("Arial");
@@ -275,8 +288,10 @@ namespace TscDll.Helpers
                 driver.clearbuffer();
                 //break;//delete (only for printing one label)
             }
-            driver.sendcommand("FORMFEED");
             driver.closeport();
+
+            response.IsSuccess = true;
+            return response;
         }
     }
 }

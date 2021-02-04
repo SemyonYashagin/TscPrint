@@ -44,9 +44,9 @@ namespace TscPrintTest
                        new Unit {
                                     SsccValue = "46500997801035213",
                                     Sgtins = new List<string> { "010463003016034221641556169149391EE03", "010463003016034221641556169149391EE04" }
-                                 }                       
-                    }                    
-                }                
+                                 }
+                    }
+                }
             });
 
             printUnits.Add(new MarkPrintUnit
@@ -56,24 +56,7 @@ namespace TscPrintTest
                 PartyId = 1,
                 Units = new Unit
                 {
-                    SsccValue = "46500997801035221",
-                    Units = new List<Unit>
-                    {
-                       new Unit {
-                                    SsccValue = "46500997801035222",
-                                    Sgtins = new List<string> { "010463003016034221641556169149391EE05", "010463003016034221641556169149391EE06", "010463003016034221641556169149391EE07" }
-                                 },
-
-                       new Unit {
-                                    SsccValue = "46500997801035223",
-                                    
-                                    Sgtins = new List<string> { "010463003016034221641556169149391EE08", "010463003016034221641556169149391EE09" }
-                                },
-                       new Unit {
-                                    SsccValue = "46500997801035224",
-                                    Sgtins = new List<string> { "010463003016034221641556169149391EE10", "010463003016034221641556169149391EE11" }
-                                 }
-                    } 
+                    Sgtins = new List<string> { "010463003016034221641556169149391EE03", "010463003016034221641556169149391EE04" }
                 }
             });
         }

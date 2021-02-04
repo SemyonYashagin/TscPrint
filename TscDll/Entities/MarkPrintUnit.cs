@@ -77,11 +77,15 @@ namespace TscDll.Entities
         {
             get
             {
-                if (!String.IsNullOrEmpty(ssccValue))
+                if(String.IsNullOrEmpty(ssccValue))
                 {
-                    return ssccValue;
+                    if (Sgtins != null && sgtins.Count > 0)
+                    {
+                        return ssccValue;
+                    }
+                    else throw new NullReferenceException("Sscc is null or empty!");
                 }
-                else throw new NullReferenceException("Sscc is null or empty!");
+                return ssccValue;
             }
             set
             {
@@ -100,11 +104,16 @@ namespace TscDll.Entities
         {
             get
             {
-                if (sgtins!=null)
+                if(sgtins==null)
                 {
-                    return sgtins;
+                    if (Units != null && Units.Count>0)
+                    {
+                        return sgtins;
+                    }
+                    else throw new NullReferenceException("Sgtins is null or empty!");
                 }
-                else throw new NullReferenceException("Sgrins is null or empty!");
+                return sgtins;
+                
             }
             set
             {

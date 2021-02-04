@@ -4,7 +4,6 @@ using System.Collections.Generic;
 using System.Data;
 using System.IO;
 using System.Text;
-using System.Windows.Forms;
 using System.Xml;
 using System.Xml.Serialization;
 using TscDll.Entities;
@@ -154,7 +153,7 @@ namespace TscDll.Extensions
                         All_Sgtin.Add(sgtin);
                     }
                 }
-                All_Sscc.Add(unit.SsccValue);
+                if(unit.SsccValue!=null) All_Sscc.Add(unit.SsccValue);
             }
         }
     }

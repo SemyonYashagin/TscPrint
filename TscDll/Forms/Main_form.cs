@@ -118,6 +118,9 @@ namespace TscDll.Forms
         {
             Adding_NewSize newSize = new Adding_NewSize();
             newSize.ShowDialog();
+
+            //ProgressForm progress = new ProgressForm();
+            //progress.ShowDialog();
         }
         /// <summary>
         /// Кнопка для печати SGTIN-ов или SSCC
@@ -140,7 +143,10 @@ namespace TscDll.Forms
                 sscces = GetSscc(sscces, markPrints);
                 Settings set = TscHelper.GetSettings();
                 TscHelper.Init_printer(set.SsccSize.Width, set.SsccSize.Height);
-                TscHelper.PrintSscc(set.SsccSize.Width, set.SsccSize.Height, sscces);
+                ResponseData response = TscHelper.PrintSscc(set.SsccSize.Width, set.SsccSize.Height, sscces);
+                if (response.IsSuccess)
+                    MessageBox.Show("Напечатано");
+                else MessageBox.Show(response.ErrorMessage);
             }
         }
 
@@ -213,8 +219,7 @@ namespace TscDll.Forms
                     GetSsccRecur(All_Sscc, item_sscc);
                 }
             }
-
-            All_Sscc.Add(unit.SsccValue);
+            if(unit.SsccValue!=null) All_Sscc.Add(unit.SsccValue);
         }
     }
 }
