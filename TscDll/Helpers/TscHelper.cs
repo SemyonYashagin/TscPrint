@@ -8,8 +8,7 @@ using System;
 using TscDll.Extensions;
 using System.Drawing.Drawing2D;
 using System.Drawing.Imaging;
-using System.Threading;
-using System.Threading.Tasks;
+using ZXing.Rendering;
 
 namespace TscDll.Helpers
 {
@@ -23,7 +22,7 @@ namespace TscDll.Helpers
         {
             string directory = Environment.GetFolderPath(Environment.SpecialFolder.CommonApplicationData) + @"\TscPrinter";
             string fileSettings = directory + @"\printerSettings.xml"; //full directory
-            if (File.Exists(fileSettings)) 
+            if (File.Exists(fileSettings))
                 return true;
             return false;
         }
@@ -101,31 +100,32 @@ namespace TscDll.Helpers
             if (FileExist())
             {
                 driver driver = new driver();
-                
+
                 if (driver.driver_status(settings.PrinterName))
                 {
+                    driver.closeport();
                     return true;
-                }  
+                }
             }
-            return false;            
+            return false;
         }
         /// <summary>
         /// Инициализация принтера
         /// </summary>
         public static bool Init_printer(int width, int height)
         {
-            if (!Helpers.TscHelper.FileExist())
+            if (!FileExist())
             {
                 return false;
             }
-            Settings printer_set = TscHelper.GetSettings();
+            Settings printer_set = GetSettings();
 
-            if (!TscHelper.Printer_status(printer_set))
+            if (!Printer_status(printer_set))
             {
                 return false;
             }
 
-            TSCSDK.driver driver = new TSCSDK.driver();
+            driver driver = new driver();
             string size = "SIZE " + width + " mm, " + height + " mm";
             string speed = "SPEED " + printer_set.Speed;
             string density = "DENSITY " + printer_set.Density;
@@ -136,10 +136,21 @@ namespace TscDll.Helpers
             driver.sendcommand(speed);
             driver.sendcommand(density);
             driver.sendcommand("DIRECTION 1");
-            //driver.sendcommand("SET TEAR ON");
-            driver.sendcommand("SET REWIND ON");
+
+            if (printer_set.PrinterMode == "Режим смотчика")
+            {
+                driver.sendcommand("SET TEAR OFF");
+                driver.sendcommand("SET REWIND ON");
+            }
+            else
+            {
+                driver.sendcommand("SET REWIND OFF");
+                driver.sendcommand("SET TEAR ON");
+            }
+
             driver.sendcommand("CODEPAGE UTF-8");
             driver.clearbuffer();
+
 
             return true;
         }
@@ -172,7 +183,6 @@ namespace TscDll.Helpers
                     graphics.DrawImage(image, destRect, 0, 0, image.Width, image.Height, GraphicsUnit.Pixel, wrapMode);
                 }
             }
-
             return destImage;
         }
 
@@ -181,11 +191,12 @@ namespace TscDll.Helpers
         /// </summary>
         /// <param name="bitmap">Картинка в формате Bitmap</param>
         public static void PrintPicture(Bitmap bitmap)
-        {           
+        {
             driver driver = new driver();
-            
-            driver.send_bitmap(0, 20, bitmap);
+
+            driver.send_bitmap(0, 40, bitmap);
             driver.printlabel("1", "1");
+            driver.sendcommand("FORMFEED");
             driver.closeport();
         }
 
@@ -202,7 +213,7 @@ namespace TscDll.Helpers
             var writer = new BarcodeWriter
             {
                 Format = BarcodeFormat.DATA_MATRIX,
-                Options = { Width = height * 9, Height = height * 9, Margin = 4 } //the size of a datamatrix
+                Options = { Width = height * 9, Height = height * 9, Margin = 10 } //the size of a datamatrix
             };
 
             foreach (string str in sgtins)
@@ -214,13 +225,12 @@ namespace TscDll.Helpers
             int y = (height * 10) / 2;// the first position
             foreach (Bitmap bitmap in list_of_datamatrix)
             {
-                driver.windowsfont(height * 9 + 10, y, 30, 0, 0, 0, "arial.TTF", sgtins[k].Substring(2, 14));// print GTIN
-                y += 25;
-                driver.windowsfont(height * 9 + 10, y, 30, 0, 0, 0, "arial.TTF", sgtins[k].Substring(18, 13)); //print serial number
+                driver.windowsfont(height * 9 + 10, y, width - height + 12, 0, 0, 0, "3", sgtins[k].Substring(2, 14));// print GTIN
+                y += height + 5;
+                driver.windowsfont(height * 9 + 10, y, width - height + 12, 0, 0, 0, "3", sgtins[k].Substring(18, 13)); //print serial number
                 y += 50;
-                driver.windowsfont(height * 9 + 10, y, 72, 0, 0, 0, "arial.TTF", "2927");// print the number which connect to SSCC code
+                driver.windowsfont(height * 9 + 10, y, 72, 0, 0, 0, "3", "2927");// print the number which connect to SSCC code
 
-                //driver.send_bitmap(5, (height*11 - height*9) , bitmap);//print a datamatrix
                 driver.send_bitmap(0, (height * 11 - height * 9), bitmap);
                 k++;
                 y = (height * 10) / 2;
@@ -229,6 +239,7 @@ namespace TscDll.Helpers
                 driver.clearbuffer();
                 //break;//delete (only for printing one label)
             }
+            driver.sendcommand("FORMFEED");
             driver.closeport();
         }
         /// <summary>
@@ -240,11 +251,16 @@ namespace TscDll.Helpers
         {
             driver driver = new driver();
             List<Bitmap> list_of_barcodes = new List<Bitmap>();
+            FontFamily fontFamily = new FontFamily("Arial");
 
             var writer = new BarcodeWriter
             {
+                Renderer = new BitmapRenderer
+                {
+                    TextFont = new Font(fontFamily, width - height + 2)
+                },
                 Format = BarcodeFormat.CODE_128,
-                Options = { Width = width * 11, Height = height * 8 } //the size of a barcode
+                Options = { Width = width * 11, Height = height * 8, Margin = 10 } //the size of a barcode               
             };
 
             foreach (string str in sscc)
@@ -254,30 +270,13 @@ namespace TscDll.Helpers
 
             foreach (Bitmap bitmap in list_of_barcodes)
             {
-                driver.send_bitmap(0, (height*12)/4, bitmap);//print a barcode             
+                driver.send_bitmap(0, (height * 12) / 4, bitmap);//print a barcode             
                 driver.printlabel("1", "1");
                 driver.clearbuffer();
                 //break;//delete (only for printing one label)
             }
+            driver.sendcommand("FORMFEED");
             driver.closeport();
-        }
-
-        public static bool CheckLabelSize(int height)
-        {
-            ethernet ethernet = new ethernet();
-            ethernet.openport("192.168.36.101", 9100);
-            ethernet.sendcommand("AUTODETECT");
-            Thread.Sleep(3000);
-            int printer_height = Convert.ToInt32(ethernet.sendcommand_getstring("OUT NET \"\"; GETSETTING$(\"CONFIG\", \"TSPL\", \"PAPER SIZE\")"));
-
-            if (printer_height <= (height * 11.8) && printer_height >= ((height * 11.8) - 20))
-            {
-                ethernet.closeport();
-                return true;
-            }
-
-            ethernet.closeport();
-            return false;
         }
     }
 }

@@ -18,7 +18,6 @@ D:\Codes\TscPrint\TscPrintTest\bin\x64\Debug\DevExpress.XtraBars.v15.1.dll
 D:\Codes\TscPrint\TscPrintTest\bin\x64\Debug\DevExpress.XtraTreeList.v15.1.dll
 D:\Codes\TscPrint\TscPrintTest\bin\x64\Debug\DevExpress.Office.v15.1.Core.dll
 D:\Codes\TscPrint\TscPrintTest\bin\x64\Debug\TscDll.pdb
-D:\Codes\TscPrint\TscPrintTest\bin\x64\Debug\zxing.xml
 D:\Codes\TscPrint\TscPrintTest\bin\x64\Debug\DevExpress.XtraGrid.v15.1.xml
 D:\Codes\TscPrint\TscPrintTest\bin\x64\Debug\DevExpress.Data.v15.1.xml
 D:\Codes\TscPrint\TscPrintTest\bin\x64\Debug\Newtonsoft.Json.xml

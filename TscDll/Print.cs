@@ -3,6 +3,7 @@ using System.Drawing;
 using System.Windows.Forms;
 using TscDll.Entities;
 using TscDll.Helpers;
+using TSCSDK;
 
 
 namespace TscDll
@@ -33,6 +34,7 @@ namespace TscDll
         /// <returns></returns>
         public static ResponseData PrintGS128(Bitmap bitmap)
         {
+            ethernet driver = new ethernet();   
             Settings settings = TscHelper.GetSettings();
             ResponseData response = new ResponseData();
             if (!TscHelper.FileExist() || settings == null)
@@ -60,17 +62,7 @@ namespace TscDll
             Bitmap gs128 = TscHelper.ResizeImage(bitmap, settings.SsccSize.Width, settings.SsccSize.Height);
             TscHelper.PrintPicture(gs128);
             response.IsSuccess = true;
-            return response;
-
-            //if(TscHelper.CheckLabelSize(settings.SsccSize.Height))
-            //{
-            //    TscHelper.PrintPicture(gs128);
-            //    response.IsSuccess = true;
-            //}
-            //else 
-            //{
-            //    response.ErrorMessage = "Размер этикетки в принтере не соответвует выбранному";
-            //}           
+            return response;         
         }
     }
 }

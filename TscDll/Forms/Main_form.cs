@@ -21,7 +21,10 @@ namespace TscDll.Forms
             buttonPrint.Enabled = false;
            
         }
-
+        /// <summary>
+        /// Метод для вставки данные в GridView
+        /// </summary>
+        /// <param name="units">Список объектов MarkPrintUnit</param>
         public void InputToGV(List<MarkPrintUnit> units)
         {
             gridControl1.DataSource = ObjectExtensions.ToDataTable(units);
@@ -58,6 +61,7 @@ namespace TscDll.Forms
 
                 tB_Sgtin.Text = settings.SgtinSize.Size;
                 tB_Sscc.Text = settings.SsccSize.Size;
+                tB_PrinterMode.Text = settings.PrinterMode;
             }
         }
 
@@ -67,10 +71,9 @@ namespace TscDll.Forms
             cb_sizes.DropDownStyle = ComboBoxStyle.DropDownList;
             cb_sizes.Items.Add("SGTIN");
             cb_sizes.Items.Add("SSCC");
-
         }
 
-        private void comboBox1_TextChanged_1(object sender, EventArgs e)
+        private void ComboBox1_TextChanged_1(object sender, EventArgs e)
         {
             Object selectedItem = cb_sizes.SelectedItem;
             string message = "Вы уверены что установлен рулон этикеток для печати " + selectedItem.ToString() + "?";
@@ -103,7 +106,7 @@ namespace TscDll.Forms
             }
         }
 
-        private void button1_Click(object sender, EventArgs e)
+        private void Button1_Click(object sender, EventArgs e)
         {
             var frm = new PrintSettings();
             frm.ShowDialog();
@@ -111,13 +114,17 @@ namespace TscDll.Forms
             UpdateFields();
         }
 
-        private void button3_Click(object sender, EventArgs e)
+        private void Button3_Click(object sender, EventArgs e)
         {
             Adding_NewSize newSize = new Adding_NewSize();
             newSize.ShowDialog();
         }
-
-        private void buttonPrint_Click(object sender, EventArgs e)
+        /// <summary>
+        /// Кнопка для печати SGTIN-ов или SSCC
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="e"></param>
+        private void ButtonPrint_Click(object sender, EventArgs e)
         {
             if (cb_sizes.SelectedItem.ToString() == "SGTIN")//print sgtins
             {
@@ -126,8 +133,6 @@ namespace TscDll.Forms
                 Settings set = TscHelper.GetSettings();
                 TscHelper.Init_printer(set.SgtinSize.Width, set.SgtinSize.Height);
                 TscHelper.PrintSgtins(set.SgtinSize.Width, set.SgtinSize.Height, sgtins);
-                buttonPrint.Enabled = false;
-
             }
             else//print sscces
             {
@@ -136,8 +141,6 @@ namespace TscDll.Forms
                 Settings set = TscHelper.GetSettings();
                 TscHelper.Init_printer(set.SsccSize.Width, set.SsccSize.Height);
                 TscHelper.PrintSscc(set.SsccSize.Width, set.SsccSize.Height, sscces);
-                buttonPrint.Enabled = false;
-
             }
         }
 

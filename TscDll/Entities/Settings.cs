@@ -1,8 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
+﻿using System.Collections.Generic;
 
 namespace TscDll.Entities
 {
@@ -16,6 +12,7 @@ namespace TscDll.Entities
         public List<Intvalue> SgtinList { set; get; }
         public Intvalue SsccSize { get; set; }
         public List<Intvalue> SsccList { set; get; }
+        public string PrinterMode { set; get; }
         public decimal Speed { get; set; }
         public decimal Density { get; set; }
     }

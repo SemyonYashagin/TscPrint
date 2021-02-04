@@ -1,8 +1,5 @@
-﻿using Newtonsoft.Json;
-using System;
+﻿using System;
 using System.Collections.Generic;
-using System.Text;
-using TSCSDK;
 
 namespace TscDll.Entities
 {
@@ -10,16 +7,65 @@ namespace TscDll.Entities
     public class MarkPrintUnit
     {
         /// <summary>Номенклатура (обязательный параметр)</summary>
-        public string NomenProduct { get; set; }
+        private string nomenProduct { get; set; }
+
+        public string NomenProduct
+        {
+            get
+            {
+                if (!String.IsNullOrEmpty(nomenProduct))
+                {
+                    return nomenProduct;
+                }
+                else throw new NullReferenceException("NomenProduct is null or empty!");
+            }
+            set
+            {
+                nomenProduct = value;
+            }
+        }
 
         /// <summary>Номер партии (обязательный параметр)</summary>
         public long PartyId { get; set; }
 
         /// <summary>GTIN (14 символов) (обязательный параметр)</summary>
-        public string Gtin { get; set; }
+        private string gtin { get; set; }
 
-        /// <summary>Короб</summary>
-        public Unit Units { get; set; }
+        public string Gtin
+        {
+            get
+            {
+                if (!String.IsNullOrEmpty(gtin))
+                {
+                    return gtin;
+                }
+                else throw new NullReferenceException("Gtin is null or empty!");
+            }
+            set
+            {
+                gtin = value;
+            }
+        }
+
+        
+        private Unit units { get; set; }
+
+        /// <summary>Короб (обязательный параметр)</summary>
+        public Unit Units
+        {
+            get
+            {
+                if (units!=null)
+                {
+                    return units;
+                }
+                else throw new NullReferenceException("Units is null or empty!");
+            }
+            set
+            {
+                units = value;
+            }
+        }
     }
 
     public class Unit
@@ -46,7 +92,24 @@ namespace TscDll.Entities
         /// <summary>Агрегаты (необязательный параметр)</summary>
         public List<Unit> Units { get; set; }
 
+        
+        private List<string> sgtins { get; set; }
+
         /// <summary>SGTIN-ы (необязательный параметр)</summary>
-        public List<string> Sgtins { get; set; }
+        public List<string> Sgtins
+        {
+            get
+            {
+                if (sgtins!=null)
+                {
+                    return sgtins;
+                }
+                else throw new NullReferenceException("Sgrins is null or empty!");
+            }
+            set
+            {
+                sgtins = value;
+            }
+        }
     }
 }

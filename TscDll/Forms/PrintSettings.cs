@@ -14,6 +14,7 @@ namespace TscDll.Forms
             InitializeComponent();
             cB_SgtinSize.DropDownStyle = ComboBoxStyle.DropDownList;
             cB_SsccSize.DropDownStyle = ComboBoxStyle.DropDownList;
+            cB_PrintMode.DropDownStyle = ComboBoxStyle.DropDownList;
 
             if (settings != null)
             {
@@ -22,10 +23,14 @@ namespace TscDll.Forms
             else MessageBox.Show("Исходные данные не найдены");
 
         }
-
+        /// <summary>
+        /// Сохранение новых настроек принтера
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="e"></param>
         private void Button_Synch_Click(object sender, EventArgs e)
         {
-            if (TscHelper.FileExist() && cB_SgtinSize.Text!="" && cB_SsccSize.Text!="" && tB_PrinterName.Text!="")
+            if (TscHelper.FileExist() && cB_SgtinSize.Text!="" && cB_SsccSize.Text!="" && tB_PrinterName.Text!="" && cB_PrintMode.Text!="")
             {
                 Settings newset = TscHelper.GetSettings();
 
@@ -44,6 +49,7 @@ namespace TscDll.Forms
                 };
                 newset.Speed = numericSpeed.Value;
                 newset.Density = numericDensity.Value;
+                newset.PrinterMode = cB_PrintMode.Text;
 
                 ResponseData response = TscHelper.SaveSettings(newset);
 
@@ -63,7 +69,12 @@ namespace TscDll.Forms
                 MessageBox.Show("Введите данные");
             }
         }
-
+        /// <summary>
+        /// Метод для взтия объекта Intvalue из объекта класса Settings
+        /// </summary>
+        /// <param name="set">объект класса Settings</param>
+        /// <param name="size">новый размер</param>
+        /// <returns>возвращает объект Intvalue</returns>
         private Intvalue GetValue(Settings set, string size)
         {
             foreach (Intvalue value in set.SgtinList)
@@ -80,6 +91,9 @@ namespace TscDll.Forms
             newSize.ShowDialog();
             UpdateFields();
         }
+        /// <summary>
+        /// Обновление полей
+        /// </summary>
         private void UpdateFields()
         {
             if (TscHelper.FileExist())

@@ -21,8 +21,8 @@ namespace TscDll.Forms
                 ShowAlways = true
             };
             t_Tip.SetToolTip(label1, "от 30 до 100 мм");
-            t_Tip.SetToolTip(label2, "от 20 до 200 мм");
-            t_Tip.SetToolTip(groupBox1, "Ширина: от 30 до 100 мм \r\n Высота: от 20 до 200 мм");
+            t_Tip.SetToolTip(label2, "от 20 до 50 мм");
+            t_Tip.SetToolTip(groupBox1, "Ширина от 30 до 100 мм \r\n Высота от 20 до 50 мм");
         }
 
         private void button_AddnewSize_Click(object sender, EventArgs e)
@@ -73,7 +73,7 @@ namespace TscDll.Forms
 
             if (int.TryParse(tB_newSizeWidth.Text, out int width) && int.TryParse(tB_newSizeHeight.Text, out int height))
             {
-                if (tB_newSizeHeight.TextLength != 0 && tB_newSizeWidth.TextLength != 0 && (width <= 100 && width >= 30) && (height <= 200 && height >= 20))
+                if (tB_newSizeHeight.TextLength != 0 && tB_newSizeWidth.TextLength != 0 && (width <= 100 && width >= 30) && (height <= 50 && height >= 20) && (width > height+17))
                 {
                     intvalue.Size = tB_newSizeWidth.Text + " mm, " + tB_newSizeHeight.Text + " mm";
                     intvalue.Width = Convert.ToInt32(tB_newSizeWidth.Text);//width
@@ -91,7 +91,7 @@ namespace TscDll.Forms
 
                     newSetting.SgtinList.Add(intvalue);
                     newSetting.SsccList.Add(intvalue);
-                    ResponseData response = TscHelper.SaveSettings(newSetting);
+                    TscHelper.SaveSettings(newSetting);
                 }
                 else return 2;
             }

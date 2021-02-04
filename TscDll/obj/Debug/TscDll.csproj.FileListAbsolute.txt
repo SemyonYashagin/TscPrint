@@ -10,7 +10,6 @@ D:\Codes\TscPrint\TscDll\bin\Debug\DevExpress.XtraPrinting.v15.1.dll
 D:\Codes\TscPrint\TscDll\bin\Debug\Newtonsoft.Json.dll
 D:\Codes\TscPrint\TscDll\bin\Debug\tsclibnet.dll
 D:\Codes\TscPrint\TscDll\bin\Debug\zxing.dll
-D:\Codes\TscPrint\TscDll\bin\Debug\zxing.presentation.dll
 D:\Codes\TscPrint\TscDll\bin\Debug\DevExpress.Sparkline.v15.1.Core.dll
 D:\Codes\TscPrint\TscDll\bin\Debug\DevExpress.RichEdit.v15.1.Core.dll
 D:\Codes\TscPrint\TscDll\bin\Debug\DevExpress.XtraBars.v15.1.dll
@@ -24,8 +23,6 @@ D:\Codes\TscPrint\TscDll\bin\Debug\DevExpress.XtraGrid.v15.1.xml
 D:\Codes\TscPrint\TscDll\bin\Debug\DevExpress.XtraLayout.v15.1.xml
 D:\Codes\TscPrint\TscDll\bin\Debug\DevExpress.XtraPrinting.v15.1.xml
 D:\Codes\TscPrint\TscDll\bin\Debug\Newtonsoft.Json.xml
-D:\Codes\TscPrint\TscDll\bin\Debug\zxing.xml
-D:\Codes\TscPrint\TscDll\bin\Debug\zxing.presentation.xml
 D:\Codes\TscPrint\TscDll\bin\Debug\DevExpress.Sparkline.v15.1.Core.xml
 D:\Codes\TscPrint\TscDll\bin\Debug\DevExpress.RichEdit.v15.1.Core.xml
 D:\Codes\TscPrint\TscDll\bin\Debug\DevExpress.XtraBars.v15.1.xml
@@ -79,7 +76,6 @@ D:\Codes\TscPrint\TscDll\bin\Debug\de\DevExpress.Office.v15.1.Core.resources.dll
 D:\Codes\TscPrint\TscDll\bin\Debug\es\DevExpress.Office.v15.1.Core.resources.dll
 D:\Codes\TscPrint\TscDll\bin\Debug\ja\DevExpress.Office.v15.1.Core.resources.dll
 D:\Codes\TscPrint\TscDll\bin\Debug\ru\DevExpress.Office.v15.1.Core.resources.dll
-D:\Codes\TscPrint\TscDll\obj\Debug\TscDll.csprojAssemblyReference.cache
 D:\Codes\TscPrint\TscDll\obj\Debug\TscDll.Forms.Main_form.resources
 D:\Codes\TscPrint\TscDll\obj\Debug\TscDll.Forms.PrintSettings.resources
 D:\Codes\TscPrint\TscDll\obj\Debug\TscDll.Forms.Adding_NewSize.resources
@@ -90,3 +86,4 @@ D:\Codes\TscPrint\TscDll\obj\Debug\TscDll.csproj.CoreCompileInputs.cache
 D:\Codes\TscPrint\TscDll\obj\Debug\TscDll.csproj.CopyComplete
 D:\Codes\TscPrint\TscDll\obj\Debug\TscDll.dll
 D:\Codes\TscPrint\TscDll\obj\Debug\TscDll.pdb
+D:\Codes\TscPrint\TscDll\obj\Debug\TscDll.csprojAssemblyReference.cache

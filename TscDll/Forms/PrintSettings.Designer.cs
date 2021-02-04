@@ -41,6 +41,8 @@ namespace TscDll.Forms
             this.numericSpeed = new System.Windows.Forms.NumericUpDown();
             this.numericDensity = new System.Windows.Forms.NumericUpDown();
             this.Button_AddNewSize = new System.Windows.Forms.Button();
+            this.label6 = new System.Windows.Forms.Label();
+            this.cB_PrintMode = new System.Windows.Forms.ComboBox();
             ((System.ComponentModel.ISupportInitialize)(this.numericSpeed)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.numericDensity)).BeginInit();
             this.SuspendLayout();
@@ -64,7 +66,7 @@ namespace TscDll.Forms
             // label2
             // 
             this.label2.AutoSize = true;
-            this.label2.Location = new System.Drawing.Point(9, 209);
+            this.label2.Location = new System.Drawing.Point(13, 167);
             this.label2.Name = "label2";
             this.label2.Size = new System.Drawing.Size(122, 13);
             this.label2.TabIndex = 3;
@@ -74,7 +76,7 @@ namespace TscDll.Forms
             // 
             this.label3.AutoSize = true;
             this.label3.BackColor = System.Drawing.SystemColors.Control;
-            this.label3.Location = new System.Drawing.Point(13, 62);
+            this.label3.Location = new System.Drawing.Point(13, 48);
             this.label3.Name = "label3";
             this.label3.Size = new System.Drawing.Size(204, 13);
             this.label3.TabIndex = 5;
@@ -83,7 +85,7 @@ namespace TscDll.Forms
             // label4
             // 
             this.label4.AutoSize = true;
-            this.label4.Location = new System.Drawing.Point(12, 118);
+            this.label4.Location = new System.Drawing.Point(12, 88);
             this.label4.Name = "label4";
             this.label4.Size = new System.Drawing.Size(184, 13);
             this.label4.TabIndex = 7;
@@ -92,7 +94,7 @@ namespace TscDll.Forms
             // label5
             // 
             this.label5.AutoSize = true;
-            this.label5.Location = new System.Drawing.Point(12, 163);
+            this.label5.Location = new System.Drawing.Point(13, 128);
             this.label5.Name = "label5";
             this.label5.Size = new System.Drawing.Size(92, 13);
             this.label5.TabIndex = 9;
@@ -100,9 +102,9 @@ namespace TscDll.Forms
             // 
             // Button_SaveNewSettings
             // 
-            this.Button_SaveNewSettings.Location = new System.Drawing.Point(11, 283);
+            this.Button_SaveNewSettings.Location = new System.Drawing.Point(16, 283);
             this.Button_SaveNewSettings.Name = "Button_SaveNewSettings";
-            this.Button_SaveNewSettings.Size = new System.Drawing.Size(193, 22);
+            this.Button_SaveNewSettings.Size = new System.Drawing.Size(190, 22);
             this.Button_SaveNewSettings.TabIndex = 12;
             this.Button_SaveNewSettings.Text = "Сохранить";
             this.Button_SaveNewSettings.UseVisualStyleBackColor = true;
@@ -111,7 +113,7 @@ namespace TscDll.Forms
             // cB_SgtinSize
             // 
             this.cB_SgtinSize.FormattingEnabled = true;
-            this.cB_SgtinSize.Location = new System.Drawing.Point(16, 80);
+            this.cB_SgtinSize.Location = new System.Drawing.Point(15, 64);
             this.cB_SgtinSize.Name = "cB_SgtinSize";
             this.cB_SgtinSize.Size = new System.Drawing.Size(191, 21);
             this.cB_SgtinSize.TabIndex = 13;
@@ -119,14 +121,14 @@ namespace TscDll.Forms
             // cB_SsccSize
             // 
             this.cB_SsccSize.FormattingEnabled = true;
-            this.cB_SsccSize.Location = new System.Drawing.Point(16, 134);
+            this.cB_SsccSize.Location = new System.Drawing.Point(15, 104);
             this.cB_SsccSize.Name = "cB_SsccSize";
             this.cB_SsccSize.Size = new System.Drawing.Size(191, 21);
             this.cB_SsccSize.TabIndex = 14;
             // 
             // numericSpeed
             // 
-            this.numericSpeed.Location = new System.Drawing.Point(13, 179);
+            this.numericSpeed.Location = new System.Drawing.Point(15, 144);
             this.numericSpeed.Maximum = new decimal(new int[] {
             12,
             0,
@@ -149,7 +151,7 @@ namespace TscDll.Forms
             // 
             // numericDensity
             // 
-            this.numericDensity.Location = new System.Drawing.Point(12, 225);
+            this.numericDensity.Location = new System.Drawing.Point(15, 183);
             this.numericDensity.Maximum = new decimal(new int[] {
             15,
             0,
@@ -164,7 +166,7 @@ namespace TscDll.Forms
             // 
             this.Button_AddNewSize.Image = global::TscDll.Properties.Resources.add;
             this.Button_AddNewSize.ImageAlign = System.Drawing.ContentAlignment.MiddleLeft;
-            this.Button_AddNewSize.Location = new System.Drawing.Point(12, 251);
+            this.Button_AddNewSize.Location = new System.Drawing.Point(15, 251);
             this.Button_AddNewSize.Name = "Button_AddNewSize";
             this.Button_AddNewSize.Size = new System.Drawing.Size(191, 26);
             this.Button_AddNewSize.TabIndex = 17;
@@ -172,11 +174,33 @@ namespace TscDll.Forms
             this.Button_AddNewSize.UseVisualStyleBackColor = true;
             this.Button_AddNewSize.Click += new System.EventHandler(this.Button_AddNewSize_Click);
             // 
+            // label6
+            // 
+            this.label6.AutoSize = true;
+            this.label6.Location = new System.Drawing.Point(13, 210);
+            this.label6.Name = "label6";
+            this.label6.Size = new System.Drawing.Size(79, 13);
+            this.label6.TabIndex = 18;
+            this.label6.Text = "Режим печати";
+            // 
+            // cB_PrintMode
+            // 
+            this.cB_PrintMode.FormattingEnabled = true;
+            this.cB_PrintMode.Items.AddRange(new object[] {
+            "Пакетный режим",
+            "Режим смотчика"});
+            this.cB_PrintMode.Location = new System.Drawing.Point(16, 224);
+            this.cB_PrintMode.Name = "cB_PrintMode";
+            this.cB_PrintMode.Size = new System.Drawing.Size(190, 21);
+            this.cB_PrintMode.TabIndex = 19;
+            // 
             // PrintSettings
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.ClientSize = new System.Drawing.Size(221, 317);
+            this.Controls.Add(this.cB_PrintMode);
+            this.Controls.Add(this.label6);
             this.Controls.Add(this.Button_AddNewSize);
             this.Controls.Add(this.numericDensity);
             this.Controls.Add(this.numericSpeed);
@@ -215,5 +239,7 @@ namespace TscDll.Forms
         private System.Windows.Forms.NumericUpDown numericSpeed;
         private System.Windows.Forms.NumericUpDown numericDensity;
         private System.Windows.Forms.Button Button_AddNewSize;
+        private System.Windows.Forms.Label label6;
+        private System.Windows.Forms.ComboBox cB_PrintMode;
     }
 }

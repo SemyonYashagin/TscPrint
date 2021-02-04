@@ -4,6 +4,7 @@ using System.Collections.Generic;
 using System.Data;
 using System.IO;
 using System.Text;
+using System.Windows.Forms;
 using System.Xml;
 using System.Xml.Serialization;
 using TscDll.Entities;
@@ -137,21 +138,24 @@ namespace TscDll.Extensions
 
         public static void GetSsccSgtin(List<string> All_Sgtin, List<string> All_Sscc, Unit unit)
         {
-            if (unit.Units != null)
+            if(unit!=null)
             {
-                foreach (Unit item_sscc in unit.Units)
+                if (unit.Units != null)
                 {
-                    GetSsccSgtin(All_Sgtin, All_Sscc, item_sscc);
+                    foreach (Unit item_sscc in unit.Units)
+                    {
+                        GetSsccSgtin(All_Sgtin, All_Sscc, item_sscc);
+                    }
                 }
-            }
-            if (unit.Units == null)
-            {
-                foreach (string sgtin in unit.Sgtins)
+                if (unit.Units == null)
                 {
-                    All_Sgtin.Add(sgtin);
+                    foreach (string sgtin in unit.Sgtins)
+                    {
+                        All_Sgtin.Add(sgtin);
+                    }
                 }
+                All_Sscc.Add(unit.SsccValue);
             }
-            All_Sscc.Add(unit.SsccValue);
         }
     }
 }

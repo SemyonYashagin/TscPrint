@@ -44,12 +44,14 @@ namespace TscDll.Forms
             this.buttonPrint = new System.Windows.Forms.Button();
             this.gridControl1 = new DevExpress.XtraGrid.GridControl();
             this.gridView1 = new DevExpress.XtraGrid.Views.Grid.GridView();
-            this.ProductNomen = new DevExpress.XtraGrid.Columns.GridColumn();
+            this.ProdName = new DevExpress.XtraGrid.Columns.GridColumn();
             this.Gtin = new DevExpress.XtraGrid.Columns.GridColumn();
             this.SgtinCount = new DevExpress.XtraGrid.Columns.GridColumn();
             this.SsccCount = new DevExpress.XtraGrid.Columns.GridColumn();
             this.splitContainer = new System.Windows.Forms.SplitContainer();
             this.groupBox2 = new System.Windows.Forms.GroupBox();
+            this.tB_PrinterMode = new System.Windows.Forms.TextBox();
+            this.label5 = new System.Windows.Forms.Label();
             this.groupBox1.SuspendLayout();
             this.panel2.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.gridControl1)).BeginInit();
@@ -70,7 +72,7 @@ namespace TscDll.Forms
             this.groupBox1.Controls.Add(this.label1);
             this.groupBox1.Location = new System.Drawing.Point(12, 12);
             this.groupBox1.Name = "groupBox1";
-            this.groupBox1.Size = new System.Drawing.Size(396, 85);
+            this.groupBox1.Size = new System.Drawing.Size(396, 73);
             this.groupBox1.TabIndex = 0;
             this.groupBox1.TabStop = false;
             this.groupBox1.Text = "Размеры этикеток";
@@ -83,12 +85,12 @@ namespace TscDll.Forms
             this.Button_PrinterSettings.TabIndex = 4;
             this.Button_PrinterSettings.Text = "Настройки";
             this.Button_PrinterSettings.UseVisualStyleBackColor = true;
-            this.Button_PrinterSettings.Click += new System.EventHandler(this.button1_Click);
+            this.Button_PrinterSettings.Click += new System.EventHandler(this.Button1_Click);
             // 
             // label4
             // 
             this.label4.AutoSize = true;
-            this.label4.Location = new System.Drawing.Point(19, 49);
+            this.label4.Location = new System.Drawing.Point(14, 49);
             this.label4.Name = "label4";
             this.label4.Size = new System.Drawing.Size(35, 13);
             this.label4.TabIndex = 8;
@@ -122,7 +124,7 @@ namespace TscDll.Forms
             // tB_PrinterStatus
             // 
             this.tB_PrinterStatus.BackColor = System.Drawing.SystemColors.Control;
-            this.tB_PrinterStatus.Location = new System.Drawing.Point(85, 30);
+            this.tB_PrinterStatus.Location = new System.Drawing.Point(85, 22);
             this.tB_PrinterStatus.Name = "tB_PrinterStatus";
             this.tB_PrinterStatus.ReadOnly = true;
             this.tB_PrinterStatus.Size = new System.Drawing.Size(283, 20);
@@ -131,7 +133,7 @@ namespace TscDll.Forms
             // label2
             // 
             this.label2.AutoSize = true;
-            this.label2.Location = new System.Drawing.Point(11, 24);
+            this.label2.Location = new System.Drawing.Point(6, 16);
             this.label2.Name = "label2";
             this.label2.Size = new System.Drawing.Size(64, 26);
             this.label2.TabIndex = 2;
@@ -144,7 +146,7 @@ namespace TscDll.Forms
             this.cb_sizes.Name = "cb_sizes";
             this.cb_sizes.Size = new System.Drawing.Size(132, 21);
             this.cb_sizes.TabIndex = 1;
-            this.cb_sizes.TextChanged += new System.EventHandler(this.comboBox1_TextChanged_1);
+            this.cb_sizes.TextChanged += new System.EventHandler(this.ComboBox1_TextChanged_1);
             // 
             // panel2
             // 
@@ -160,11 +162,11 @@ namespace TscDll.Forms
             // label3
             // 
             this.label3.AutoSize = true;
-            this.label3.Location = new System.Drawing.Point(9, 11);
+            this.label3.Location = new System.Drawing.Point(18, 11);
             this.label3.Name = "label3";
-            this.label3.Size = new System.Drawing.Size(82, 13);
+            this.label3.Size = new System.Drawing.Size(46, 13);
             this.label3.TabIndex = 5;
-            this.label3.Text = "Режим печати:";
+            this.label3.Text = "Печать:";
             // 
             // buttonPrint
             // 
@@ -174,7 +176,7 @@ namespace TscDll.Forms
             this.buttonPrint.TabIndex = 5;
             this.buttonPrint.Text = "Печать";
             this.buttonPrint.UseVisualStyleBackColor = true;
-            this.buttonPrint.Click += new System.EventHandler(this.buttonPrint_Click);
+            this.buttonPrint.Click += new System.EventHandler(this.ButtonPrint_Click);
             // 
             // gridControl1
             // 
@@ -190,7 +192,7 @@ namespace TscDll.Forms
             // gridView1
             // 
             this.gridView1.Columns.AddRange(new DevExpress.XtraGrid.Columns.GridColumn[] {
-            this.ProductNomen,
+            this.ProdName,
             this.Gtin,
             this.SgtinCount,
             this.SsccCount});
@@ -202,14 +204,14 @@ namespace TscDll.Forms
             this.gridView1.OptionsBehavior.ReadOnly = true;
             this.gridView1.OptionsView.ShowGroupPanel = false;
             // 
-            // ProductNomen
+            // ProductName
             // 
-            this.ProductNomen.Caption = "Наименование";
-            this.ProductNomen.FieldName = "ProductNomen";
-            this.ProductNomen.Name = "ProductNomen";
-            this.ProductNomen.OptionsColumn.AllowMove = false;
-            this.ProductNomen.Visible = true;
-            this.ProductNomen.VisibleIndex = 0;
+            this.ProdName.Caption = "Наименование";
+            this.ProdName.FieldName = "ProductName";
+            this.ProdName.Name = "ProductName";
+            this.ProdName.OptionsColumn.AllowMove = false;
+            this.ProdName.Visible = true;
+            this.ProdName.VisibleIndex = 0;
             // 
             // Gtin
             // 
@@ -259,14 +261,33 @@ namespace TscDll.Forms
             // 
             // groupBox2
             // 
+            this.groupBox2.Controls.Add(this.tB_PrinterMode);
+            this.groupBox2.Controls.Add(this.label5);
             this.groupBox2.Controls.Add(this.tB_PrinterStatus);
             this.groupBox2.Controls.Add(this.label2);
-            this.groupBox2.Location = new System.Drawing.Point(12, 106);
+            this.groupBox2.Location = new System.Drawing.Point(12, 91);
             this.groupBox2.Name = "groupBox2";
-            this.groupBox2.Size = new System.Drawing.Size(396, 61);
+            this.groupBox2.Size = new System.Drawing.Size(396, 76);
             this.groupBox2.TabIndex = 5;
             this.groupBox2.TabStop = false;
             this.groupBox2.Text = "Принтер";
+            // 
+            // tB_PrinterMode
+            // 
+            this.tB_PrinterMode.Location = new System.Drawing.Point(85, 50);
+            this.tB_PrinterMode.Name = "tB_PrinterMode";
+            this.tB_PrinterMode.ReadOnly = true;
+            this.tB_PrinterMode.Size = new System.Drawing.Size(283, 20);
+            this.tB_PrinterMode.TabIndex = 5;
+            // 
+            // label5
+            // 
+            this.label5.AutoSize = true;
+            this.label5.Location = new System.Drawing.Point(6, 53);
+            this.label5.Name = "label5";
+            this.label5.Size = new System.Drawing.Size(79, 13);
+            this.label5.TabIndex = 4;
+            this.label5.Text = "Режим печати";
             // 
             // Main_form
             // 
@@ -318,6 +339,8 @@ namespace TscDll.Forms
         private System.Windows.Forms.TextBox tB_Sgtin;
         private System.Windows.Forms.Label label4;
         private System.Windows.Forms.GroupBox groupBox2;
-        public DevExpress.XtraGrid.Columns.GridColumn ProductNomen;
+        public DevExpress.XtraGrid.Columns.GridColumn ProdName;
+        private System.Windows.Forms.TextBox tB_PrinterMode;
+        private System.Windows.Forms.Label label5;
     }
 }

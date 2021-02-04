@@ -16,7 +16,7 @@ namespace TscPrintTest
             UnitsInitialize(printUnits);
         }
 
-        private void button1_Click(object sender, EventArgs e)
+        private void Button1_Click(object sender, EventArgs e)
         {
             Bitmap gs128 = (Bitmap)Image.FromFile("D:\\Codes\\GS128.jpg");
             ResponseData response =  TscDll.Print.PrintGS128(gs128);
@@ -44,11 +44,9 @@ namespace TscPrintTest
                        new Unit {
                                     SsccValue = "46500997801035213",
                                     Sgtins = new List<string> { "010463003016034221641556169149391EE03", "010463003016034221641556169149391EE04" }
-                                 }
-                    }
-                }
-
-
+                                 }                       
+                    }                    
+                }                
             });
 
             printUnits.Add(new MarkPrintUnit
@@ -68,19 +66,19 @@ namespace TscPrintTest
 
                        new Unit {
                                     SsccValue = "46500997801035223",
+                                    
                                     Sgtins = new List<string> { "010463003016034221641556169149391EE08", "010463003016034221641556169149391EE09" }
                                 },
                        new Unit {
                                     SsccValue = "46500997801035224",
                                     Sgtins = new List<string> { "010463003016034221641556169149391EE10", "010463003016034221641556169149391EE11" }
                                  }
-
-                    }
+                    } 
                 }
             });
         }
 
-        private void button2_Click(object sender, EventArgs e)
+        private void Button2_Click(object sender, EventArgs e)
         {
             TscDll.Print.PrintSgtinSscc(printUnits);
             Close();

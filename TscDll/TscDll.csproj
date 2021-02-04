@@ -21,7 +21,7 @@
     <DefineConstants>DEBUG;TRACE</DefineConstants>
     <ErrorReport>prompt</ErrorReport>
     <WarningLevel>4</WarningLevel>
-    <PlatformTarget>x64</PlatformTarget>
+    <PlatformTarget>AnyCPU</PlatformTarget>
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|AnyCPU' ">
     <DebugType>pdbonly</DebugType>
@@ -54,17 +54,14 @@
     <Reference Include="System.Xml" />
     <Reference Include="tsclibnet, Version=1.0.0.0, Culture=neutral, processorArchitecture=x86">
       <SpecificVersion>False</SpecificVersion>
-      <HintPath>C:\Users\User\Desktop\TSC\TSC_Windows_Framework_DLL\x64\tsclibnet.dll</HintPath>
+      <HintPath>ref\tsclibnet.dll</HintPath>
     </Reference>
     <Reference Include="zxing, Version=0.16.6.0, Culture=neutral, PublicKeyToken=4e88037ac681fe60, processorArchitecture=MSIL">
-      <HintPath>..\packages\ZXing.Net.0.16.6\lib\net461\zxing.dll</HintPath>
-    </Reference>
-    <Reference Include="zxing.presentation, Version=0.16.6.0, Culture=neutral, PublicKeyToken=4e88037ac681fe60, processorArchitecture=MSIL">
-      <HintPath>..\packages\ZXing.Net.0.16.6\lib\net461\zxing.presentation.dll</HintPath>
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>ref\zxing.dll</HintPath>
     </Reference>
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="Entities\Mark.cs" />
     <Compile Include="Entities\MarkPrintUnit.cs" />
     <Compile Include="Entities\ResponseData.cs" />
     <Compile Include="Entities\Settings.cs" />
@@ -87,9 +84,7 @@
     <Compile Include="Forms\Adding_NewSize.Designer.cs">
       <DependentUpon>Adding_NewSize.cs</DependentUpon>
     </Compile>
-    <Compile Include="Helpers\BarcodeHelper.cs" />
     <Compile Include="Helpers\TscHelper.cs" />
-    <Compile Include="Helpers\ViewHelper.cs" />
     <Compile Include="Print.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Properties\Resources.Designer.cs">
@@ -100,7 +95,6 @@
   </ItemGroup>
   <ItemGroup>
     <None Include="Resources\add.png" />
-    <Content Include="TSCPrinterSettings.xml" />
   </ItemGroup>
   <ItemGroup>
     <None Include="packages.config" />
@@ -121,8 +115,10 @@
       <LastGenOutput>Resources.Designer.cs</LastGenOutput>
     </EmbeddedResource>
   </ItemGroup>
+  <ItemGroup />
   <ItemGroup>
-    <Folder Include="ref\" />
+    <Content Include="ref\tsclibnet.dll" />
+    <Content Include="ref\zxing.dll" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
 </Project>
