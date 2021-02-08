@@ -6,6 +6,7 @@ using System.Drawing.Imaging;
 using System.IO;
 using TscDll.Entities;
 using TscDll.Extensions;
+using TscDll.Forms;
 using TSCSDK;
 using ZXing;
 using ZXing.Rendering;
@@ -201,6 +202,19 @@ namespace TscDll.Helpers
             driver.closeport();
         }
 
+        //Just for empty labels
+        public static void FakePrinting()
+        {
+            driver driver = new driver();
+
+            for(int i=1;i<8;i++)
+                driver.printlabel("1", "1");
+            driver.closeport();
+
+            ProgressForm progress = new ProgressForm();
+            progress.ShowDialog();
+        }
+
         /// <summary>
         /// Печать SGTIN-ов в форме datamatrix
         /// </summary>
@@ -223,16 +237,16 @@ namespace TscDll.Helpers
             }
 
             int k = 0;//the number of SGTIN
-            int y = (height * 10) / 2;// the first position
-            int x = height * 9 + 10;
-            int multisize = width / height;
+            int y = (height * 10) / 2;// the y position
+            int x = height * 9 + 10;//the x position
+            int multisize = width / height; 
 
             foreach (Bitmap bitmap in list_of_datamatrix)
             {
-                string gtin = sgtins[k].Substring(2, 14);
-                string sn = sgtins[k].Substring(18, 13);
+                string gtin = sgtins[k].Substring(2, 14);//get gtin from sgtin
+                string sn = sgtins[k].Substring(18, 13);// get serial number from sgtin
                 
-                driver.sendcommand($"TEXT {x}, {y}, \"3\",0 , {multisize}, {multisize}, \"{gtin}\"");
+                driver.sendcommand($"TEXT {x}, {y}, \"3\",0 , {multisize}, {multisize}, \"{gtin}\"");//send text
                 y += height + 5;
                 driver.sendcommand($"TEXT {x}, {y}, \"3\", 0, {multisize}, {multisize}, \"{sn}\"");
                 y += 50;
@@ -244,7 +258,7 @@ namespace TscDll.Helpers
 
                 driver.printlabel("1", "1");
                 driver.clearbuffer();
-                //break;//delete (only for printing one label)
+                break;//delete (only for printing one label)
             }
             driver.closeport();
         }
@@ -264,9 +278,10 @@ namespace TscDll.Helpers
 
             driver driver = new driver();
             List<Bitmap> list_of_barcodes = new List<Bitmap>();
-            FontFamily fontFamily = new FontFamily("Arial");
 
-            var writer = new BarcodeWriter
+            FontFamily fontFamily = new FontFamily("Arial");//a font for the label under a barcode
+
+            var writer = new BarcodeWriter//generation a barcode
             {
                 Renderer = new BitmapRenderer
                 {
@@ -278,7 +293,7 @@ namespace TscDll.Helpers
 
             foreach (string str in sscc)
             {
-                list_of_barcodes.Add(writer.Write(str));
+                list_of_barcodes.Add(writer.Write(str));//save a barcode in the list
             }
 
             foreach (Bitmap bitmap in list_of_barcodes)
@@ -286,7 +301,7 @@ namespace TscDll.Helpers
                 driver.send_bitmap(0, (height * 12) / 4, bitmap);//print a barcode             
                 driver.printlabel("1", "1");
                 driver.clearbuffer();
-                //break;//delete (only for printing one label)
+                break;//delete (only for printing one label)
             }
             driver.closeport();
 

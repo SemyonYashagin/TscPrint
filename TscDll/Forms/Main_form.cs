@@ -114,14 +114,6 @@ namespace TscDll.Forms
             UpdateFields();
         }
 
-        private void Button3_Click(object sender, EventArgs e)
-        {
-            Adding_NewSize newSize = new Adding_NewSize();
-            newSize.ShowDialog();
-
-            //ProgressForm progress = new ProgressForm();
-            //progress.ShowDialog();
-        }
         /// <summary>
         /// Кнопка для печати SGTIN-ов или SSCC
         /// </summary>
@@ -135,7 +127,9 @@ namespace TscDll.Forms
                 sgtins = GetSgtin(sgtins, markPrints);
                 Settings set = TscHelper.GetSettings();
                 TscHelper.Init_printer(set.SgtinSize.Width, set.SgtinSize.Height);
-                TscHelper.PrintSgtins(set.SgtinSize.Width, set.SgtinSize.Height, sgtins);
+                //TscHelper.PrintSgtins(set.SgtinSize.Width, set.SgtinSize.Height, sgtins);
+                TscHelper.FakePrinting();
+
             }
             else//print sscces
             {
