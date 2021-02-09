@@ -76,6 +76,8 @@ namespace TscDll.Forms
         private void ComboBox1_TextChanged_1(object sender, EventArgs e)
         {
             Object selectedItem = cb_sizes.SelectedItem;
+            Settings set = TscHelper.GetSettings();
+
             string message = "Вы уверены что установлен рулон этикеток для печати " + selectedItem.ToString() + "?";
             const string caption = "Проверка";
             var result = MessageBox.Show(message, caption, MessageBoxButtons.YesNo, MessageBoxIcon.Question);
@@ -89,7 +91,18 @@ namespace TscDll.Forms
                 }
                 else
                 {
-                    buttonPrint.Enabled = true;
+                    //if (TscHelper.CheckLabelSize(set.SgtinSize.Height))
+                    //{
+                    //    MessageBox.Show("Проверка этикетки выполнена успешно");
+                    //    buttonPrint.Enabled = true;
+                    //}
+                    //else
+                    //{
+                    //    MessageBox.Show("Выбранный Вами рулон этикеток и рулон установленный в принтере не совпадают!");
+                    //    buttonPrint.Enabled = false;
+                    //}
+
+                   buttonPrint.Enabled = true;
                 }
             }
             if (selectedItem.ToString() == "SSCC")
@@ -101,6 +114,17 @@ namespace TscDll.Forms
                 }
                 else
                 {
+                    //if (TscHelper.CheckLabelSize(set.SsccSize.Height))
+                    //{
+                    //    MessageBox.Show("Проверка этикетки выполнена успешно");
+                    //    buttonPrint.Enabled = true;
+                    //}
+                    //else
+                    //{
+                    //    MessageBox.Show("Выбранный Вами рулон этикеток и рулон установленный в принтере не совпадают!");
+                    //    buttonPrint.Enabled = false;
+                    //}
+
                     buttonPrint.Enabled = true;
                 }
             }

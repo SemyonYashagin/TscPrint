@@ -3,6 +3,9 @@ using System.Windows.Forms;
 using TSCSDK;
 using TscDll.Entities;
 using TscDll.Helpers;
+using System.Text;
+using System.ComponentModel;
+using System.Threading;
 
 namespace TscDll.Forms
 {
@@ -10,16 +13,20 @@ namespace TscDll.Forms
     {
         public ProgressForm()
         {
-            InitializeComponent();
+            InitializeComponent();            
+            backgroundWorker2.RunWorkerAsync();
         }
-
+        /// <summary>
+        /// Пауза печати
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="e"></param>
         private void Button_Cancel_Click(object sender, EventArgs e)
         {
             Settings cur_settings = TscHelper.GetSettings();
             driver driver = new driver();
             PausePrinting(driver, cur_settings);
             Checking(driver, cur_settings);
-            
         }
 
         /// <summary>
@@ -58,12 +65,71 @@ namespace TscDll.Forms
             driver.closeport();
         }
 
-        public void Check_PrinterStatus(Settings settings)
+        /// <summary>
+        /// Метод для получения состояния принтера
+        /// </summary>
+        /// <param name="IP">IP принтера</param>
+        /// <param name="PortNumber">Номер порта принтера</param>
+        /// <returns>Возвращает бит состояния</returns>
+        public byte Check_PrinterStatus(string IP, int PortNumber)
         {
-            //byte b = Convert.ToByte(ethernet.sendcommand_hex("1B213F"));
-            //string outb = ethernet.sendcommand_getstring($"OUT \"\";{b}");
-            //byte[] ba = Encoding.Default.GetBytes(outb);
-            //var hexString = BitConverter.ToString(ba);
+            ethernet ethernet = new ethernet();
+            ethernet.openport(IP, PortNumber);
+
+            byte b = Convert.ToByte(ethernet.sendcommand_hex("1B213F"));
+            string outb = ethernet.sendcommand_getstring($"OUT \"\";{b}");
+            byte[] ba = Encoding.Default.GetBytes(outb);
+
+            ethernet.clearbuffer();
+            ethernet.closeport();
+
+            return ba[0];
+        }
+
+        /// <summary>
+        /// BGW1 для непрерывной фоновой проверки статуса принтера
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="e"></param>
+        private void backgroundWorker1_DoWork(object sender, DoWorkEventArgs e)
+        {
+            Settings cur_settings = TscHelper.GetSettings();
+            string IP = TscHelper.GetPrinterIP(cur_settings);
+            int PortNumber = TscHelper.GetPrinter_PortNumber(IP);
+
+            byte a = 3;          
+            while (a != 0 )
+            {
+                a = Check_PrinterStatus(IP, PortNumber);
+                if (a == 0) break;
+            }
+        }
+
+        private void backgroundWorker1_RunWorkerCompleted(object sender, RunWorkerCompletedEventArgs e)
+        {
+            Close();
+        }
+        /// <summary>
+        /// BGW2 для ожидания состояния печати принтера, как только принтер начинает печать срабатывает BGW1
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="e"></param>
+        private void backgroundWorker2_DoWork(object sender, DoWorkEventArgs e)
+        {
+            Settings cur_settings = TscHelper.GetSettings();
+            string IP = TscHelper.GetPrinterIP(cur_settings);
+            int PortNumber = TscHelper.GetPrinter_PortNumber(IP);
+            byte a = 3;
+            while (a != 32)
+            {
+                a = Check_PrinterStatus(IP, PortNumber);
+                if (a == 20) break;
+            }
+        }
+
+        private void backgroundWorker2_RunWorkerCompleted(object sender, RunWorkerCompletedEventArgs e)
+        {
+            backgroundWorker1.RunWorkerAsync();          
         }
     }
 }

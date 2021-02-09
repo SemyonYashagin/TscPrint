@@ -80,6 +80,7 @@ D:\Codes\TscPrint\TscDll\obj\Debug\TscDll.csprojAssemblyReference.cache
 D:\Codes\TscPrint\TscDll\obj\Debug\TscDll.Forms.Main_form.resources
 D:\Codes\TscPrint\TscDll\obj\Debug\TscDll.Forms.PrintSettings.resources
 D:\Codes\TscPrint\TscDll\obj\Debug\TscDll.Forms.Adding_NewSize.resources
+D:\Codes\TscPrint\TscDll\obj\Debug\TscDll.Forms.ProgressForm.resources
 D:\Codes\TscPrint\TscDll\obj\Debug\TscDll.Properties.Resources.resources
 D:\Codes\TscPrint\TscDll\obj\Debug\TscDll.csproj.GenerateResource.cache
 D:\Codes\TscPrint\TscDll\obj\Debug\TscDll.dll.licenses
@@ -87,4 +88,3 @@ D:\Codes\TscPrint\TscDll\obj\Debug\TscDll.csproj.CoreCompileInputs.cache
 D:\Codes\TscPrint\TscDll\obj\Debug\TscDll.csproj.CopyComplete
 D:\Codes\TscPrint\TscDll\obj\Debug\TscDll.dll
 D:\Codes\TscPrint\TscDll\obj\Debug\TscDll.pdb
-D:\Codes\TscPrint\TscDll\obj\Debug\TscDll.Forms.ProgressForm.resources

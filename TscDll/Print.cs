@@ -59,8 +59,20 @@ namespace TscDll
 
             TscHelper.Init_printer(settings.SsccSize.Width, settings.SsccSize.Height);
             Bitmap gs128 = TscHelper.ResizeImage(bitmap, settings.SsccSize.Width, settings.SsccSize.Height);
-            TscHelper.PrintPicture(gs128);
-            response.IsSuccess = true;
+            //TscHelper.PrintPicture(gs128);
+            //response.IsSuccess = true;
+
+            if (TscHelper.CheckLabelSize(settings.SsccSize.Height))
+            {
+                TscHelper.PrintPicture(gs128);
+                response.IsSuccess = true;
+            }
+            else
+            {
+                response.ErrorMessage = "Размер этикетки в принтере не соответвует выбранному";
+            }
+
+
             return response;         
         }
     }

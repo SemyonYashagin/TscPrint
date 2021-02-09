@@ -10,6 +10,8 @@ using TscDll.Forms;
 using TSCSDK;
 using ZXing;
 using ZXing.Rendering;
+using System.Management;
+using System.Threading;
 
 namespace TscDll.Helpers
 {
@@ -158,6 +160,31 @@ namespace TscDll.Helpers
             return true;
         }
 
+        public static bool CheckLabelSize(int height)
+        {
+            ethernet ethernet = new ethernet();
+            Settings cur_settings = TscHelper.GetSettings();
+            string IP = TscHelper.GetPrinterIP(cur_settings);
+            int PortNumber = TscHelper.GetPrinter_PortNumber(IP);
+
+            ethernet.openport(IP, PortNumber);
+            ethernet.sendcommand("AUTODETECT");
+            Thread.Sleep(4000);
+            int printer_height = Convert.ToInt32(ethernet.sendcommand_getstring("OUT NET \"\"; GETSETTING$(\"CONFIG\", \"TSPL\", \"PAPER SIZE\")"));
+
+            if (printer_height <= (height * 11.8) && printer_height >= ((height * 11.8) - 20))
+            {
+                int dot = height * 12;
+                ethernet.sendcommand($"BACKFEED {dot}");
+                ethernet.sendcommand($"BACKFEED {dot}");
+                ethernet.closeport();
+                return true;
+            }
+
+            ethernet.closeport();
+            return false;
+        }
+
         /// <summary>
         /// Resize the image to the specified width and height.
         /// </summary>
@@ -258,7 +285,7 @@ namespace TscDll.Helpers
 
                 driver.printlabel("1", "1");
                 driver.clearbuffer();
-                break;//delete (only for printing one label)
+                //break;//delete (only for printing one label)
             }
             driver.closeport();
         }
@@ -301,12 +328,80 @@ namespace TscDll.Helpers
                 driver.send_bitmap(0, (height * 12) / 4, bitmap);//print a barcode             
                 driver.printlabel("1", "1");
                 driver.clearbuffer();
-                break;//delete (only for printing one label)
+                //break;//delete (only for printing one label)
             }
             driver.closeport();
 
             response.IsSuccess = true;
             return response;
+        }
+        /// <summary>
+        /// Метод для взятия IP адреса по имени принтера
+        /// </summary>
+        /// <param name="settings">Объет класса Settings, для взятия имени из XML файла с настройками принтера</param>
+        /// <returns>IP адрес</returns>
+        public static string GetPrinterIP(Settings settings)
+        {
+            string printerName = settings.PrinterName;
+            string printerIP = "";
+            string query = string.Format($"SELECT * from Win32_Printer WHERE Name LIKE '%{0}'", printerName);
+
+            using (ManagementObjectSearcher searcher = new ManagementObjectSearcher(query))
+            using (ManagementObjectCollection coll = searcher.Get())
+            {
+                try
+                {
+                    foreach (ManagementObject printer in coll)
+                    {
+                        foreach (PropertyData property in printer.Properties)
+                        {
+                            if (property.Name.ToString() == "PortName")
+                            {
+                                printerIP = property.Value.ToString();
+                                break;
+                            }
+                        }
+                        if (!String.IsNullOrEmpty(printerIP)) break;
+                    }
+                }
+                catch (ManagementException ex)
+                {
+                    throw new ManagementException(ex.Message);
+                }
+            }
+            return printerIP;
+        }
+
+        /// <summary>
+        /// Метод для взятия номера порта по IP принтера
+        /// </summary>
+        /// <param name="ip">IP принтера</param>
+        /// <returns>Возвращает номер порта</returns>
+        public static int GetPrinter_PortNumber(string ip)
+        {
+            string portNumber = "";
+
+            try
+            {
+                ManagementObjectSearcher searcher =
+                    new ManagementObjectSearcher("root\\CIMV2",
+                    "SELECT * FROM Win32_TCPIPPrinterPort");
+
+                foreach (ManagementObject queryObj in searcher.Get())
+                {
+                    if (queryObj["Name"].ToString() == ip)
+                    {
+                        portNumber = queryObj["PortNumber"].ToString();
+                        break;
+                    }
+                }
+            }
+            catch (ManagementException e)
+            {
+                throw new ManagementException(e.Message);
+            }
+
+            return Convert.ToInt32(portNumber);
         }
     }
 }
