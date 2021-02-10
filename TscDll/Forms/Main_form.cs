@@ -77,6 +77,7 @@ namespace TscDll.Forms
         {
             Object selectedItem = cb_sizes.SelectedItem;
             Settings set = TscHelper.GetSettings();
+            buttonPrint.Enabled = false;
 
             string message = "Вы уверены что установлен рулон этикеток для печати " + selectedItem.ToString() + "?";
             const string caption = "Проверка";
@@ -91,18 +92,18 @@ namespace TscDll.Forms
                 }
                 else
                 {
-                    //if (TscHelper.CheckLabelSize(set.SgtinSize.Height))
-                    //{
-                    //    MessageBox.Show("Проверка этикетки выполнена успешно");
-                    //    buttonPrint.Enabled = true;
-                    //}
-                    //else
-                    //{
-                    //    MessageBox.Show("Выбранный Вами рулон этикеток и рулон установленный в принтере не совпадают!");
-                    //    buttonPrint.Enabled = false;
-                    //}
+                    if (TscHelper.PrinterConnection(set.SgtinSize.Height))
+                    {
+                        MessageBox.Show("Проверка этикетки выполнена успешно. Можете печатать!");
+                        buttonPrint.Enabled = true;
+                    }
+                    else
+                    {
+                        MessageBox.Show("Выбранный Вами рулон этикеток и рулон установленный в принтере не совпадают!");
+                        buttonPrint.Enabled = false;
+                    }
 
-                   buttonPrint.Enabled = true;
+                    //buttonPrint.Enabled = true;
                 }
             }
             if (selectedItem.ToString() == "SSCC")
@@ -114,18 +115,18 @@ namespace TscDll.Forms
                 }
                 else
                 {
-                    //if (TscHelper.CheckLabelSize(set.SsccSize.Height))
-                    //{
-                    //    MessageBox.Show("Проверка этикетки выполнена успешно");
-                    //    buttonPrint.Enabled = true;
-                    //}
-                    //else
-                    //{
-                    //    MessageBox.Show("Выбранный Вами рулон этикеток и рулон установленный в принтере не совпадают!");
-                    //    buttonPrint.Enabled = false;
-                    //}
+                    if (TscHelper.PrinterConnection(set.SsccSize.Height))
+                    {
+                        MessageBox.Show("Проверка этикетки выполнена успешно. Можете печатать!");
+                        buttonPrint.Enabled = true;
+                    }
+                    else
+                    {
+                        MessageBox.Show("Выбранный Вами рулон этикеток и рулон установленный в принтере не совпадают!");
+                        buttonPrint.Enabled = false;
+                    }
 
-                    buttonPrint.Enabled = true;
+                    //buttonPrint.Enabled = true;
                 }
             }
         }
@@ -151,8 +152,8 @@ namespace TscDll.Forms
                 sgtins = GetSgtin(sgtins, markPrints);
                 Settings set = TscHelper.GetSettings();
                 TscHelper.Init_printer(set.SgtinSize.Width, set.SgtinSize.Height);
-                //TscHelper.PrintSgtins(set.SgtinSize.Width, set.SgtinSize.Height, sgtins);
-                TscHelper.FakePrinting();
+                TscHelper.PrintSgtins(set.SgtinSize.Width, set.SgtinSize.Height, sgtins);
+                //TscHelper.FakePrinting();
 
             }
             else//print sscces

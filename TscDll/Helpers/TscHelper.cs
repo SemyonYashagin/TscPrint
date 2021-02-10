@@ -159,15 +159,21 @@ namespace TscDll.Helpers
 
             return true;
         }
-
-        public static bool CheckLabelSize(int height)
+        /// <summary>
+        /// Проверка размера этикетки в принтере по Ethernet
+        /// </summary>
+        /// <param name="height">Высота этикетки, которая задана пользователем (из XML файла)</param>
+        /// <returns>true-размер этикетки в принтере совпадает с заданной, иначе false</returns>
+        private static bool CheckLabelSizeEthernet(int height)
         {
+            
             ethernet ethernet = new ethernet();
             Settings cur_settings = TscHelper.GetSettings();
             string IP = TscHelper.GetPrinterIP(cur_settings);
             int PortNumber = TscHelper.GetPrinter_PortNumber(IP);
 
             ethernet.openport(IP, PortNumber);
+            ethernet.printerstatus();
             ethernet.sendcommand("AUTODETECT");
             Thread.Sleep(4000);
             int printer_height = Convert.ToInt32(ethernet.sendcommand_getstring("OUT NET \"\"; GETSETTING$(\"CONFIG\", \"TSPL\", \"PAPER SIZE\")"));
@@ -175,7 +181,7 @@ namespace TscDll.Helpers
             if (printer_height <= (height * 11.8) && printer_height >= ((height * 11.8) - 20))
             {
                 int dot = height * 12;
-                ethernet.sendcommand($"BACKFEED {dot}");
+                //ethernet.sendcommand($"BACKFEED {dot}");
                 ethernet.sendcommand($"BACKFEED {dot}");
                 ethernet.closeport();
                 return true;
@@ -183,6 +189,46 @@ namespace TscDll.Helpers
 
             ethernet.closeport();
             return false;
+        }
+        /// <summary>
+        /// Проверка размера этикетки в принтере по USB
+        /// </summary>
+        /// <param name="height">Высота этикетки, которая задана пользователем (из XML файла)</param>
+        /// <returns>true-размер этикетки в принтере совпадает с заданной, иначе false</returns>
+        private static bool CheckLabelSizeUSB(int height)
+        {
+            usb usb = new usb();
+
+            usb.openport();
+            usb.sendcommand("AUTODETECT");
+            Thread.Sleep(4000);
+            int printer_height = Convert.ToInt32(usb.sendcommand_getstring("OUT USB \"\"; GETSETTING$(\"CONFIG\", \"TSPL\", \"PAPER SIZE\")"));
+
+            if (printer_height <= (height * 11.8) && printer_height >= ((height * 11.8) - 20))
+            {
+                int dot = height * 12;
+                usb.sendcommand($"BACKFEED {dot}");
+                usb.closeport();
+                return true;
+            }
+
+            usb.closeport();
+            return false;
+        }
+
+        /// <summary>
+        /// Метод для определения подключения принтера Ethernet или USB
+        /// </summary>
+        /// <param name="height">Высота этикетки, которая задана пользователем (из XML файла)</param>
+        /// <returns>true-размер этикетки в принтере совпадает с заданной, иначе false</returns>
+        public static bool PrinterConnection(int height)
+        {
+            Settings cur_settings = TscHelper.GetSettings();
+            string IP = TscHelper.GetPrinterIP(cur_settings);
+            int PortNumber = TscHelper.GetPrinter_PortNumber(IP);
+
+            if (PortNumber == 0) return CheckLabelSizeUSB(height);
+            else return CheckLabelSizeEthernet(height);
         }
 
         /// <summary>
@@ -288,6 +334,9 @@ namespace TscDll.Helpers
                 //break;//delete (only for printing one label)
             }
             driver.closeport();
+
+            ProgressForm progress = new ProgressForm();
+            progress.ShowDialog();
         }
         /// <summary>
         /// Печать SSCC в форме штрихкодов
@@ -332,6 +381,9 @@ namespace TscDll.Helpers
             }
             driver.closeport();
 
+            ProgressForm progress = new ProgressForm();
+            progress.ShowDialog();
+
             response.IsSuccess = true;
             return response;
         }
@@ -357,7 +409,9 @@ namespace TscDll.Helpers
                         {
                             if (property.Name.ToString() == "PortName")
                             {
-                                printerIP = property.Value.ToString();
+                                if (property.Value.ToString().Length > 14)
+                                    printerIP = property.Value.ToString().Remove(14);
+                                else printerIP = property.Value.ToString();
                                 break;
                             }
                         }
@@ -400,6 +454,9 @@ namespace TscDll.Helpers
             {
                 throw new ManagementException(e.Message);
             }
+
+            if (portNumber == "")
+                return 0;
 
             return Convert.ToInt32(portNumber);
         }

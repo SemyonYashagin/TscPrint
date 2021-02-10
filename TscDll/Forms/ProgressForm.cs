@@ -11,9 +11,13 @@ namespace TscDll.Forms
 {
     public partial class ProgressForm : Form
     {
+
+        bool net = false;
+        byte a = 3;
         public ProgressForm()
         {
-            InitializeComponent();            
+            InitializeComponent();
+            PrinterConnection();
             backgroundWorker2.RunWorkerAsync();
         }
         /// <summary>
@@ -28,13 +32,33 @@ namespace TscDll.Forms
             PausePrinting(driver, cur_settings);
             Checking(driver, cur_settings);
         }
+        /// <summary>
+        /// Метод для определения типа соединения с принтером USB или Ethernet
+        /// </summary>
+        private void PrinterConnection()
+        {
+            ethernet ethernet = new ethernet();
+            Settings cur_settings = TscHelper.GetSettings();
+            string IP = TscHelper.GetPrinterIP(cur_settings);
+            int PortNumber = TscHelper.GetPrinter_PortNumber(IP);
+
+            if (PortNumber != 0)
+            {
+                ethernet.openport(IP, PortNumber);
+                if (ethernet.printerstatus() == 0 || ethernet.printerstatus() == 32)
+                    net = true;
+                else net = false;
+            }
+            else net = false;
+            ethernet.closeport();
+        }
 
         /// <summary>
         /// Выбор между дейсвиями: продолжнить печати или отмена печати (перезагрузка принтера)
         /// </summary>
         /// <param name="driver">Объект класса driver</param>
         /// <param name="settings">Объект класса Settings, настройки принтера взятые из XML</param>
-        public void Checking(driver driver, Settings settings)
+        private void Checking(driver driver, Settings settings)
         {
             string message = "Продолжить?";
             const string caption = "Проверка";
@@ -58,7 +82,7 @@ namespace TscDll.Forms
         /// </summary>
         /// <param name="driver">Объект класса driver</param>
         /// <param name="settings">Объект класса Settings, настройки принтера взятые из XML</param>
-        public void PausePrinting(driver driver, Settings settings)
+        private void PausePrinting(driver driver, Settings settings)
         {
             driver.openport(settings.PrinterName);
             driver.sendcommand_hex("1B2150");
@@ -66,24 +90,39 @@ namespace TscDll.Forms
         }
 
         /// <summary>
-        /// Метод для получения состояния принтера
+        /// Метод для получения состояния принтера по Ethernet
         /// </summary>
         /// <param name="IP">IP принтера</param>
         /// <param name="PortNumber">Номер порта принтера</param>
         /// <returns>Возвращает бит состояния</returns>
-        public byte Check_PrinterStatus(string IP, int PortNumber)
+        private byte Check_PrinterStatusEthernet(string IP, int PortNumber)
         {
             ethernet ethernet = new ethernet();
             ethernet.openport(IP, PortNumber);
 
-            byte b = Convert.ToByte(ethernet.sendcommand_hex("1B213F"));
-            string outb = ethernet.sendcommand_getstring($"OUT \"\";{b}");
-            byte[] ba = Encoding.Default.GetBytes(outb);
+            byte b = ethernet.printerstatus();
 
             ethernet.clearbuffer();
             ethernet.closeport();
 
-            return ba[0];
+            return b;
+        }
+
+        /// <summary>
+        /// Мотод для получения состояния принтера по USB
+        /// </summary>
+        /// <returns></returns>
+        private byte Check_PrinterStatusUSB()
+        {
+            usb usb = new usb();
+            usb.openport();
+
+            byte b = usb.printerstatus();
+
+            usb.clearbuffer();
+            usb.closeport();
+
+            return b;
         }
 
         /// <summary>
@@ -93,15 +132,25 @@ namespace TscDll.Forms
         /// <param name="e"></param>
         private void backgroundWorker1_DoWork(object sender, DoWorkEventArgs e)
         {
-            Settings cur_settings = TscHelper.GetSettings();
-            string IP = TscHelper.GetPrinterIP(cur_settings);
-            int PortNumber = TscHelper.GetPrinter_PortNumber(IP);
-
-            byte a = 3;          
-            while (a != 0 )
+            if(net)
             {
-                a = Check_PrinterStatus(IP, PortNumber);
-                if (a == 0) break;
+                Settings cur_settings = TscHelper.GetSettings();
+                string IP = TscHelper.GetPrinterIP(cur_settings);
+                int PortNumber = TscHelper.GetPrinter_PortNumber(IP);
+
+                while (a != 0)
+                {
+                    a = Check_PrinterStatusEthernet(IP, PortNumber);
+                    if (a == 0) break;
+                }
+            }
+            else
+            {
+                while (a != 0)
+                {
+                    a = Check_PrinterStatusUSB();
+                    if (a == 0) break;
+                }
             }
         }
 
@@ -116,15 +165,26 @@ namespace TscDll.Forms
         /// <param name="e"></param>
         private void backgroundWorker2_DoWork(object sender, DoWorkEventArgs e)
         {
-            Settings cur_settings = TscHelper.GetSettings();
-            string IP = TscHelper.GetPrinterIP(cur_settings);
-            int PortNumber = TscHelper.GetPrinter_PortNumber(IP);
-            byte a = 3;
-            while (a != 32)
+            if(net)
             {
-                a = Check_PrinterStatus(IP, PortNumber);
-                if (a == 20) break;
+                Settings cur_settings = TscHelper.GetSettings();
+                string IP = TscHelper.GetPrinterIP(cur_settings);
+                int PortNumber = TscHelper.GetPrinter_PortNumber(IP);
+                while (a != 32)
+                {
+                    a = Check_PrinterStatusEthernet(IP, PortNumber);
+                    if (a == 32) break;
+                }
             }
+            else
+            {
+                while (a != 32)
+                {
+                    a = Check_PrinterStatusUSB();
+                    if (a == 32) break;
+                }
+            }
+            
         }
 
         private void backgroundWorker2_RunWorkerCompleted(object sender, RunWorkerCompletedEventArgs e)

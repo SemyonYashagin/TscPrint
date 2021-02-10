@@ -28,11 +28,11 @@ namespace TscDll
         }
 
         /// <summary>
-        /// Распечатывает штрихкод GS128 
+        /// Метод для выявлении ошибок при печати штрихкода GS128
         /// </summary>
         /// <param name="bitmap">Объект Bitmap</param>
-        /// <returns></returns>
-        public static ResponseData PrintGS128(Bitmap bitmap)
+        /// <returns>Объект класса ResponseData</returns>
+        private static ResponseData CheckGS128(Bitmap bitmap)
         { 
             Settings settings = TscHelper.GetSettings();
             ResponseData response = new ResponseData();
@@ -62,7 +62,7 @@ namespace TscDll
             //TscHelper.PrintPicture(gs128);
             //response.IsSuccess = true;
 
-            if (TscHelper.CheckLabelSize(settings.SsccSize.Height))
+            if (TscHelper.PrinterConnection(settings.SsccSize.Height))
             {
                 TscHelper.PrintPicture(gs128);
                 response.IsSuccess = true;
@@ -71,9 +71,18 @@ namespace TscDll
             {
                 response.ErrorMessage = "Размер этикетки в принтере не соответвует выбранному";
             }
-
-
             return response;         
+        }
+
+        /// <summary>
+        /// Распечатывает штрихкод GS128 
+        /// </summary>
+        /// <param name="bitmap">Объект Bitmap</param>
+        public static void PrintGS128(Bitmap bitmap)
+        {
+            ResponseData response = CheckGS128(bitmap);
+            if (response.IsSuccess) MessageBox.Show("Печать прошла успешна");
+            else MessageBox.Show(response.ErrorMessage);
         }
     }
 }

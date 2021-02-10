@@ -19,9 +19,7 @@ namespace TscPrintTest
         private void Button1_Click(object sender, EventArgs e)
         {
             Bitmap gs128 = (Bitmap)Image.FromFile("D:\\Codes\\GS128.jpg");
-            ResponseData response =  TscDll.Print.PrintGS128(gs128);
-            if (response.IsSuccess) MessageBox.Show("Печать прошла успешна");
-            else MessageBox.Show(response.ErrorMessage);
+            TscDll.Print.PrintGS128(gs128);          
         }
 
         private void UnitsInitialize(List<MarkPrintUnit> printUnits)

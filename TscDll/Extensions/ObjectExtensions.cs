@@ -135,7 +135,7 @@ namespace TscDll.Extensions
             return table;
         }
 
-        public static void GetSsccSgtin(List<string> All_Sgtin, List<string> All_Sscc, Unit unit)
+        private static void GetSsccSgtin(List<string> All_Sgtin, List<string> All_Sscc, Unit unit)
         {
             if(unit!=null)
             {

@@ -3,7 +3,6 @@ using System.Collections.Generic;
 
 namespace TscDll.Entities
 {
-
     public class MarkPrintUnit
     {
         /// <summary>Номенклатура (обязательный параметр)</summary>
