@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 using System.Windows.Forms;
+using TscDll.Forms;
 
 namespace TscPrintTest
 {
@@ -16,7 +17,7 @@ namespace TscPrintTest
         {
             Application.EnableVisualStyles();
             Application.SetCompatibleTextRenderingDefault(false);
-            Application.Run(new Main_form());
+            Application.Run(new Test_form());
         }
     }
 }

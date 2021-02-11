@@ -1,65 +1,122 @@
-﻿using Newtonsoft.Json;
-using System;
+﻿using System;
 using System.Collections.Generic;
-using System.Text;
-using TSCSDK;
 
 namespace TscDll.Entities
 {
-
     public class MarkPrintUnit
     {
-        /// <summary>Номенклатура</summary>
-        public string Nomen { get; set; }
+        /// <summary>Номенклатура (обязательный параметр)</summary>
+        private string nomenProduct { get; set; }
 
-        /// <summary>Номер партии</summary>
-        public long PartyId { get; set; }
-
-        /// <summary>GTIN (14 символов)</summary>
-        public string Gtin { get; set; }
-
-        /// <summary>Коллекция неупакованных SGTIN-ов</summary>
-        public List<string> Sgtins { get; set; }
-
-        /// <summary>Короб</summary>
-        public Sscc Ssccs { get; set; }
-    }
-
-    public class Sscc
-    {
-        /// <summary>Идентификатор SSCC (20 символов)</summary>
-        public string SsccValue { get; set; }
-
-        /// <summary>Родительская SSCC</summary>
-        public string ParentSscc { get; set; }
-
-        /// <summary>Коллекция упакованных SGTIN-ов</summary>
-        public List<string> Sgtins { get; set; }
-
-
-        /// <summary>Дочерние SSCC</summary>
-        public List<Sscc> ChildSscc { get; set; }
-
-        private long? SsccId
+        public string NomenProduct
         {
             get
             {
-                if ( (ChildSscc != null && ChildSscc.Count > 0) || ParentSscc !=null)
+                if (!String.IsNullOrEmpty(nomenProduct))
                 {
-                    return 1;
+                    return nomenProduct;
                 }
-                else return null;
+                else throw new NullReferenceException("NomenProduct is null or empty!");
+            }
+            set
+            {
+                nomenProduct = value;
             }
         }
-        private long? ParentSsccId
+
+        /// <summary>Номер партии (обязательный параметр)</summary>
+        public long PartyId { get; set; }
+
+        /// <summary>GTIN (14 символов) (обязательный параметр)</summary>
+        private string gtin { get; set; }
+
+        public string Gtin
         {
             get
             {
-                if (ParentSscc != null)
+                if (!String.IsNullOrEmpty(gtin))
                 {
-                    return 2;
+                    return gtin;
                 }
-                else return null;
+                else throw new NullReferenceException("Gtin is null or empty!");
+            }
+            set
+            {
+                gtin = value;
+            }
+        }
+
+        
+        private Unit units { get; set; }
+
+        /// <summary>Короб (обязательный параметр)</summary>
+        public Unit Units
+        {
+            get
+            {
+                if (units!=null)
+                {
+                    return units;
+                }
+                else throw new NullReferenceException("Units is null or empty!");
+            }
+            set
+            {
+                units = value;
+            }
+        }
+    }
+
+    public class Unit
+    {
+        private string ssccValue { get; set; }
+
+        /// <summary>Идентификатор SSCC (18 символов) (обязательный параметр)</summary>
+        public string SsccValue
+        {
+            get
+            {
+                if(String.IsNullOrEmpty(ssccValue))
+                {
+                    if (Sgtins != null && sgtins.Count > 0)
+                    {
+                        return ssccValue;
+                    }
+                    else throw new NullReferenceException("Sscc is null or empty!");
+                }
+                return ssccValue;
+            }
+            set
+            {
+                ssccValue = value;
+            }
+        }
+
+        /// <summary>Агрегаты (необязательный параметр)</summary>
+        public List<Unit> Units { get; set; }
+
+        
+        private List<string> sgtins { get; set; }
+
+        /// <summary>SGTIN-ы (необязательный параметр)</summary>
+        public List<string> Sgtins
+        {
+            get
+            {
+                if(sgtins==null)
+                {
+                    if (Units != null && Units.Count>0)
+                    {
+                        return sgtins;
+                    }
+                    else throw new NullReferenceException("Sgtins is null or empty!");
+                }
+                return sgtins;
+                
+            }
+            set
+            {
+                sgtins = value;
             }
         }
     }
