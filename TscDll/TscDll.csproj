@@ -67,11 +67,29 @@
     <Compile Include="Entities\ResponseData.cs" />
     <Compile Include="Entities\Settings.cs" />
     <Compile Include="Extensions\ObjectExtensions.cs" />
+    <Compile Include="Forms\AddNewSizeGS128_Form.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="Forms\AddNewSizeGS128_Form.Designer.cs">
+      <DependentUpon>AddNewSizeGS128_Form.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Forms\Gs128Settings.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="Forms\Gs128Settings.Designer.cs">
+      <DependentUpon>Gs128Settings.cs</DependentUpon>
+    </Compile>
     <Compile Include="Forms\Main_form.cs">
       <SubType>Form</SubType>
     </Compile>
     <Compile Include="Forms\Main_form.Designer.cs">
       <DependentUpon>Main_form.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Forms\PrintGS128_Form.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="Forms\PrintGS128_Form.Designer.cs">
+      <DependentUpon>PrintGS128_Form.cs</DependentUpon>
     </Compile>
     <Compile Include="Forms\PrintSettings.cs">
       <SubType>Form</SubType>
@@ -107,8 +125,17 @@
     <None Include="packages.config" />
   </ItemGroup>
   <ItemGroup>
+    <EmbeddedResource Include="Forms\AddNewSizeGS128_Form.resx">
+      <DependentUpon>AddNewSizeGS128_Form.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Forms\Gs128Settings.resx">
+      <DependentUpon>Gs128Settings.cs</DependentUpon>
+    </EmbeddedResource>
     <EmbeddedResource Include="Forms\Main_form.resx">
       <DependentUpon>Main_form.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Forms\PrintGS128_Form.resx">
+      <DependentUpon>PrintGS128_Form.cs</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="Forms\PrintSettings.resx">
       <DependentUpon>PrintSettings.cs</DependentUpon>

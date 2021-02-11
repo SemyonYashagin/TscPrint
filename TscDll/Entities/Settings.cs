@@ -12,6 +12,8 @@ namespace TscDll.Entities
         public List<Intvalue> SgtinList { set; get; }
         public Intvalue SsccSize { get; set; }
         public List<Intvalue> SsccList { set; get; }
+        public Intvalue Gs128Size { set; get; }
+        public List<Intvalue> Gs128List { set; get; }
         public string PrinterMode { set; get; }
         public decimal Speed { get; set; }
         public decimal Density { get; set; }

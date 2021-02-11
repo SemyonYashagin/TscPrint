@@ -12,6 +12,8 @@ using ZXing;
 using ZXing.Rendering;
 using System.Management;
 using System.Threading;
+using System.Windows.Forms;
+using System.Text;
 
 namespace TscDll.Helpers
 {
@@ -100,21 +102,75 @@ namespace TscDll.Helpers
         /// <returns>true - принтер подключен, иначе false</returns>
         public static Boolean Printer_status(Settings settings)
         {
+            settings = TscHelper.GetSettings();
             if (FileExist())
             {
-                driver driver = new driver();
+                ethernet ethernet = new ethernet();
+                usb usb = new usb();
 
-                if (driver.driver_status(settings.PrinterName))
+                string IP = GetPrinterIP(settings);
+                int PortNumber = GetPrinter_PortNumber(IP);
+                if (PortNumber == 0)
                 {
-                    driver.closeport();
-                    return true;
+                    usb.openport();                  
+                    if (usb.traceUSB_string() == "no device")
+                    {
+                        usb.closeport();
+                        return false;
+                    }
+                    else
+                    {
+                        driver driver = new driver();
+                        driver.openport(settings.PrinterName);
+                        if (driver.driver_status(settings.PrinterName))
+                        {
+                            driver.closeport();
+                            return true;
+                        }
+                        else
+                        {
+                            driver.closeport();
+                            return false;
+                        }                          
+                    }
+                }
+                else
+                {
+                    ethernet.openport(IP, PortNumber);
+
+                    if (ethernet.printerstatus() != 0)
+                    {
+                        ethernet.closeport();
+                        return false;
+                    }
+                    else
+                    {
+                        driver driver = new driver();
+                        driver.openport(settings.PrinterName);
+                        if (driver.driver_status(settings.PrinterName))
+                        {
+                            driver.closeport();
+                            ethernet.closeport();
+                            return true;
+                        }
+                        else
+                        {
+                            driver.closeport();
+                            ethernet.closeport();
+                            return false;
+                        }
+                    }
                 }
             }
-            return false;
+            return true;
         }
+        
         /// <summary>
-        /// Инициализация принтера
+        /// Инициализация принтера для печати SSCC и SGTIN
         /// </summary>
+        /// <param name="width">Ширина этикетки</param>
+        /// <param name="height">Высота этикетки</param>
+        /// <returns>true - если принтер подключён, иначе false</returns>
         public static bool Init_printer(int width, int height)
         {
             if (!FileExist())
@@ -153,12 +209,49 @@ namespace TscDll.Helpers
 
             driver.sendcommand("CODEPAGE UTF-8");
             driver.clearbuffer();
-
             driver.sendcommand("FORMFEED");
-
 
             return true;
         }
+
+        /// <summary>
+        /// Инициализация принтера для печати GS128
+        /// </summary>
+        /// <param name="width">Ширина этикетки</param>
+        /// <param name="height">Высота этикетки</param>
+        /// <returns>true - если принтер подключён, иначе false</returns>
+        public static bool Init_printer_GS128(int width, int height)
+        {
+            if (!FileExist())
+            {
+                return false;
+            }
+            Settings printer_set = GetSettings();
+
+            if (!Printer_status(printer_set))
+            {
+                return false;
+            }
+
+            driver driver = new driver();
+            string size = "SIZE " + width + " mm, " + height + " mm";
+
+            driver.openport(printer_set.PrinterName);
+            driver.sendcommand(size); //the size of a paper in the printer
+            driver.sendcommand("GAP 2 mm, 0");
+            driver.sendcommand("SPEED 2");
+            driver.sendcommand("DENSITY 15");
+            driver.sendcommand("DIRECTION 1");
+            driver.sendcommand("SET REWIND OFF");
+            driver.sendcommand("SET TEAR ON"); 
+            driver.sendcommand("CODEPAGE UTF-8");
+            driver.clearbuffer();
+            driver.sendcommand("FORMFEED");
+
+            return true;
+        }
+
+
         /// <summary>
         /// Проверка размера этикетки в принтере по Ethernet
         /// </summary>
@@ -166,25 +259,27 @@ namespace TscDll.Helpers
         /// <returns>true-размер этикетки в принтере совпадает с заданной, иначе false</returns>
         private static bool CheckLabelSizeEthernet(int height)
         {
-            
             ethernet ethernet = new ethernet();
             Settings cur_settings = TscHelper.GetSettings();
             string IP = TscHelper.GetPrinterIP(cur_settings);
             int PortNumber = TscHelper.GetPrinter_PortNumber(IP);
 
             ethernet.openport(IP, PortNumber);
-            ethernet.printerstatus();
-            ethernet.sendcommand("AUTODETECT");
-            Thread.Sleep(4000);
-            int printer_height = Convert.ToInt32(ethernet.sendcommand_getstring("OUT NET \"\"; GETSETTING$(\"CONFIG\", \"TSPL\", \"PAPER SIZE\")"));
-
-            if (printer_height <= (height * 11.8) && printer_height >= ((height * 11.8) - 20))
+            
+            if(ethernet.printerstatus()!=99)
             {
-                int dot = height * 12;
-                //ethernet.sendcommand($"BACKFEED {dot}");
-                ethernet.sendcommand($"BACKFEED {dot}");
-                ethernet.closeport();
-                return true;
+                ethernet.sendcommand("AUTODETECT");
+                Thread.Sleep(4000);
+                int printer_height = Convert.ToInt32(ethernet.sendcommand_getstring("OUT NET \"\"; GETSETTING$(\"CONFIG\", \"TSPL\", \"PAPER SIZE\")"));
+
+                if (printer_height <= (height * 11.8) && printer_height >= ((height * 11.8) - 20))
+                {
+                    int dot = height * 12;
+                    //ethernet.sendcommand($"BACKFEED {dot}");
+                    ethernet.sendcommand($"BACKFEED {dot}");
+                    ethernet.closeport();
+                    return true;
+                }
             }
 
             ethernet.closeport();
@@ -201,7 +296,7 @@ namespace TscDll.Helpers
 
             usb.openport();
             usb.sendcommand("AUTODETECT");
-            Thread.Sleep(4000);
+            Thread.Sleep(10000);
             int printer_height = Convert.ToInt32(usb.sendcommand_getstring("OUT USB \"\"; GETSETTING$(\"CONFIG\", \"TSPL\", \"PAPER SIZE\")"));
 
             if (printer_height <= (height * 11.8) && printer_height >= ((height * 11.8) - 20))
@@ -287,6 +382,52 @@ namespace TscDll.Helpers
             ProgressForm progress = new ProgressForm();
             progress.ShowDialog();
         }
+
+        /// <summary>
+        /// Метод для выявлении ошибок при печати штрихкода GS128
+        /// </summary>
+        /// <param name="bitmap">Объект Bitmap</param>
+        /// <returns>Объект класса ResponseData</returns>
+        public static ResponseData CheckGS128(Bitmap bitmap)
+        {
+            Settings settings = GetSettings();
+            ResponseData response = new ResponseData();
+            if (!FileExist() || settings == null)
+            {
+                response.ErrorMessage = "Файл не найден";
+                return response;
+            }
+            if (settings.Gs128Size == null)
+            {
+                response.ErrorMessage = "Данные в файле повреждены";
+                return response;
+            }
+            else if (settings.Gs128Size.Width == 0 || settings.Gs128Size.Height == 0)
+            {
+                response.ErrorMessage = "Данные в файле повреждены";
+                return response;
+            }
+            if (!Printer_status(settings))
+            {
+                response.ErrorMessage = "Принтер не подключен";
+                return response;
+            }
+
+            Init_printer_GS128(settings.Gs128Size.Width, settings.Gs128Size.Height);
+            Bitmap gs128 = ResizeImage(bitmap, settings.Gs128Size.Width, settings.Gs128Size.Height);
+
+            if (PrinterConnection(settings.Gs128Size.Height))
+            {
+                PrintPicture(gs128);
+                response.IsSuccess = true;
+            }
+            else
+            {
+                response.ErrorMessage = "Размер этикетки в принтере не соответвует выбранному";
+            }
+            return response;
+        }
+
 
         /// <summary>
         /// Печать SGTIN-ов в форме datamatrix

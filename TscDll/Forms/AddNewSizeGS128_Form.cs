@@ -5,10 +5,10 @@ using TscDll.Helpers;
 
 namespace TscDll.Forms
 {
-    public partial class Adding_NewSize : Form
+    public partial class AddNewSizeGS128_Form : Form
     {
         private ToolTip t_Tip;
-        public Adding_NewSize()
+        public AddNewSizeGS128_Form()
         {
             InitializeComponent();
             t_Tip = new ToolTip
@@ -25,13 +25,14 @@ namespace TscDll.Forms
             t_Tip.SetToolTip(groupBox1, "Ширина от 30 до 100 мм \r\n Высота от 20 до 50 мм");
         }
 
-        private void button_AddnewSize_Click(object sender, EventArgs e)
+        private void button_PutNewSize_Click(object sender, EventArgs e)
         {
-            if (AddToXMLNewSize()==1)
+            int i = AddToXMLNewSize();
+            if (i == 1)
             {
                 MessageBox.Show("Размер записан ранее");
             }
-            else if (AddToXMLNewSize() == 2)
+            else if (i == 2)
             {
                 MessageBox.Show("Некорректные значения");
             }
@@ -57,8 +58,9 @@ namespace TscDll.Forms
                 e.Handled = true;
             }
         }
+
         /// <summary>
-        /// Добавление нового размера для Sgtin и SSCC в XML 
+        /// Добавление нового размера для GS128 в XML
         /// </summary>
         /// <returns></returns>
         private int AddToXMLNewSize()
@@ -73,7 +75,7 @@ namespace TscDll.Forms
 
             if (int.TryParse(tB_newSizeWidth.Text, out int width) && int.TryParse(tB_newSizeHeight.Text, out int height))
             {
-                if (tB_newSizeHeight.TextLength != 0 && tB_newSizeWidth.TextLength != 0 && (width <= 100 && width >= 30) && (height <= 50 && height >= 20) && (width > height+17))
+                if (tB_newSizeHeight.TextLength != 0 && tB_newSizeWidth.TextLength != 0 && (width <= 100 && width >= 30) && (height <= 50 && height >= 20) && (width > height + 17))
                 {
                     intvalue.Size = tB_newSizeWidth.Text + " mm, " + tB_newSizeHeight.Text + " mm";
                     intvalue.Width = Convert.ToInt32(tB_newSizeWidth.Text);//width
@@ -81,22 +83,22 @@ namespace TscDll.Forms
 
                     Settings newSetting = TscHelper.GetSettings();
 
-                    foreach (Intvalue sgtinSize in newSetting.SgtinList)
+                    foreach (Intvalue gs129Size in newSetting.Gs128List)
                     {
-                        if (intvalue.Size == sgtinSize.Size)
+                        if (intvalue.Size == gs129Size.Size)
                         {
                             return 1;
                         }
                     }
 
-                    newSetting.SgtinList.Add(intvalue);
-                    newSetting.SsccList.Add(intvalue);
+                    newSetting.Gs128List.Add(intvalue);
                     TscHelper.SaveSettings(newSetting);
                 }
                 else return 2;
             }
             else return 2;
             return 3;
-        }       
+        }
+
     }
 }

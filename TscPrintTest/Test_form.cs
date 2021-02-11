@@ -62,7 +62,6 @@ namespace TscPrintTest
         private void Button2_Click(object sender, EventArgs e)
         {
             TscDll.Print.PrintSgtinSscc(printUnits);
-            Close();
         }
     }
 }
