@@ -2,8 +2,8 @@ D:\Codes\TscPrint\TscPrintTest\bin\Debug\TscPrintTest.exe.config
 D:\Codes\TscPrint\TscPrintTest\bin\Debug\TscPrintTest.exe
 D:\Codes\TscPrint\TscPrintTest\bin\Debug\TscPrintTest.pdb
 D:\Codes\TscPrint\TscPrintTest\bin\Debug\TscDll.dll
-D:\Codes\TscPrint\TscPrintTest\bin\Debug\zxing.dll
 D:\Codes\TscPrint\TscPrintTest\bin\Debug\tsclibnet.dll
+D:\Codes\TscPrint\TscPrintTest\bin\Debug\zxing.dll
 D:\Codes\TscPrint\TscPrintTest\bin\Debug\DevExpress.XtraGrid.v15.1.dll
 D:\Codes\TscPrint\TscPrintTest\bin\Debug\DevExpress.Data.v15.1.dll
 D:\Codes\TscPrint\TscPrintTest\bin\Debug\Newtonsoft.Json.dll

@@ -45,7 +45,6 @@ namespace TscDll.Entities
                 gtin = value;
             }
         }
-
         
         private Unit units { get; set; }
 
@@ -66,7 +65,6 @@ namespace TscDll.Entities
             }
         }
     }
-
     public class Unit
     {
         private string ssccValue { get; set; }
@@ -91,13 +89,10 @@ namespace TscDll.Entities
                 ssccValue = value;
             }
         }
-
         /// <summary>Агрегаты (необязательный параметр)</summary>
         public List<Unit> Units { get; set; }
-
         
         private List<string> sgtins { get; set; }
-
         /// <summary>SGTIN-ы (необязательный параметр)</summary>
         public List<string> Sgtins
         {
@@ -111,8 +106,7 @@ namespace TscDll.Entities
                     }
                     else throw new NullReferenceException("Sgtins is null or empty!");
                 }
-                return sgtins;
-                
+                return sgtins;                
             }
             set
             {

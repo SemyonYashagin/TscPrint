@@ -27,7 +27,7 @@ namespace TscDll.Forms
         /// <param name="e"></param>
         private void Button_Cancel_Click(object sender, EventArgs e)
         {
-            Settings cur_settings = TscHelper.GetSettings();
+            Settings cur_settings = XMLHelper.GetSettings();
             driver driver = new driver();
             PausePrinting(driver, cur_settings);
             Checking(driver, cur_settings);
@@ -38,7 +38,7 @@ namespace TscDll.Forms
         private void PrinterConnection()
         {
             ethernet ethernet = new ethernet();
-            Settings cur_settings = TscHelper.GetSettings();
+            Settings cur_settings = XMLHelper.GetSettings();
             string IP = TscHelper.GetPrinterIP(cur_settings);
             int PortNumber = TscHelper.GetPrinter_PortNumber(IP);
 
@@ -134,7 +134,7 @@ namespace TscDll.Forms
         {
             if(net)
             {
-                Settings cur_settings = TscHelper.GetSettings();
+                Settings cur_settings = XMLHelper.GetSettings();
                 string IP = TscHelper.GetPrinterIP(cur_settings);
                 int PortNumber = TscHelper.GetPrinter_PortNumber(IP);
 
@@ -167,7 +167,7 @@ namespace TscDll.Forms
         {
             if(net)
             {
-                Settings cur_settings = TscHelper.GetSettings();
+                Settings cur_settings = XMLHelper.GetSettings();
                 string IP = TscHelper.GetPrinterIP(cur_settings);
                 int PortNumber = TscHelper.GetPrinter_PortNumber(IP);
                 while (a != 32)

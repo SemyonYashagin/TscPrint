@@ -6,7 +6,7 @@ namespace TscDll.Forms
 {
     public partial class Gs128Settings : Form
     {
-        Settings settings = TscHelper.GetSettings();
+        Settings settings = XMLHelper.GetSettings();
         public Gs128Settings()
         {
             InitializeComponent();
@@ -21,9 +21,9 @@ namespace TscDll.Forms
 
         private void UpdateFields()
         {
-            if (TscHelper.FileExist())
+            if (XMLHelper.FileExist())
             {
-                Settings settings = TscHelper.GetSettings();
+                Settings settings = XMLHelper.GetSettings();
                 cB_GS128Size.Items.Clear();
                 tB_PrinterName.Text = settings.PrinterName;
                 
@@ -43,9 +43,9 @@ namespace TscDll.Forms
 
         private void Button_SaveNewSettings_Click(object sender, System.EventArgs e)
         {
-            if (TscHelper.FileExist() && cB_GS128Size.Text != "" &&  tB_PrinterName.Text != "")
+            if (XMLHelper.FileExist() && cB_GS128Size.Text != "" &&  tB_PrinterName.Text != "")
             {
-                Settings newset = TscHelper.GetSettings();
+                Settings newset = XMLHelper.GetSettings();
 
                 newset.PrinterName = tB_PrinterName.Text;
                 newset.Gs128Size = new Intvalue
@@ -56,12 +56,12 @@ namespace TscDll.Forms
                 };
 
 
-                ResponseData response = TscHelper.SaveSettings(newset);
+                ResponseData response = XMLHelper.SaveSettings(newset);
 
                 if (response.IsSuccess)
                 {
                     MessageBox.Show("Данные загружены");
-                    TscHelper.GetSettings();
+                    XMLHelper.GetSettings();
                     Close();
                 }
                 else
@@ -76,7 +76,7 @@ namespace TscDll.Forms
         }
         private Intvalue GetValue(Settings set, string size)
         {
-            foreach (Intvalue value in set.SgtinList)
+            foreach (Intvalue value in set.Gs128List)
             {
                 if (size == value.Size)
                     return value;

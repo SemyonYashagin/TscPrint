@@ -109,7 +109,11 @@
     <Compile Include="Forms\ProgressForm.Designer.cs">
       <DependentUpon>ProgressForm.cs</DependentUpon>
     </Compile>
+    <Compile Include="Helpers\GS128Helper.cs" />
+    <Compile Include="Helpers\SgtinHelper.cs" />
+    <Compile Include="Helpers\SsccHelper.cs" />
     <Compile Include="Helpers\TscHelper.cs" />
+    <Compile Include="Helpers\XMLHelper.cs" />
     <Compile Include="Print.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Properties\Resources.Designer.cs">

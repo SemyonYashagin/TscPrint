@@ -8,7 +8,7 @@ namespace TscDll.Forms
     public partial class PrintSettings : Form
     {
 
-        Settings settings = TscHelper.GetSettings();
+        Settings settings = XMLHelper.GetSettings();
         public PrintSettings()
         {
             InitializeComponent();
@@ -30,9 +30,9 @@ namespace TscDll.Forms
         /// <param name="e"></param>
         private void Button_Synch_Click(object sender, EventArgs e)
         {
-            if (TscHelper.FileExist() && cB_SgtinSize.Text!="" && cB_SsccSize.Text!="" && tB_PrinterName.Text!="" && cB_PrintMode.Text!="")
+            if (XMLHelper.FileExist() && cB_SgtinSize.Text!="" && cB_SsccSize.Text!="" && tB_PrinterName.Text!="" && cB_PrintMode.Text!="")
             {
-                Settings newset = TscHelper.GetSettings();
+                Settings newset = XMLHelper.GetSettings();
 
                 newset.PrinterName = tB_PrinterName.Text;
                 newset.SgtinSize = new Intvalue
@@ -51,12 +51,12 @@ namespace TscDll.Forms
                 newset.Density = numericDensity.Value;
                 newset.PrinterMode = cB_PrintMode.Text;
 
-                ResponseData response = TscHelper.SaveSettings(newset);
+                ResponseData response = XMLHelper.SaveSettings(newset);
 
                 if (response.IsSuccess)
                 {
                     MessageBox.Show("Данные загружены");
-                    TscHelper.GetSettings();
+                    XMLHelper.GetSettings();
                     Close();
                 }
                 else
@@ -96,9 +96,9 @@ namespace TscDll.Forms
         /// </summary>
         private void UpdateFields()
         {
-            if (TscHelper.FileExist())
+            if (XMLHelper.FileExist())
             {
-                Settings settings = TscHelper.GetSettings();
+                Settings settings = XMLHelper.GetSettings();
                 cB_SgtinSize.Items.Clear();
                 cB_SsccSize.Items.Clear();
                 tB_PrinterName.Text = settings.PrinterName;

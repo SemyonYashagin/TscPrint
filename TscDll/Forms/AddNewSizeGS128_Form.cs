@@ -21,8 +21,8 @@ namespace TscDll.Forms
                 ShowAlways = true
             };
             t_Tip.SetToolTip(label1, "от 30 до 100 мм");
-            t_Tip.SetToolTip(label2, "от 20 до 50 мм");
-            t_Tip.SetToolTip(groupBox1, "Ширина от 30 до 100 мм \r\n Высота от 20 до 50 мм");
+            t_Tip.SetToolTip(label2, "от 20 до 150 мм");
+            t_Tip.SetToolTip(groupBox1, "Ширина от 30 до 100 мм \r\n Высота от 20 до 150 мм");
         }
 
         private void button_PutNewSize_Click(object sender, EventArgs e)
@@ -67,21 +67,21 @@ namespace TscDll.Forms
         {
             Intvalue intvalue = new Intvalue();
 
-            if (!TscHelper.FileExist())
+            if (!XMLHelper.FileExist())
             {
                 Settings settings = new Settings();
-                TscHelper.CreateFile(settings);
+                XMLHelper.CreateFile(settings);
             }
 
             if (int.TryParse(tB_newSizeWidth.Text, out int width) && int.TryParse(tB_newSizeHeight.Text, out int height))
             {
-                if (tB_newSizeHeight.TextLength != 0 && tB_newSizeWidth.TextLength != 0 && (width <= 100 && width >= 30) && (height <= 50 && height >= 20) && (width > height + 17))
+                if (tB_newSizeHeight.TextLength != 0 && tB_newSizeWidth.TextLength != 0 && (width <= 100 && width >= 30) && (height <= 150 && height >= 20) && (width > height + 17 || width+50==height))
                 {
                     intvalue.Size = tB_newSizeWidth.Text + " mm, " + tB_newSizeHeight.Text + " mm";
                     intvalue.Width = Convert.ToInt32(tB_newSizeWidth.Text);//width
                     intvalue.Height = Convert.ToInt32(tB_newSizeHeight.Text);//height
 
-                    Settings newSetting = TscHelper.GetSettings();
+                    Settings newSetting = XMLHelper.GetSettings();
 
                     foreach (Intvalue gs129Size in newSetting.Gs128List)
                     {
@@ -92,7 +92,7 @@ namespace TscDll.Forms
                     }
 
                     newSetting.Gs128List.Add(intvalue);
-                    TscHelper.SaveSettings(newSetting);
+                    XMLHelper.SaveSettings(newSetting);
                 }
                 else return 2;
             }

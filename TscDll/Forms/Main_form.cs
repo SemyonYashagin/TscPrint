@@ -36,7 +36,7 @@ namespace TscDll.Forms
         /// </summary>
         private void UpdatePrinterStatus()
         {
-            this.settings = TscHelper.GetSettings();
+            this.settings = XMLHelper.GetSettings();
         }
         /// <summary>
         /// Обновление полей Main_form формы
@@ -56,7 +56,7 @@ namespace TscDll.Forms
                 cb_sizes.Enabled = false;
             }
 
-            if (TscHelper.FileExist() && settings.SgtinSize!= null && settings.SsccSize!= null)
+            if (XMLHelper.FileExist() && settings.SgtinSize!= null && settings.SsccSize!= null)
             {
 
                 tB_Sgtin.Text = settings.SgtinSize.Size;
@@ -76,7 +76,7 @@ namespace TscDll.Forms
         private void ComboBox1_TextChanged_1(object sender, EventArgs e)
         {
             Object selectedItem = cb_sizes.SelectedItem;
-            Settings set = TscHelper.GetSettings();
+            Settings set = XMLHelper.GetSettings();
             buttonPrint.Enabled = false;
 
             string message = "Вы уверены что установлен рулон этикеток для печати " + selectedItem.ToString() + "?";
@@ -150,9 +150,9 @@ namespace TscDll.Forms
             {
                 List<string> sgtins = new List<string>();
                 sgtins = GetSgtin(sgtins, markPrints);
-                Settings set = TscHelper.GetSettings();
-                TscHelper.Init_printer(set.SgtinSize.Width, set.SgtinSize.Height);
-                TscHelper.PrintSgtins(set.SgtinSize.Width, set.SgtinSize.Height, sgtins);
+                Settings set = XMLHelper.GetSettings();
+                SgtinHelper.Init_printer(set.SgtinSize.Width, set.SgtinSize.Height);
+                SgtinHelper.PrintSgtins(set.SgtinSize.Width, set.SgtinSize.Height, sgtins);
                 //TscHelper.FakePrinting();
 
             }
@@ -160,9 +160,9 @@ namespace TscDll.Forms
             {
                 List<string> sscces = new List<string>();
                 sscces = GetSscc(sscces, markPrints);
-                Settings set = TscHelper.GetSettings();
-                TscHelper.Init_printer(set.SsccSize.Width, set.SsccSize.Height);
-                ResponseData response = TscHelper.PrintSscc(set.SsccSize.Width, set.SsccSize.Height, sscces);
+                Settings set = XMLHelper.GetSettings();
+                SgtinHelper.Init_printer(set.SsccSize.Width, set.SsccSize.Height);
+                ResponseData response = SsccHelper.PrintSscc(set.SsccSize.Width, set.SsccSize.Height, sscces);
                 if (response.IsSuccess)
                     MessageBox.Show("Напечатано");
                 else MessageBox.Show(response.ErrorMessage);

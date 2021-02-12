@@ -17,18 +17,28 @@ namespace TscDll.Forms
             UpdatePrinterStatus();
             UpdateFields();          
         }
+        /// <summary>
+        /// Метод для обновления статуса принтера, при закрывании форма Настройки
+        /// </summary>
         private void UpdatePrinterStatus()
         {
-            settings = TscHelper.GetSettings();
+            settings = XMLHelper.GetSettings();
         }
 
+        /// <summary>
+        /// Метод для взятия объекта Bitmap из класса Print
+        /// </summary>
+        /// <param name="bitmap">GS128 в формате Bitmap</param>
         public void GetBitmap(Bitmap bitmap)
         {
             gs128 = bitmap;
         }
-
+        /// <summary>
+        /// Метод для обновления данных на форме
+        /// </summary>
         private void UpdateFields()
-        {            
+        {
+            settings = XMLHelper.GetSettings();
             if (TscHelper.Printer_status(settings))
             {
                 tB_PrinterStatus.Text = "Готов к работе";
@@ -41,7 +51,7 @@ namespace TscDll.Forms
                 button_PrintGS128.Enabled = false;
             }
 
-            if (TscHelper.FileExist() && settings.Gs128Size != null)
+            if (XMLHelper.FileExist() && settings.Gs128Size != null)
             {
 
                 tB_Gs128Size.Text = settings.Gs128Size.Size;
@@ -60,7 +70,7 @@ namespace TscDll.Forms
 
         private void button_PrintGS128_Click(object sender, EventArgs e)
         {
-            ResponseData response = TscHelper.CheckGS128(gs128);
+            ResponseData response = GS128Helper.CheckGS128(gs128);
             if (response.IsSuccess) MessageBox.Show("Печать прошла успешна");
             else MessageBox.Show(response.ErrorMessage);
         }
