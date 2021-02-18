@@ -90,3 +90,4 @@ D:\Codes\TscPrint\TscDll\obj\Debug\TscDll.csproj.CoreCompileInputs.cache
 D:\Codes\TscPrint\TscDll\obj\Debug\TscDll.csproj.CopyComplete
 D:\Codes\TscPrint\TscDll\obj\Debug\TscDll.dll
 D:\Codes\TscPrint\TscDll\obj\Debug\TscDll.pdb
+D:\Codes\TscPrint\TscDll\bin\Debug\AutoClosingMessageBox.dll

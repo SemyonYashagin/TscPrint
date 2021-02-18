@@ -58,15 +58,6 @@ namespace TscDll.Helpers
             driver.closeport();
         }
 
-        public static void PrintPictureVertically(Bitmap gs128)
-        {
-            driver driver = new driver();
-
-            driver.send_bitmap(0, 40, gs128);
-            driver.printlabel("1", "1");
-            driver.closeport();
-        }
-
         /// <summary>
         /// Метод для выявлении ошибок при печати штрихкода GS128
         /// </summary>

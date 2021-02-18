@@ -87,3 +87,4 @@ D:\Codes\TscPrint\TscPrintTest\obj\Debug\TscPrintTest.csproj.CoreCompileInputs.c
 D:\Codes\TscPrint\TscPrintTest\obj\Debug\TscPrintTest.csproj.CopyComplete
 D:\Codes\TscPrint\TscPrintTest\obj\Debug\TscPrintTest.exe
 D:\Codes\TscPrint\TscPrintTest\obj\Debug\TscPrintTest.pdb
+D:\Codes\TscPrint\TscPrintTest\bin\Debug\AutoClosingMessageBox.dll

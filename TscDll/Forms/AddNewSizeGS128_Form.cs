@@ -30,15 +30,15 @@ namespace TscDll.Forms
             int i = AddToXMLNewSize();
             if (i == 1)
             {
-                MessageBox.Show("Размер записан ранее");
+                AutoClosingMessageBox.Show("Размер записан ранее", "Ошибка", 2000);
             }
             else if (i == 2)
             {
-                MessageBox.Show("Некорректные значения");
+                AutoClosingMessageBox.Show("Некорректные значения", "Ошибка", 2000);
             }
             else
             {
-                MessageBox.Show("Новый размер добавлен");
+                AutoClosingMessageBox.Show("Новый размер добавлен", "Успешно", 2000);
                 Close();
             }
         }

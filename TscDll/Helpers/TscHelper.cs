@@ -59,7 +59,13 @@ namespace TscDll.Helpers
                     else
                     {
                         driver driver = new driver();
-                        driver.openport(settings.PrinterName);
+                        bool a = driver.openport(settings.PrinterName);
+                        if(!a)
+                        {
+                            driver.closeport();
+                            ethernet.closeport();
+                            return false;
+                        }
                         if (driver.driver_status(settings.PrinterName))
                         {
                             driver.closeport();
@@ -162,7 +168,7 @@ namespace TscDll.Helpers
         {
             string printerName = settings.PrinterName;
             string printerIP = "";
-            string query = string.Format($"SELECT * from Win32_Printer WHERE Name LIKE '%{0}'", printerName);
+            string query = string.Format("SELECT * from Win32_Printer WHERE Name LIKE '%{0}'", printerName);
 
             using (ManagementObjectSearcher searcher = new ManagementObjectSearcher(query))
             using (ManagementObjectCollection coll = searcher.Get())

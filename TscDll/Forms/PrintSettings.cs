@@ -20,7 +20,7 @@ namespace TscDll.Forms
             {
                 UpdateFields();
             }
-            else MessageBox.Show("Исходные данные не найдены");
+            else AutoClosingMessageBox.Show("Исходные данные не найдены", "Ошибка", 2000);
 
         }
         /// <summary>
@@ -55,18 +55,18 @@ namespace TscDll.Forms
 
                 if (response.IsSuccess)
                 {
-                    MessageBox.Show("Данные загружены");
+                    AutoClosingMessageBox.Show("Данные загружены", "Успешно", 2000);
                     XMLHelper.GetSettings();
                     Close();
                 }
                 else
                 {
-                    MessageBox.Show(response.ErrorMessage);
+                    AutoClosingMessageBox.Show(response.ErrorMessage, "Ошибка", 2000);
                 }
             }
             else
             {
-                MessageBox.Show("Введите данные");
+                AutoClosingMessageBox.Show("Введите данные", "Ошибка", 2000);
             }
         }
         /// <summary>

@@ -94,7 +94,7 @@ namespace TscDll.Forms
                 {
                     if (TscHelper.PrinterConnection(set.SgtinSize.Height))
                     {
-                        MessageBox.Show("Проверка этикетки выполнена успешно. Можете печатать!");
+                        AutoClosingMessageBox.Show("Проверка этикетки выполнена успешно. Можете печатать!", "Успешно", 2000);
                         buttonPrint.Enabled = true;
                     }
                     else
@@ -102,8 +102,6 @@ namespace TscDll.Forms
                         MessageBox.Show("Выбранный Вами рулон этикеток и рулон установленный в принтере не совпадают!");
                         buttonPrint.Enabled = false;
                     }
-
-                    //buttonPrint.Enabled = true;
                 }
             }
             if (selectedItem.ToString() == "SSCC")
@@ -117,7 +115,7 @@ namespace TscDll.Forms
                 {
                     if (TscHelper.PrinterConnection(set.SsccSize.Height))
                     {
-                        MessageBox.Show("Проверка этикетки выполнена успешно. Можете печатать!");
+                        AutoClosingMessageBox.Show("Проверка этикетки выполнена успешно. Можете печатать!", "Успешно", 2000);
                         buttonPrint.Enabled = true;
                     }
                     else

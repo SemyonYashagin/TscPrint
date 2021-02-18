@@ -71,8 +71,8 @@ namespace TscDll.Forms
         private void button_PrintGS128_Click(object sender, EventArgs e)
         {
             ResponseData response = GS128Helper.CheckGS128(gs128);
-            if (response.IsSuccess) MessageBox.Show("Печать прошла успешна");
-            else MessageBox.Show(response.ErrorMessage);
+            if (response.IsSuccess) AutoClosingMessageBox.Show("Печать прошла успешна", "Успешно", 2000);
+            else AutoClosingMessageBox.Show(response.ErrorMessage, "Ошибка", 2000);
         }
     }
 }
