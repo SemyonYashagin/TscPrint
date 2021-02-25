@@ -29,6 +29,7 @@ namespace TscDll.Forms
         /// </summary>
         private void InitializeComponent()
         {
+            System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(AddNewSizeGS128_Form));
             this.groupBox1 = new System.Windows.Forms.GroupBox();
             this.button_PutNewSize = new System.Windows.Forms.Button();
             this.tB_newSizeHeight = new System.Windows.Forms.TextBox();
@@ -105,6 +106,7 @@ namespace TscDll.Forms
             this.ClientSize = new System.Drawing.Size(254, 140);
             this.Controls.Add(this.groupBox1);
             this.FormBorderStyle = System.Windows.Forms.FormBorderStyle.FixedSingle;
+            this.Icon = ((System.Drawing.Icon)(resources.GetObject("$this.Icon")));
             this.MaximizeBox = false;
             this.MinimizeBox = false;
             this.Name = "AddNewSizeGS128_Form";

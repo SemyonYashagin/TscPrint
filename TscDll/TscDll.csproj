@@ -163,6 +163,11 @@
   <ItemGroup>
     <Content Include="ref\tsclibnet.dll" />
     <Content Include="ref\zxing.dll" />
+    <None Include="Resources\process.ico" />
+    <None Include="Resources\new.ico" />
+    <None Include="Resources\settings.ico" />
+    <None Include="Resources\printer.ico" />
+    <None Include="Resources\printer.png" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
 </Project>

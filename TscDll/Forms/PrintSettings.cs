@@ -12,15 +12,7 @@ namespace TscDll.Forms
         public PrintSettings()
         {
             InitializeComponent();
-            cB_SgtinSize.DropDownStyle = ComboBoxStyle.DropDownList;
-            cB_SsccSize.DropDownStyle = ComboBoxStyle.DropDownList;
-            cB_PrintMode.DropDownStyle = ComboBoxStyle.DropDownList;
-
-            if (settings != null)
-            {
-                UpdateFields();
-            }
-            else AutoClosingMessageBox.Show("Исходные данные не найдены", "Ошибка", 2000);
+            UpdateFields();
 
         }
         /// <summary>
@@ -30,11 +22,11 @@ namespace TscDll.Forms
         /// <param name="e"></param>
         private void Button_Synch_Click(object sender, EventArgs e)
         {
-            if (XMLHelper.FileExist() && cB_SgtinSize.Text!="" && cB_SsccSize.Text!="" && tB_PrinterName.Text!="" && cB_PrintMode.Text!="")
+            if (XMLHelper.FileExist() && cB_SgtinSize.Text!="" && cB_SsccSize.Text!="" && cB_PrinterName.Text != "" && cB_PrintMode.Text!="")
             {
                 Settings newset = XMLHelper.GetSettings();
 
-                newset.PrinterName = tB_PrinterName.Text;
+                newset.PrinterName = cB_PrinterName.Text;
                 newset.SgtinSize = new Intvalue
                 {
                     Size = cB_SgtinSize.Text,
@@ -55,18 +47,18 @@ namespace TscDll.Forms
 
                 if (response.IsSuccess)
                 {
-                    AutoClosingMessageBox.Show("Данные загружены", "Успешно", 2000);
+                    AutoClosingMessageBox.Show("Данные загружены", "Успешно", 1500);
                     XMLHelper.GetSettings();
                     Close();
                 }
                 else
                 {
-                    AutoClosingMessageBox.Show(response.ErrorMessage, "Ошибка", 2000);
+                    AutoClosingMessageBox.Show(response.ErrorMessage, "Ошибка", 1500);
                 }
             }
             else
             {
-                AutoClosingMessageBox.Show("Введите данные", "Ошибка", 2000);
+                AutoClosingMessageBox.Show("Введите данные", "Ошибка", 1500);
             }
         }
         /// <summary>
@@ -96,12 +88,27 @@ namespace TscDll.Forms
         /// </summary>
         private void UpdateFields()
         {
+
+            cB_PrinterName.Items.Clear();
+            foreach (string printer in System.Drawing.Printing.PrinterSettings.InstalledPrinters)
+            {
+                cB_PrinterName.Items.Add(printer);
+            }
+
             if (XMLHelper.FileExist())
             {
                 Settings settings = XMLHelper.GetSettings();
                 cB_SgtinSize.Items.Clear();
                 cB_SsccSize.Items.Clear();
-                tB_PrinterName.Text = settings.PrinterName;
+                cB_PrinterName.Text = settings.PrinterName;
+
+                if (settings.SsccSize != null && settings.SgtinSize != null && settings.PrinterMode != null)
+                {
+                    cB_SgtinSize.Text = settings.SgtinSize.Size;
+                    cB_SsccSize.Text = settings.SsccSize.Size;
+                    cB_PrintMode.Text = settings.PrinterMode;
+                }
+
                 if (settings.Speed < 2 || settings.Speed > 12)
                     numericSpeed.Value = numericSpeed.Minimum;
                 else
@@ -121,6 +128,26 @@ namespace TscDll.Forms
                     cB_SsccSize.Items.Add(sscc.Size);
                 }
             }
+        }
+
+        private void cB_SgtinSize_KeyPress(object sender, KeyPressEventArgs e)
+        {
+            e.Handled = true;
+        }
+
+        private void cB_SsccSize_KeyPress(object sender, KeyPressEventArgs e)
+        {
+            e.Handled = true;
+        }
+
+        private void cB_PrintMode_KeyPress(object sender, KeyPressEventArgs e)
+        {
+            e.Handled = true;
+        }
+
+        private void cB_PrinterName_KeyPress(object sender, KeyPressEventArgs e)
+        {
+            e.Handled = true;
         }
     }
 }

@@ -29,6 +29,7 @@ namespace TscDll.Forms
         /// </summary>
         private void InitializeComponent()
         {
+            System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(Adding_NewSize));
             this.groupBox1 = new System.Windows.Forms.GroupBox();
             this.button_PutNewSize = new System.Windows.Forms.Button();
             this.tB_newSizeHeight = new System.Windows.Forms.TextBox();
@@ -106,6 +107,7 @@ namespace TscDll.Forms
             this.ClientSize = new System.Drawing.Size(269, 140);
             this.Controls.Add(this.groupBox1);
             this.FormBorderStyle = System.Windows.Forms.FormBorderStyle.FixedSingle;
+            this.Icon = ((System.Drawing.Icon)(resources.GetObject("$this.Icon")));
             this.MaximizeBox = false;
             this.Name = "Adding_NewSize";
             this.StartPosition = System.Windows.Forms.FormStartPosition.CenterParent;

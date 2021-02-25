@@ -94,7 +94,7 @@ namespace TscDll.Forms
                 {
                     if (TscHelper.PrinterConnection(set.SgtinSize.Height))
                     {
-                        AutoClosingMessageBox.Show("Проверка этикетки выполнена успешно. Можете печатать!", "Успешно", 2000);
+                        AutoClosingMessageBox.Show("Проверка этикетки выполнена успешно. Можете печатать!", "Успешно", 1500);
                         buttonPrint.Enabled = true;
                     }
                     else
@@ -115,7 +115,7 @@ namespace TscDll.Forms
                 {
                     if (TscHelper.PrinterConnection(set.SsccSize.Height))
                     {
-                        AutoClosingMessageBox.Show("Проверка этикетки выполнена успешно. Можете печатать!", "Успешно", 2000);
+                        AutoClosingMessageBox.Show("Проверка этикетки выполнена успешно. Можете печатать!", "Успешно", 1500);
                         buttonPrint.Enabled = true;
                     }
                     else
@@ -123,8 +123,6 @@ namespace TscDll.Forms
                         MessageBox.Show("Выбранный Вами рулон этикеток и рулон установленный в принтере не совпадают!");
                         buttonPrint.Enabled = false;
                     }
-
-                    //buttonPrint.Enabled = true;
                 }
             }
         }

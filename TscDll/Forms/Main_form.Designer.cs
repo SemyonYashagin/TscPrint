@@ -301,7 +301,7 @@ namespace TscDll.Forms
             this.MaximizeBox = false;
             this.Name = "Main_form";
             this.StartPosition = System.Windows.Forms.FormStartPosition.CenterScreen;
-            this.Text = "Печать этикеток";
+            this.Text = "Печать SGTIN и SSCC";
             this.Load += new System.EventHandler(this.Main_form_Load);
             this.groupBox1.ResumeLayout(false);
             this.groupBox1.PerformLayout();

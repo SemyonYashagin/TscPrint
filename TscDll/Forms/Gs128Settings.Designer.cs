@@ -29,12 +29,13 @@ namespace TscDll.Forms
         /// </summary>
         private void InitializeComponent()
         {
+            System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(Gs128Settings));
             this.cB_GS128Size = new System.Windows.Forms.ComboBox();
             this.label3 = new System.Windows.Forms.Label();
             this.label1 = new System.Windows.Forms.Label();
-            this.tB_PrinterName = new System.Windows.Forms.TextBox();
             this.Button_AddNewSize = new System.Windows.Forms.Button();
             this.Button_SaveNewSettings = new System.Windows.Forms.Button();
+            this.cB_PrinterName = new System.Windows.Forms.ComboBox();
             this.SuspendLayout();
             // 
             // cB_GS128Size
@@ -44,6 +45,7 @@ namespace TscDll.Forms
             this.cB_GS128Size.Name = "cB_GS128Size";
             this.cB_GS128Size.Size = new System.Drawing.Size(150, 21);
             this.cB_GS128Size.TabIndex = 17;
+            this.cB_GS128Size.KeyPress += new System.Windows.Forms.KeyPressEventHandler(this.cB_GS128Size_KeyPress);
             // 
             // label3
             // 
@@ -63,13 +65,6 @@ namespace TscDll.Forms
             this.label1.Size = new System.Drawing.Size(133, 13);
             this.label1.TabIndex = 15;
             this.label1.Text = "Наименование принтера";
-            // 
-            // tB_PrinterName
-            // 
-            this.tB_PrinterName.Location = new System.Drawing.Point(14, 25);
-            this.tB_PrinterName.Name = "tB_PrinterName";
-            this.tB_PrinterName.Size = new System.Drawing.Size(150, 20);
-            this.tB_PrinterName.TabIndex = 14;
             // 
             // Button_AddNewSize
             // 
@@ -93,18 +88,28 @@ namespace TscDll.Forms
             this.Button_SaveNewSettings.UseVisualStyleBackColor = true;
             this.Button_SaveNewSettings.Click += new System.EventHandler(this.Button_SaveNewSettings_Click);
             // 
+            // cB_PrinterName
+            // 
+            this.cB_PrinterName.FormattingEnabled = true;
+            this.cB_PrinterName.Location = new System.Drawing.Point(15, 24);
+            this.cB_PrinterName.Name = "cB_PrinterName";
+            this.cB_PrinterName.Size = new System.Drawing.Size(149, 21);
+            this.cB_PrinterName.TabIndex = 20;
+            this.cB_PrinterName.KeyPress += new System.Windows.Forms.KeyPressEventHandler(this.cB_PrinterName_KeyPress);
+            // 
             // Gs128Settings
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.ClientSize = new System.Drawing.Size(175, 155);
+            this.Controls.Add(this.cB_PrinterName);
             this.Controls.Add(this.Button_AddNewSize);
             this.Controls.Add(this.Button_SaveNewSettings);
             this.Controls.Add(this.cB_GS128Size);
             this.Controls.Add(this.label3);
             this.Controls.Add(this.label1);
-            this.Controls.Add(this.tB_PrinterName);
             this.FormBorderStyle = System.Windows.Forms.FormBorderStyle.FixedSingle;
+            this.Icon = ((System.Drawing.Icon)(resources.GetObject("$this.Icon")));
             this.MaximizeBox = false;
             this.MinimizeBox = false;
             this.Name = "Gs128Settings";
@@ -119,8 +124,8 @@ namespace TscDll.Forms
         private System.Windows.Forms.ComboBox cB_GS128Size;
         private System.Windows.Forms.Label label3;
         private System.Windows.Forms.Label label1;
-        private System.Windows.Forms.TextBox tB_PrinterName;
         private System.Windows.Forms.Button Button_AddNewSize;
         private System.Windows.Forms.Button Button_SaveNewSettings;
+        private System.Windows.Forms.ComboBox cB_PrinterName;
     }
 }

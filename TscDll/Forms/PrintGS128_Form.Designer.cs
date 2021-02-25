@@ -29,6 +29,7 @@ namespace TscDll.Forms
         /// </summary>
         private void InitializeComponent()
         {
+            System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(PrintGS128_Form));
             this.button_PrintGS128 = new System.Windows.Forms.Button();
             this.label1 = new System.Windows.Forms.Label();
             this.groupBox1 = new System.Windows.Forms.GroupBox();
@@ -115,6 +116,7 @@ namespace TscDll.Forms
             this.Controls.Add(this.groupBox1);
             this.Controls.Add(this.button_PrintGS128);
             this.FormBorderStyle = System.Windows.Forms.FormBorderStyle.FixedSingle;
+            this.Icon = ((System.Drawing.Icon)(resources.GetObject("$this.Icon")));
             this.MaximizeBox = false;
             this.MinimizeBox = false;
             this.Name = "PrintGS128_Form";

@@ -81,7 +81,8 @@ namespace TscDll.Helpers
                     }
                 }
             }
-            return true;
+            else
+                return false;
         }       
 
         /// <summary>

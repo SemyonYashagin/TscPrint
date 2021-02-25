@@ -18,7 +18,7 @@ namespace TscPrintTest
 
         private void Button1_Click(object sender, EventArgs e)
         {
-            Bitmap gs128 = (Bitmap)Image.FromFile("D:\\Codes\\GS128.jpg");
+            Bitmap gs128 = (Bitmap)Image.FromFile("D:\\Codes\\GS128.png");
             TscDll.Print.PrintGS128(gs128);          
         }
 

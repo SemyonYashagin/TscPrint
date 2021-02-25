@@ -107,11 +107,11 @@ namespace TscDll.Helpers
             var destRect = new Rectangle(0, 0, width * 11, height * 11);
             var destImage = new Bitmap(width * 11, height * 11);
 
-            if (width < height)
-            {
-                destRect = new Rectangle(0, 0, height * 11, width * 11);
-                destImage = new Bitmap(height * 11, width * 11);
-            }
+            //if (width < height)
+            //{
+            //    destRect = new Rectangle(0, 0, height * 11, width * 11);
+            //    destImage = new Bitmap(height * 11, width * 11);
+            //}
 
             destImage.SetResolution(gs128.HorizontalResolution, gs128.VerticalResolution);
 
@@ -130,8 +130,8 @@ namespace TscDll.Helpers
                 }
             }
 
-            if (width < height)
-                destImage.RotateFlip(RotateFlipType.Rotate90FlipNone);
+            //if (width < height)
+            //    destImage.RotateFlip(RotateFlipType.Rotate90FlipNone);
 
             return destImage;
         }
