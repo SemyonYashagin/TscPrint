@@ -12,7 +12,9 @@ namespace TscDll.Forms
             InitializeComponent();
             UpdateFields();
         }
-
+        /// <summary>
+        /// Обновление полей формы
+        /// </summary>
         private void UpdateFields()
         {
             cB_PrinterName.Items.Clear();
@@ -25,9 +27,13 @@ namespace TscDll.Forms
             {
                 Settings settings = XMLHelper.GetSettings();
                 cB_GS128Size.Items.Clear();
-                cB_PrinterName.Text = settings.PrinterName;
-                cB_GS128Size.Text = settings.Gs128Size.Size;
                 
+                if (settings.PrinterName != null)
+                    cB_PrinterName.Text = settings.PrinterName;
+                                
+                if(settings.Gs128Size != null)
+                    cB_GS128Size.Text = settings.Gs128Size.Size;
+
                 foreach (Intvalue gs128 in settings.Gs128List)
                 {
                     cB_GS128Size.Items.Add(gs128.Size);
@@ -75,6 +81,12 @@ namespace TscDll.Forms
                 AutoClosingMessageBox.Show("Введите данные", "Ошибка", 1500);
             }
         }
+        /// <summary>
+        /// Метод для поиска нужного размера (gs128) в настройках принтера из всех размеров gs128 (Gs128List)
+        /// </summary>
+        /// <param name="set">Объект класса Settings в котором хранятся настройки принтера</param>
+        /// <param name="size">Размер gs128</param>
+        /// <returns>Если данный размер записан в настройках принтера,то возвращает данный размер, иначе null</returns>
         private Intvalue GetValue(Settings set, string size)
         {
             foreach (Intvalue value in set.Gs128List)

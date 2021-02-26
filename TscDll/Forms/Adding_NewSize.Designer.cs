@@ -111,7 +111,7 @@ namespace TscDll.Forms
             this.MaximizeBox = false;
             this.Name = "Adding_NewSize";
             this.StartPosition = System.Windows.Forms.FormStartPosition.CenterParent;
-            this.Text = "Новая этикетка";
+            this.Text = "Новый размер";
             this.groupBox1.ResumeLayout(false);
             this.groupBox1.PerformLayout();
             this.ResumeLayout(false);

@@ -62,7 +62,7 @@ namespace TscDll.Forms
             }
         }
         /// <summary>
-        /// Метод для взтия объекта Intvalue из объекта класса Settings
+        /// Метод для взтия объекта Intvalue (SgtinList) из объекта класса Settings
         /// </summary>
         /// <param name="set">объект класса Settings</param>
         /// <param name="size">новый размер</param>
