@@ -35,6 +35,7 @@ namespace TscDll.Helpers
                     {
                         driver driver = new driver();
                         driver.openport(settings.PrinterName);
+
                         if (driver.driver_status(settings.PrinterName))
                         {
                             driver.closeport();
@@ -50,6 +51,15 @@ namespace TscDll.Helpers
                 else
                 {
                     ethernet.openport(IP, PortNumber);
+                    
+                    try
+                    {
+                        ethernet.printerstatus();
+                    }
+                    catch (System.Net.Sockets.SocketException)
+                    {
+                        return false;
+                    }
 
                     if (ethernet.printerstatus() != 0)
                     {
@@ -103,7 +113,7 @@ namespace TscDll.Helpers
             {
                 ethernet.sendcommand("LIMITFEED 50 mm");//if the label height is more than 50 mm the calibration will be cancelled.
                 ethernet.sendcommand("AUTODETECT");
-                Thread.Sleep(5000);
+                Thread.Sleep(4000);
                 int printer_height = Convert.ToInt32(ethernet.sendcommand_getstring("OUT NET \"\"; GETSETTING$(\"CONFIG\", \"TSPL\", \"PAPER SIZE\")"));
 
                 if (printer_height <= (height * 11.8) && printer_height >= ((height * 11.8) - 20))
@@ -130,7 +140,7 @@ namespace TscDll.Helpers
             usb.openport();
             usb.sendcommand("LIMITFEED 50 mm");//if the label height is more than 50 mm the calibration will be cancelled.
             usb.sendcommand("AUTODETECT");
-            Thread.Sleep(5000);
+            Thread.Sleep(4000);
             int printer_height = Convert.ToInt32(usb.sendcommand_getstring("OUT USB \"\"; GETSETTING$(\"CONFIG\", \"TSPL\", \"PAPER SIZE\")"));
 
             if (printer_height <= (height * 11.8) && printer_height >= ((height * 11.8) - 20))

@@ -74,5 +74,10 @@ namespace TscDll.Forms
             if (response.IsSuccess) AutoClosingMessageBox.Show("Печать прошла успешна", "Успешно", 1500);
             else AutoClosingMessageBox.Show(response.ErrorMessage, "Ошибка", 1500);
         }
+
+        private void button1_Click(object sender, EventArgs e)
+        {
+            UpdateFields();
+        }
     }
 }

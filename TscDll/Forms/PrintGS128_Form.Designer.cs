@@ -33,6 +33,7 @@ namespace TscDll.Forms
             this.button_PrintGS128 = new System.Windows.Forms.Button();
             this.label1 = new System.Windows.Forms.Label();
             this.groupBox1 = new System.Windows.Forms.GroupBox();
+            this.button1 = new System.Windows.Forms.Button();
             this.label2 = new System.Windows.Forms.Label();
             this.tB_Gs128Size = new System.Windows.Forms.TextBox();
             this.tB_PrinterStatus = new System.Windows.Forms.TextBox();
@@ -61,6 +62,7 @@ namespace TscDll.Forms
             // 
             // groupBox1
             // 
+            this.groupBox1.Controls.Add(this.button1);
             this.groupBox1.Controls.Add(this.label2);
             this.groupBox1.Controls.Add(this.tB_Gs128Size);
             this.groupBox1.Controls.Add(this.tB_PrinterStatus);
@@ -71,6 +73,16 @@ namespace TscDll.Forms
             this.groupBox1.TabIndex = 2;
             this.groupBox1.TabStop = false;
             this.groupBox1.Text = "Принтер";
+            // 
+            // button1
+            // 
+            this.button1.Image = ((System.Drawing.Image)(resources.GetObject("button1.Image")));
+            this.button1.Location = new System.Drawing.Point(165, 30);
+            this.button1.Name = "button1";
+            this.button1.Size = new System.Drawing.Size(29, 25);
+            this.button1.TabIndex = 5;
+            this.button1.UseVisualStyleBackColor = true;
+            this.button1.Click += new System.EventHandler(this.button1_Click);
             // 
             // label2
             // 
@@ -86,7 +98,7 @@ namespace TscDll.Forms
             this.tB_Gs128Size.Location = new System.Drawing.Point(76, 70);
             this.tB_Gs128Size.Name = "tB_Gs128Size";
             this.tB_Gs128Size.ReadOnly = true;
-            this.tB_Gs128Size.Size = new System.Drawing.Size(100, 20);
+            this.tB_Gs128Size.Size = new System.Drawing.Size(118, 20);
             this.tB_Gs128Size.TabIndex = 3;
             // 
             // tB_PrinterStatus
@@ -94,7 +106,7 @@ namespace TscDll.Forms
             this.tB_PrinterStatus.Location = new System.Drawing.Point(76, 33);
             this.tB_PrinterStatus.Name = "tB_PrinterStatus";
             this.tB_PrinterStatus.ReadOnly = true;
-            this.tB_PrinterStatus.Size = new System.Drawing.Size(100, 20);
+            this.tB_PrinterStatus.Size = new System.Drawing.Size(83, 20);
             this.tB_PrinterStatus.TabIndex = 2;
             // 
             // button_SettingsGS128
@@ -137,5 +149,6 @@ namespace TscDll.Forms
         private System.Windows.Forms.TextBox tB_Gs128Size;
         private System.Windows.Forms.TextBox tB_PrinterStatus;
         private System.Windows.Forms.Button button_SettingsGS128;
+        private System.Windows.Forms.Button button1;
     }
 }

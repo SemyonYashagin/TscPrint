@@ -50,6 +50,7 @@ namespace TscDll.Forms
             this.SsccCount = new DevExpress.XtraGrid.Columns.GridColumn();
             this.splitContainer = new System.Windows.Forms.SplitContainer();
             this.groupBox2 = new System.Windows.Forms.GroupBox();
+            this.but_UpdatePrinterStatus = new System.Windows.Forms.Button();
             this.tB_PrinterMode = new System.Windows.Forms.TextBox();
             this.label5 = new System.Windows.Forms.Label();
             this.groupBox1.SuspendLayout();
@@ -127,7 +128,7 @@ namespace TscDll.Forms
             this.tB_PrinterStatus.Location = new System.Drawing.Point(85, 22);
             this.tB_PrinterStatus.Name = "tB_PrinterStatus";
             this.tB_PrinterStatus.ReadOnly = true;
-            this.tB_PrinterStatus.Size = new System.Drawing.Size(283, 20);
+            this.tB_PrinterStatus.Size = new System.Drawing.Size(202, 20);
             this.tB_PrinterStatus.TabIndex = 3;
             // 
             // label2
@@ -146,7 +147,8 @@ namespace TscDll.Forms
             this.cb_sizes.Name = "cb_sizes";
             this.cb_sizes.Size = new System.Drawing.Size(132, 21);
             this.cb_sizes.TabIndex = 1;
-            this.cb_sizes.TextChanged += new System.EventHandler(this.ComboBox1_TextChanged_1);
+            this.cb_sizes.SelectedIndexChanged += new System.EventHandler(this.cb_sizes_SelectedIndexChanged);
+            this.cb_sizes.KeyPress += new System.Windows.Forms.KeyPressEventHandler(this.cb_sizes_KeyPress);
             // 
             // panel2
             // 
@@ -202,6 +204,8 @@ namespace TscDll.Forms
             this.gridView1.OptionsBehavior.AllowDeleteRows = DevExpress.Utils.DefaultBoolean.False;
             this.gridView1.OptionsBehavior.Editable = false;
             this.gridView1.OptionsBehavior.ReadOnly = true;
+            this.gridView1.OptionsSelection.MultiSelect = true;
+            this.gridView1.OptionsSelection.MultiSelectMode = DevExpress.XtraGrid.Views.Grid.GridMultiSelectMode.CheckBoxRowSelect;
             this.gridView1.OptionsView.ShowGroupPanel = false;
             // 
             // ProductName
@@ -211,7 +215,8 @@ namespace TscDll.Forms
             this.ProductName.Name = "ProductName";
             this.ProductName.OptionsColumn.AllowMove = false;
             this.ProductName.Visible = true;
-            this.ProductName.VisibleIndex = 0;
+            this.ProductName.VisibleIndex = 1;
+            this.ProductName.Width = 90;
             // 
             // Gtin
             // 
@@ -220,7 +225,8 @@ namespace TscDll.Forms
             this.Gtin.Name = "Gtin";
             this.Gtin.OptionsColumn.AllowMove = false;
             this.Gtin.Visible = true;
-            this.Gtin.VisibleIndex = 1;
+            this.Gtin.VisibleIndex = 2;
+            this.Gtin.Width = 96;
             // 
             // SgtinCount
             // 
@@ -229,7 +235,8 @@ namespace TscDll.Forms
             this.SgtinCount.Name = "SgtinCount";
             this.SgtinCount.OptionsColumn.AllowMove = false;
             this.SgtinCount.Visible = true;
-            this.SgtinCount.VisibleIndex = 2;
+            this.SgtinCount.VisibleIndex = 3;
+            this.SgtinCount.Width = 92;
             // 
             // SsccCount
             // 
@@ -238,7 +245,8 @@ namespace TscDll.Forms
             this.SsccCount.Name = "SsccCount";
             this.SsccCount.OptionsColumn.AllowMove = false;
             this.SsccCount.Visible = true;
-            this.SsccCount.VisibleIndex = 3;
+            this.SsccCount.VisibleIndex = 4;
+            this.SsccCount.Width = 94;
             // 
             // splitContainer
             // 
@@ -261,6 +269,7 @@ namespace TscDll.Forms
             // 
             // groupBox2
             // 
+            this.groupBox2.Controls.Add(this.but_UpdatePrinterStatus);
             this.groupBox2.Controls.Add(this.tB_PrinterMode);
             this.groupBox2.Controls.Add(this.label5);
             this.groupBox2.Controls.Add(this.tB_PrinterStatus);
@@ -271,6 +280,16 @@ namespace TscDll.Forms
             this.groupBox2.TabIndex = 5;
             this.groupBox2.TabStop = false;
             this.groupBox2.Text = "Принтер";
+            // 
+            // but_UpdatePrinterStatus
+            // 
+            this.but_UpdatePrinterStatus.Location = new System.Drawing.Point(293, 21);
+            this.but_UpdatePrinterStatus.Name = "but_UpdatePrinterStatus";
+            this.but_UpdatePrinterStatus.Size = new System.Drawing.Size(75, 23);
+            this.but_UpdatePrinterStatus.TabIndex = 6;
+            this.but_UpdatePrinterStatus.Text = "Обновить";
+            this.but_UpdatePrinterStatus.UseVisualStyleBackColor = true;
+            this.but_UpdatePrinterStatus.Click += new System.EventHandler(this.but_UpdatePrinterStatus_Click);
             // 
             // tB_PrinterMode
             // 
@@ -343,5 +362,6 @@ namespace TscDll.Forms
         private System.Windows.Forms.TextBox tB_PrinterMode;
         private System.Windows.Forms.Label label5;
         public DevExpress.XtraGrid.Columns.GridColumn ProductName;
+        private System.Windows.Forms.Button but_UpdatePrinterStatus;
     }
 }

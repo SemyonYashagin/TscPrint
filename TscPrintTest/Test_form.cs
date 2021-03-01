@@ -54,7 +54,18 @@ namespace TscPrintTest
                 PartyId = 1,
                 Units = new Unit
                 {
-                    Sgtins = new List<string> { "010463003016034221641556169149391EE03", "010463003016034221641556169149391EE04" }
+                    Sgtins = new List<string> { "010463003016034221641556169149391EE05", "010463003016034221641556169149391EE06" }
+                }
+            });
+
+            printUnits.Add(new MarkPrintUnit
+            {
+                NomenProduct = "Паштет",
+                Gtin = "04630030160344",
+                PartyId = 1,
+                Units = new Unit
+                {
+                    Sgtins = new List<string> { "010463003016034221641556169149391EE07", "010463003016034221641556169149391EE08" }
                 }
             });
         }

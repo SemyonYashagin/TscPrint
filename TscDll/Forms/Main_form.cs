@@ -19,7 +19,6 @@ namespace TscDll.Forms
             UpdatePrinterStatus();
             UpdateFields();
             buttonPrint.Enabled = false;
-           
         }
         /// <summary>
         /// Метод для вставки данные в GridView
@@ -68,63 +67,10 @@ namespace TscDll.Forms
         private void Main_form_Load(object sender, EventArgs e)
         {
             cb_sizes.Items.Clear();
-            cb_sizes.DropDownStyle = ComboBoxStyle.DropDownList;
+            //cb_sizes.DropDownStyle = ComboBoxStyle.DropDownList;
+            //cb_sizes.Items.Add("");
             cb_sizes.Items.Add("SGTIN");
             cb_sizes.Items.Add("SSCC");
-        }
-
-        private void ComboBox1_TextChanged_1(object sender, EventArgs e)
-        {
-            Object selectedItem = cb_sizes.SelectedItem;
-            Settings set = XMLHelper.GetSettings();
-            buttonPrint.Enabled = false;
-
-            string message = "Вы уверены что установлен рулон этикеток для печати " + selectedItem.ToString() + "?";
-            const string caption = "Проверка";
-            var result = MessageBox.Show(message, caption, MessageBoxButtons.YesNo, MessageBoxIcon.Question);
-
-            if (selectedItem.ToString() == "SGTIN")
-            {
-                if (result == DialogResult.No)
-                {
-                    MessageBox.Show("Вставьте рулон для " + selectedItem.ToString());
-                    buttonPrint.Enabled = false;
-                }
-                else
-                {
-                    if (TscHelper.PrinterConnection(set.SgtinSize.Height))
-                    {
-                        AutoClosingMessageBox.Show("Проверка этикетки выполнена успешно. Можете печатать!", "Успешно", 1500);
-                        buttonPrint.Enabled = true;
-                    }
-                    else
-                    {
-                        MessageBox.Show("Выбранный Вами рулон этикеток и рулон установленный в принтере не совпадают!");
-                        buttonPrint.Enabled = false;
-                    }
-                }
-            }
-            if (selectedItem.ToString() == "SSCC")
-            {
-                if (result == DialogResult.No)
-                {
-                    MessageBox.Show("Вставьте рулон для " + selectedItem.ToString());
-                    buttonPrint.Enabled = false;
-                }
-                else
-                {
-                    if (TscHelper.PrinterConnection(set.SsccSize.Height))
-                    {
-                        AutoClosingMessageBox.Show("Проверка этикетки выполнена успешно. Можете печатать!", "Успешно", 1500);
-                        buttonPrint.Enabled = true;
-                    }
-                    else
-                    {
-                        MessageBox.Show("Выбранный Вами рулон этикеток и рулон установленный в принтере не совпадают!");
-                        buttonPrint.Enabled = false;
-                    }
-                }
-            }
         }
 
         private void Button1_Click(object sender, EventArgs e)
@@ -146,22 +92,29 @@ namespace TscDll.Forms
             {
                 List<string> sgtins = new List<string>();
                 sgtins = GetSgtin(sgtins, markPrints);
-                Settings set = XMLHelper.GetSettings();
-                SgtinHelper.Init_printer(set.SgtinSize.Width, set.SgtinSize.Height);
-                SgtinHelper.PrintSgtins(set.SgtinSize.Width, set.SgtinSize.Height, sgtins);
-                //TscHelper.FakePrinting();
+                if(sgtins.Count!=0)
+                {
+                    Settings set = XMLHelper.GetSettings();
+                    SgtinHelper.Init_printer(set.SgtinSize.Width, set.SgtinSize.Height);
+                    SgtinHelper.PrintSgtins(set.SgtinSize.Width, set.SgtinSize.Height, sgtins);
+                }
+                else AutoClosingMessageBox.Show("Выберите хотя бы один элемент для печати", "Ошибка", 1500);
 
             }
             else//print sscces
             {
                 List<string> sscces = new List<string>();
                 sscces = GetSscc(sscces, markPrints);
-                Settings set = XMLHelper.GetSettings();
-                SgtinHelper.Init_printer(set.SsccSize.Width, set.SsccSize.Height);
-                ResponseData response = SsccHelper.PrintSscc(set.SsccSize.Width, set.SsccSize.Height, sscces);
-                if (response.IsSuccess)
-                    MessageBox.Show("Напечатано");
-                else MessageBox.Show(response.ErrorMessage);
+                if (sscces.Count!=0)
+                {
+                    Settings set = XMLHelper.GetSettings();
+                    SgtinHelper.Init_printer(set.SsccSize.Width, set.SsccSize.Height);
+                    ResponseData response = SsccHelper.PrintSscc(set.SsccSize.Width, set.SsccSize.Height, sscces);
+                    if (response.IsSuccess)
+                        AutoClosingMessageBox.Show("Напечатано", "Успешно", 1500);
+                    else MessageBox.Show(response.ErrorMessage);
+                }
+                else AutoClosingMessageBox.Show("Выберите хотя бы один элемент для печати", "Ошибка", 1500);
             }
         }
 
@@ -173,11 +126,13 @@ namespace TscDll.Forms
         /// <returns></returns>
         private List<string> GetSgtin(List<string> sgtins, List<MarkPrintUnit> units)
         {
-            foreach (MarkPrintUnit unit in units)
-            {
-                GetSgtinRecur(sgtins, unit.Units);
-            }
+            int[] selectedIndex = gridView1.GetSelectedRows();
 
+            for (int i = 0; i < selectedIndex.Length; i++)
+            {
+                int index = selectedIndex[i];
+                GetSgtinRecur(sgtins, units[index].Units);
+            }
             return sgtins;
         }
 
@@ -212,9 +167,12 @@ namespace TscDll.Forms
         /// <returns></returns>
         private List<string> GetSscc(List<string> sscces, List<MarkPrintUnit> units)
         {
-            foreach (MarkPrintUnit unit in units)
+            int[] selectedIndex = gridView1.GetSelectedRows();
+
+            for (int i = 0; i < selectedIndex.Length; i++)
             {
-                GetSsccRecur(sscces, unit.Units);
+                int index = selectedIndex[i];
+                GetSsccRecur(sscces, units[index].Units);
             }
 
             return sscces;
@@ -235,6 +193,78 @@ namespace TscDll.Forms
                 }
             }
             if(unit.SsccValue!=null) All_Sscc.Add(unit.SsccValue);
+        }
+
+        private void but_UpdatePrinterStatus_Click(object sender, EventArgs e)
+        {
+            UpdateFields();
+        }
+
+        private void cb_sizes_KeyPress(object sender, KeyPressEventArgs e)
+        {
+            e.Handled = true;
+        }
+
+        private void cb_sizes_SelectedIndexChanged(object sender, EventArgs e)
+        {
+            Object selectedItem = cb_sizes.SelectedItem;
+            Settings set = XMLHelper.GetSettings();
+            buttonPrint.Enabled = false;
+
+            if (selectedItem != null)
+            {
+                string message = "Вы уверены что установлен рулон этикеток для печати " + selectedItem.ToString() + "?";
+                const string caption = "Проверка";
+                var result = MessageBox.Show(message, caption, MessageBoxButtons.YesNo, MessageBoxIcon.Question);
+
+                if (selectedItem.ToString() == "SGTIN")
+                {
+                    if (result == DialogResult.No)
+                    {
+                        MessageBox.Show("Вставьте рулон для " + selectedItem.ToString());
+                        buttonPrint.Enabled = false;
+                        cb_sizes.Text = null;
+                    }
+                    else
+                    {
+                        if (TscHelper.PrinterConnection(set.SgtinSize.Height))
+                        {
+                            AutoClosingMessageBox.Show("Проверка этикетки выполнена успешно. Можете печатать!", "Успешно", 1500);
+                            buttonPrint.Enabled = true;
+                        }
+                        else
+                        {
+                            MessageBox.Show("Выбранный Вами рулон этикеток и рулон установленный в принтере не совпадают!");
+                            buttonPrint.Enabled = false;
+                            cb_sizes.Text = null;
+                        }
+                    }
+                }
+                if (selectedItem.ToString() == "SSCC")
+                {
+                    if (result == DialogResult.No)
+                    {
+                        MessageBox.Show("Вставьте рулон для " + selectedItem.ToString());
+                        buttonPrint.Enabled = false;
+                        cb_sizes.Text = null;
+                    }
+                    else
+                    {
+                        if (TscHelper.PrinterConnection(set.SsccSize.Height))
+                        {
+                            AutoClosingMessageBox.Show("Проверка этикетки выполнена успешно. Можете печатать!", "Успешно", 1500);
+                            buttonPrint.Enabled = true;
+
+                        }
+                        else
+                        {
+                            MessageBox.Show("Выбранный Вами рулон этикеток и рулон установленный в принтере не совпадают!");
+                            buttonPrint.Enabled = false;
+                            cb_sizes.Text = null;
+                        }
+                    }
+                }
+            }
         }
     }
 }

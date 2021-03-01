@@ -163,6 +163,7 @@
   <ItemGroup>
     <Content Include="ref\tsclibnet.dll" />
     <Content Include="ref\zxing.dll" />
+    <None Include="Resources\refresh.png" />
     <None Include="Resources\process.ico" />
     <None Include="Resources\new.ico" />
     <None Include="Resources\settings.ico" />

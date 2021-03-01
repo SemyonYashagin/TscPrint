@@ -51,6 +51,7 @@ namespace TscDll.Helpers
                 driver.sendcommand("SET TEAR ON");
             }
 
+            driver.sendcommand("FORMFEED");
             driver.sendcommand("CODEPAGE UTF-8");
             driver.clearbuffer();
 
