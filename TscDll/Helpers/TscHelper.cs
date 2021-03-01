@@ -25,27 +25,44 @@ namespace TscDll.Helpers
                 int PortNumber = GetPrinter_PortNumber(IP);
                 if (PortNumber == 0)
                 {
-                    usb.openport();                  
-                    if (usb.traceUSB_string() == "no device")
+                    usb.openport();
+
+                    string printerSystemName = usb.traceUSB_array()[0];// get printer name
+
+                    //if a printer name that a user-selected doesn't contain a real printer name
+                    if(printerSystemName!=null)
+                    {
+                        if (!settings.PrinterName.Contains(printerSystemName))
+                        {
+                            usb.closeport();
+                            return false;
+                        }
+                    }                  
+
+                    if (usb.traceUSB_string() == "no device") //if a printer is turned off
                     {
                         usb.closeport();
                         return false;
                     }
                     else
                     {
-                        driver driver = new driver();
-                        driver.openport(settings.PrinterName);
+                        usb.closeport();
+                        return true;
+                        //driver driver = new driver();
+                        //driver.openport(settings.PrinterName);
 
-                        if (driver.driver_status(settings.PrinterName))
-                        {
-                            driver.closeport();
-                            return true;
-                        }
-                        else
-                        {
-                            driver.closeport();
-                            return false;
-                        }                          
+                        //if (driver.driver_status(settings.PrinterName))
+                        //{
+                        //    driver.closeport();
+                        //    usb.closeport();
+                        //    return true;
+                        //}
+                        //else
+                        //{
+                        //    driver.closeport();
+                        //    usb.closeport();
+                        //    return false;
+                        //}                          
                     }
                 }
                 else
@@ -68,26 +85,28 @@ namespace TscDll.Helpers
                     }
                     else
                     {
-                        driver driver = new driver();
-                        bool a = driver.openport(settings.PrinterName);
-                        if(!a)
-                        {
-                            driver.closeport();
-                            ethernet.closeport();
-                            return false;
-                        }
-                        if (driver.driver_status(settings.PrinterName))
-                        {
-                            driver.closeport();
-                            ethernet.closeport();
-                            return true;
-                        }
-                        else
-                        {
-                            driver.closeport();
-                            ethernet.closeport();
-                            return false;
-                        }
+                        ethernet.closeport();
+                        return true;
+                        //driver driver = new driver();
+                        //bool a = driver.openport(settings.PrinterName);
+                        //if(!a)
+                        //{
+                        //    driver.closeport();
+                        //    ethernet.closeport();
+                        //    return false;
+                        //}
+                        //if (driver.driver_status(settings.PrinterName))
+                        //{
+                        //    driver.closeport();
+                        //    ethernet.closeport();
+                        //    return true;
+                        //}
+                        //else
+                        //{
+                        //    driver.closeport();
+                        //    ethernet.closeport();
+                        //    return false;
+                        //}
                     }
                 }
             }

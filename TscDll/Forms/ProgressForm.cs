@@ -48,9 +48,9 @@ namespace TscDll.Forms
                 if (ethernet.printerstatus() == 0 || ethernet.printerstatus() == 32)
                     net = true;
                 else net = false;
+                ethernet.closeport();
             }
             else net = false;
-            ethernet.closeport();
         }
 
         /// <summary>
