@@ -5,7 +5,6 @@ using TscDll.Entities;
 using TscDll.Helpers;
 using System.Text;
 using System.ComponentModel;
-using System.Threading;
 
 namespace TscDll.Forms
 {

@@ -67,8 +67,6 @@ namespace TscDll.Forms
         private void Main_form_Load(object sender, EventArgs e)
         {
             cb_sizes.Items.Clear();
-            //cb_sizes.DropDownStyle = ComboBoxStyle.DropDownList;
-            //cb_sizes.Items.Add("");
             cb_sizes.Items.Add("SGTIN");
             cb_sizes.Items.Add("SSCC");
         }

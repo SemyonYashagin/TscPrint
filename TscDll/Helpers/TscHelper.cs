@@ -47,22 +47,7 @@ namespace TscDll.Helpers
                     else
                     {
                         usb.closeport();
-                        return true;
-                        //driver driver = new driver();
-                        //driver.openport(settings.PrinterName);
-
-                        //if (driver.driver_status(settings.PrinterName))
-                        //{
-                        //    driver.closeport();
-                        //    usb.closeport();
-                        //    return true;
-                        //}
-                        //else
-                        //{
-                        //    driver.closeport();
-                        //    usb.closeport();
-                        //    return false;
-                        //}                          
+                        return true;                        
                     }
                 }
                 else
@@ -87,26 +72,6 @@ namespace TscDll.Helpers
                     {
                         ethernet.closeport();
                         return true;
-                        //driver driver = new driver();
-                        //bool a = driver.openport(settings.PrinterName);
-                        //if(!a)
-                        //{
-                        //    driver.closeport();
-                        //    ethernet.closeport();
-                        //    return false;
-                        //}
-                        //if (driver.driver_status(settings.PrinterName))
-                        //{
-                        //    driver.closeport();
-                        //    ethernet.closeport();
-                        //    return true;
-                        //}
-                        //else
-                        //{
-                        //    driver.closeport();
-                        //    ethernet.closeport();
-                        //    return false;
-                        //}
                     }
                 }
             }

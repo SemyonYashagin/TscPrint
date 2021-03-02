@@ -102,6 +102,7 @@ namespace TscDll.Helpers
                 driver.printlabel("1", "1");
                 driver.clearbuffer();
             }
+            
             driver.closeport();
 
             ProgressForm progress = new ProgressForm();

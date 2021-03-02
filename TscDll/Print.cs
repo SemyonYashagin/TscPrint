@@ -1,11 +1,7 @@
 ﻿using System.Collections.Generic;
 using System.Drawing;
-using System.Windows.Forms;
 using TscDll.Entities;
-using TscDll.Helpers;
 using TscDll.Forms;
-using TSCSDK;
-
 
 namespace TscDll
 {
