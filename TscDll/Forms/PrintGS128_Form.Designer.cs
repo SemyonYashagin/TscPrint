@@ -49,7 +49,7 @@ namespace TscDll.Forms
             this.button_PrintGS128.TabIndex = 0;
             this.button_PrintGS128.Text = "Печать";
             this.button_PrintGS128.UseVisualStyleBackColor = true;
-            this.button_PrintGS128.Click += new System.EventHandler(this.button_PrintGS128_Click);
+            this.button_PrintGS128.Click += new System.EventHandler(this.Button_PrintGS128_Click);
             // 
             // label1
             // 
@@ -82,7 +82,7 @@ namespace TscDll.Forms
             this.button1.Size = new System.Drawing.Size(29, 25);
             this.button1.TabIndex = 5;
             this.button1.UseVisualStyleBackColor = true;
-            this.button1.Click += new System.EventHandler(this.button1_Click);
+            this.button1.Click += new System.EventHandler(this.Button1_Click);
             // 
             // label2
             // 
@@ -117,7 +117,7 @@ namespace TscDll.Forms
             this.button_SettingsGS128.TabIndex = 3;
             this.button_SettingsGS128.Text = "Настройки";
             this.button_SettingsGS128.UseVisualStyleBackColor = true;
-            this.button_SettingsGS128.Click += new System.EventHandler(this.button_SettingsGS128_Click);
+            this.button_SettingsGS128.Click += new System.EventHandler(this.Button_SettingsGS128_Click);
             // 
             // PrintGS128_Form
             // 

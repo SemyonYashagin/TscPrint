@@ -22,7 +22,7 @@ namespace TscDll.Helpers
             }
             Settings printer_set = XMLHelper.GetSettings();
 
-            if (!TscHelper.Printer_status(printer_set))
+            if (!TscHelper.Printer_status())
             {
                 return false;
             }
@@ -82,7 +82,7 @@ namespace TscDll.Helpers
                 response.ErrorMessage = "Данные в файле повреждены";
                 return response;
             }
-            if (!TscHelper.Printer_status(settings))
+            if (!TscHelper.Printer_status())
             {
                 response.ErrorMessage = "Принтер не подключен";
                 return response;

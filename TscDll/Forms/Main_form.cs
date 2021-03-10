@@ -5,10 +5,10 @@ using TscDll.Entities;
 using TscDll.Helpers;
 using System.Drawing;
 using TscDll.Extensions;
+using System.Threading.Tasks;
 
 namespace TscDll.Forms
 {
-
     public partial class Main_form : Form
     {
         List<MarkPrintUnit> markPrints = new List<MarkPrintUnit>();
@@ -42,17 +42,19 @@ namespace TscDll.Forms
         /// </summary>
         private void UpdateFields()
         {
-            if (TscHelper.Printer_status(settings))
+            if (TscHelper.Printer_status())
             {
                 tB_PrinterStatus.Text = "Готов к работе";
                 tB_PrinterStatus.BackColor = Color.FromArgb(192, 255, 192);
                 cb_sizes.Enabled = true;
+                but_UpdatePrinterStatus.Enabled = false;
             }
             else
             {
                 tB_PrinterStatus.Text = "Ошибка инициализации";
                 tB_PrinterStatus.BackColor = Color.FromArgb(255, 192, 192);
                 cb_sizes.Enabled = false;
+                but_UpdatePrinterStatus.Enabled = true;
             }
 
             if (XMLHelper.FileExist() && settings.SgtinSize!= null && settings.SsccSize!= null)
@@ -193,17 +195,17 @@ namespace TscDll.Forms
             if(unit.SsccValue!=null) All_Sscc.Add(unit.SsccValue);
         }
 
-        private void but_UpdatePrinterStatus_Click(object sender, EventArgs e)
+        private void But_UpdatePrinterStatus_Click(object sender, EventArgs e)
         {
             UpdateFields();
         }
 
-        private void cb_sizes_KeyPress(object sender, KeyPressEventArgs e)
+        private void Cb_sizes_KeyPress(object sender, KeyPressEventArgs e)
         {
             e.Handled = true;
         }
 
-        private void cb_sizes_SelectedIndexChanged(object sender, EventArgs e)
+        private void Cb_sizes_SelectedIndexChanged(object sender, EventArgs e)
         {
             Object selectedItem = cb_sizes.SelectedItem;
             Settings set = XMLHelper.GetSettings();
@@ -262,7 +264,7 @@ namespace TscDll.Forms
                         }
                     }
                 }
-            }
+            }            
         }
     }
 }

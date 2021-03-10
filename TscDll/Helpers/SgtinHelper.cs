@@ -23,7 +23,7 @@ namespace TscDll.Helpers
             }
             Settings printer_set = XMLHelper.GetSettings();
 
-            if (!TscHelper.Printer_status(printer_set))
+            if (!TscHelper.Printer_status())
             {
                 return false;
             }
@@ -86,23 +86,36 @@ namespace TscDll.Helpers
 
             foreach (Bitmap bitmap in list_of_datamatrix)
             {
-                string gtin = sgtins[k].Substring(2, 14);//get gtin from sgtin
-                string sn = sgtins[k].Substring(18, 13);// get serial number from sgtin
+                //string gtin = sgtins[k].Substring(2, 14);//get gtin from sgtin
+                //string sn = sgtins[k].Substring(18, 13);// get serial number from sgtin
 
-                driver.sendcommand($"TEXT {x}, {y}, \"3\",0 , {multisize}, {multisize}, \"{gtin}\"");//send text
+                //driver.sendcommand($"TEXT {x}, {y}, \"3\",0 , {multisize}, {multisize}, \"{gtin}\"");//send text
+                //y += height + 5;
+                //driver.sendcommand($"TEXT {x}, {y}, \"3\", 0, {multisize}, {multisize}, \"{sn}\"");
+                //y += 50;
+                //driver.sendcommand($"TEXT {x}, {y}, \"3\", 0, {multisize}, {multisize}, \"2927\"");
+
+                //driver.send_bitmap(0, (height * 11 - height * 9), bitmap);
+                //k++;
+                //y = (height * 10) / 2;
+
+                //driver.printlabel("1", "1");
+                //driver.clearbuffer();
+
+
+                driver.sendcommand($"TEXT {x}, {y}, \"3\",0 , {multisize}, {multisize}, \"\"");//send text
                 y += height + 5;
-                driver.sendcommand($"TEXT {x}, {y}, \"3\", 0, {multisize}, {multisize}, \"{sn}\"");
+                driver.sendcommand($"TEXT {x}, {y}, \"3\", 0, {multisize}, {multisize}, \"\"");
                 y += 50;
-                driver.sendcommand($"TEXT {x}, {y}, \"3\", 0, {multisize}, {multisize}, \"2927\"");
+                driver.sendcommand($"TEXT {x}, {y}, \"3\", 0, {multisize}, {multisize}, \"\"");
 
-                driver.send_bitmap(0, (height * 11 - height * 9), bitmap);
                 k++;
                 y = (height * 10) / 2;
 
                 driver.printlabel("1", "1");
                 driver.clearbuffer();
             }
-            
+
             driver.closeport();
 
             ProgressForm progress = new ProgressForm();

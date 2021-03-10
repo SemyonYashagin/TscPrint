@@ -39,7 +39,7 @@ namespace TscDll.Forms
         private void UpdateFields()
         {
             settings = XMLHelper.GetSettings();
-            if (TscHelper.Printer_status(settings))
+            if (TscHelper.Printer_status())
             {
                 tB_PrinterStatus.Text = "Готов к работе";
                 tB_PrinterStatus.BackColor = Color.FromArgb(192, 255, 192);
@@ -61,21 +61,21 @@ namespace TscDll.Forms
                 button_PrintGS128.Enabled = true;
         }
 
-        private void button_SettingsGS128_Click(object sender, EventArgs e)
+        private void Button_SettingsGS128_Click(object sender, EventArgs e)
         {
             Gs128Settings gssetting = new Gs128Settings();
             gssetting.ShowDialog();
             UpdateFields();
         }
 
-        private void button_PrintGS128_Click(object sender, EventArgs e)
+        private void Button_PrintGS128_Click(object sender, EventArgs e)
         {
             ResponseData response = GS128Helper.CheckGS128(gs128);
             if (response.IsSuccess) AutoClosingMessageBox.Show("Печать прошла успешна", "Успешно", 1500);
             else AutoClosingMessageBox.Show(response.ErrorMessage, "Ошибка", 1500);
         }
 
-        private void button1_Click(object sender, EventArgs e)
+        private void Button1_Click(object sender, EventArgs e)
         {
             UpdateFields();
         }

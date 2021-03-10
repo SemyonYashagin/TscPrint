@@ -3,6 +3,7 @@ using TscDll.Entities;
 using TSCSDK;
 using System.Management;
 using System.Threading;
+using System.Threading.Tasks;
 
 namespace TscDll.Helpers
 {
@@ -13,9 +14,9 @@ namespace TscDll.Helpers
         /// </summary>
         /// <param name="settings">Объект класса Settings</param>
         /// <returns>true - принтер подключен, иначе false</returns>
-        public static Boolean Printer_status(Settings settings)
+        public static Boolean Printer_status()
         {
-            settings = XMLHelper.GetSettings();
+            Settings settings = XMLHelper.GetSettings();
             if (XMLHelper.FileExist())
             {
                 ethernet ethernet = new ethernet();
@@ -95,7 +96,7 @@ namespace TscDll.Helpers
 
             if (ethernet.printerstatus() != 99)
             {
-                ethernet.sendcommand("LIMITFEED 50 mm");//if the label height is more than 50 mm the calibration will be cancelled.
+                ethernet.sendcommand("LIMITFEED 250 mm");//if the label height is more than 50 mm the calibration will be cancelled.
                 ethernet.sendcommand("AUTODETECT");
                 Thread.Sleep(4000);
                 int printer_height = Convert.ToInt32(ethernet.sendcommand_getstring("OUT NET \"\"; GETSETTING$(\"CONFIG\", \"TSPL\", \"PAPER SIZE\")"));
@@ -152,6 +153,21 @@ namespace TscDll.Helpers
 
             if (PortNumber == 0) return CheckLabelSizeUSB(height);
             else return CheckLabelSizeEthernet(height);
+        }
+
+        /// <summary>
+        /// Асинхронный метод для определения подключения принтера Ethernet или USB
+        /// </summary>
+        /// <param name="height">Высота этикетки, которая задана пользователем (из XML файла)</param>
+        /// <returns>true-размер этикетки в принтере совпадает с заданной, иначе false</returns>
+        public async static Task<bool> AsyncPrinterConnection(int height)
+        {
+            Settings cur_settings = XMLHelper.GetSettings();
+            string IP = GetPrinterIP(cur_settings);
+            int PortNumber = GetPrinter_PortNumber(IP);
+
+            if (PortNumber == 0) return await Task.Run(() => CheckLabelSizeUSB(height));
+            else return await Task.Run(() => CheckLabelSizeEthernet(height));
         }
 
         /// <summary>

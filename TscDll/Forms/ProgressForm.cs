@@ -50,6 +50,8 @@ namespace TscDll.Forms
                 ethernet.closeport();
             }
             else net = false;
+            
+
         }
 
         /// <summary>
@@ -66,11 +68,11 @@ namespace TscDll.Forms
 
             if (result == DialogResult.OK)//continue
             {
-                driver.sendcommand_hex("1B214F");
+                driver.sendcommand_hex("1B214F");//to cancel the pause mode and continue printing
             }
             else// cancel printing
             {
-                driver.sendcommand_hex("1B2143");//reboot the printer
+                driver.sendcommand_hex("1B2143");//rebooting the printer
                 Close();
             }
             driver.closeport();
@@ -98,11 +100,17 @@ namespace TscDll.Forms
         {
             ethernet ethernet = new ethernet();
             ethernet.openport(IP, PortNumber);
-
-            byte b = ethernet.printerstatus();
-
-            ethernet.clearbuffer();
-            ethernet.closeport();
+            byte b;
+            //try
+            //{
+                b = ethernet.printerstatus();
+                ethernet.clearbuffer();
+                ethernet.closeport();
+            //}
+            //catch (System.Net.Sockets.SocketException)
+            //{
+            //    b = 99;
+            //}
 
             return b;
         }
@@ -140,7 +148,10 @@ namespace TscDll.Forms
                 while (a != 0)
                 {
                     a = Check_PrinterStatusEthernet(IP, PortNumber);
-                    if (a == 0) break;
+                    if (a == 0)
+                    { 
+                        break;
+                    }
                 }
             }
             else
@@ -149,6 +160,7 @@ namespace TscDll.Forms
                 {
                     a = Check_PrinterStatusUSB();
                     if (a == 0) break;
+
                 }
             }
         }

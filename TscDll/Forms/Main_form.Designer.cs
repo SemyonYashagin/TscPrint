@@ -147,8 +147,8 @@ namespace TscDll.Forms
             this.cb_sizes.Name = "cb_sizes";
             this.cb_sizes.Size = new System.Drawing.Size(132, 21);
             this.cb_sizes.TabIndex = 1;
-            this.cb_sizes.SelectedIndexChanged += new System.EventHandler(this.cb_sizes_SelectedIndexChanged);
-            this.cb_sizes.KeyPress += new System.Windows.Forms.KeyPressEventHandler(this.cb_sizes_KeyPress);
+            this.cb_sizes.SelectedIndexChanged += new System.EventHandler(this.Cb_sizes_SelectedIndexChanged);
+            this.cb_sizes.KeyPress += new System.Windows.Forms.KeyPressEventHandler(this.Cb_sizes_KeyPress);
             // 
             // panel2
             // 
@@ -289,7 +289,7 @@ namespace TscDll.Forms
             this.but_UpdatePrinterStatus.TabIndex = 6;
             this.but_UpdatePrinterStatus.Text = "Обновить";
             this.but_UpdatePrinterStatus.UseVisualStyleBackColor = true;
-            this.but_UpdatePrinterStatus.Click += new System.EventHandler(this.but_UpdatePrinterStatus_Click);
+            this.but_UpdatePrinterStatus.Click += new System.EventHandler(this.But_UpdatePrinterStatus_Click);
             // 
             // tB_PrinterMode
             // 
