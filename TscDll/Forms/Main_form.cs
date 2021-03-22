@@ -90,29 +90,29 @@ namespace TscDll.Forms
         {
             if (cb_sizes.SelectedItem.ToString() == "SGTIN")//print sgtins
             {
-                List<string> sgtins = new List<string>();
-                sgtins = GetSgtin(sgtins, markPrints);
+                Dictionary<string, List<string>> sgtins = GetSgtin(markPrints);
+
                 if(sgtins.Count!=0)
                 {
                     Settings set = XMLHelper.GetSettings();
                     SgtinHelper.Init_printer(set.SgtinSize.Width, set.SgtinSize.Height);
-                    SgtinHelper.PrintSgtins(set.SgtinSize.Width, set.SgtinSize.Height, sgtins);
+                    SgtinHelper.CreateSgtinBitmap(set.SgtinSize.Width, set.SgtinSize.Height, sgtins);
                 }
                 else AutoClosingMessageBox.Show("Выберите хотя бы один элемент для печати", "Ошибка", 1500);
 
             }
             else//print sscces
             {
-                List<string> sscces = new List<string>();
-                sscces = GetSscc(sscces, markPrints);
+                Dictionary<string, string> sscces = GetSscc(markPrints);
                 if (sscces.Count!=0)
                 {
                     Settings set = XMLHelper.GetSettings();
                     SgtinHelper.Init_printer(set.SsccSize.Width, set.SsccSize.Height);
-                    ResponseData response = SsccHelper.PrintSscc(set.SsccSize.Width, set.SsccSize.Height, sscces);
-                    if (response.IsSuccess)
-                        AutoClosingMessageBox.Show("Напечатано", "Успешно", 1500);
-                    else MessageBox.Show(response.ErrorMessage);
+                    //ResponseData response = 
+                    SsccHelper.CreateSsccBitmap(set.SsccSize.Width, set.SsccSize.Height, sscces);
+                    //if (response.IsSuccess)
+                    //    AutoClosingMessageBox.Show("Напечатано", "Успешно", 1500);
+                    //else MessageBox.Show(response.ErrorMessage);
                 }
                 else AutoClosingMessageBox.Show("Выберите хотя бы один элемент для печати", "Ошибка", 1500);
             }
@@ -124,16 +124,24 @@ namespace TscDll.Forms
         /// <param name="sgtins"></param>
         /// <param name="units"></param>
         /// <returns></returns>
-        private List<string> GetSgtin(List<string> sgtins, List<MarkPrintUnit> units)
+        private Dictionary<string, List<string>> GetSgtin(List<MarkPrintUnit> units)
         {
+            Dictionary<string, List<string>> partyIdSgtins = new Dictionary<string, List<string>>();           
+
             int[] selectedIndex = gridView1.GetSelectedRows();
 
             for (int i = 0; i < selectedIndex.Length; i++)
             {
+                Dictionary<string, List<string>> sgtins1 = new Dictionary<string, List<string>>();
                 int index = selectedIndex[i];
-                GetSgtinRecur(sgtins, units[index].Units);
+                sgtins1.Clear();
+                Dictionary<string, List<string>> sgtins2 = GetSgtinRecur(sgtins1, units[index].Units, units[index]);
+
+                foreach (KeyValuePair<string, List<string>> sgtins in sgtins2)
+                    partyIdSgtins.Add(sgtins.Key, sgtins.Value);
             }
-            return sgtins;
+
+            return partyIdSgtins;
         }
 
         /// <summary>
@@ -141,22 +149,26 @@ namespace TscDll.Forms
         /// </summary>
         /// <param name="All_Sgtin"></param>
         /// <param name="unit"></param>
-        private void GetSgtinRecur(List<string> All_Sgtin, Unit unit)
+        private Dictionary<string,List<string>> GetSgtinRecur(Dictionary<string, List<string>> All_Sgtin, Unit unit, MarkPrintUnit units)
         {
             if (unit.Units != null)
             {
+                if(unit.Sgtins!=null)
+                {
+                    string uniqueNumber = unit.SsccNom.ToString() + "|" + units.PartyId;
+                    All_Sgtin.Add(uniqueNumber, unit.Sgtins);
+                }
                 foreach (Unit item_sscc in unit.Units)
                 {
-                    GetSgtinRecur(All_Sgtin, item_sscc);
+                    GetSgtinRecur(All_Sgtin, item_sscc, units);
                 }
             }
             if (unit.Units == null)
             {
-                foreach (string sgtin in unit.Sgtins)
-                {
-                    All_Sgtin.Add(sgtin);
-                }
+                string uniqueNumber = unit.SsccNom.ToString() + "|" + units.PartyId;
+                All_Sgtin.Add(uniqueNumber, unit.Sgtins);
             }
+            return All_Sgtin;
         }
 
         /// <summary>
@@ -165,17 +177,19 @@ namespace TscDll.Forms
         /// <param name="sscces"></param>
         /// <param name="units"></param>
         /// <returns></returns>
-        private List<string> GetSscc(List<string> sscces, List<MarkPrintUnit> units)
+        private Dictionary<string, string> GetSscc(List<MarkPrintUnit> units)
         {
+            Dictionary<string, string> Sscces = new Dictionary<string, string>();
+
             int[] selectedIndex = gridView1.GetSelectedRows();
 
             for (int i = 0; i < selectedIndex.Length; i++)
             {
                 int index = selectedIndex[i];
-                GetSsccRecur(sscces, units[index].Units);
+                GetSsccRecur(Sscces, units[index].Units, units[index]);
             }
 
-            return sscces;
+            return Sscces;
         }
 
         /// <summary>
@@ -183,16 +197,21 @@ namespace TscDll.Forms
         /// </summary>
         /// <param name="All_Sscc"></param>
         /// <param name="unit"></param>
-        private void GetSsccRecur(List<string> All_Sscc, Unit unit)
+        private Dictionary<string, string> GetSsccRecur(Dictionary<string,string> All_Sscc, Unit unit, MarkPrintUnit units)
         {
             if (unit.Units != null)
             {
                 foreach (Unit item_sscc in unit.Units)
                 {
-                    GetSsccRecur(All_Sscc, item_sscc);
+                    GetSsccRecur(All_Sscc, item_sscc, units);
                 }
             }
-            if(unit.SsccValue!=null) All_Sscc.Add(unit.SsccValue);
+            if(unit.SsccValue!=null)
+            {
+                string uniqueNumber = unit.SsccNom.ToString() + "|" + units.PartyId;
+                All_Sscc.Add(uniqueNumber, unit.SsccValue);
+            }
+            return All_Sscc;   
         }
 
         private void But_UpdatePrinterStatus_Click(object sender, EventArgs e)
@@ -209,7 +228,7 @@ namespace TscDll.Forms
         {
             Object selectedItem = cb_sizes.SelectedItem;
             Settings set = XMLHelper.GetSettings();
-            buttonPrint.Enabled = false;
+            //buttonPrint.Enabled = false;
 
             if (selectedItem != null)
             {
@@ -222,8 +241,9 @@ namespace TscDll.Forms
                     if (result == DialogResult.No)
                     {
                         MessageBox.Show("Вставьте рулон для " + selectedItem.ToString());
-                        buttonPrint.Enabled = false;
-                        cb_sizes.Text = null;
+                        //buttonPrint.Enabled = false;
+                        buttonPrint.Enabled = true;
+                        //cb_sizes.Text = null;
                     }
                     else
                     {
@@ -245,8 +265,9 @@ namespace TscDll.Forms
                     if (result == DialogResult.No)
                     {
                         MessageBox.Show("Вставьте рулон для " + selectedItem.ToString());
-                        buttonPrint.Enabled = false;
-                        cb_sizes.Text = null;
+                        //buttonPrint.Enabled = false;
+                        buttonPrint.Enabled = true;
+                        //cb_sizes.Text = null;
                     }
                     else
                     {

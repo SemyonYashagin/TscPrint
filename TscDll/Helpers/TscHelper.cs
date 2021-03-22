@@ -96,7 +96,7 @@ namespace TscDll.Helpers
 
             if (ethernet.printerstatus() != 99)
             {
-                ethernet.sendcommand("LIMITFEED 250 mm");//if the label height is more than 50 mm the calibration will be cancelled.
+                ethernet.sendcommand("LIMITFEED 50 mm");//if the label height is more than 50 mm the calibration will be cancelled.
                 ethernet.sendcommand("AUTODETECT");
                 Thread.Sleep(4000);
                 int printer_height = Convert.ToInt32(ethernet.sendcommand_getstring("OUT NET \"\"; GETSETTING$(\"CONFIG\", \"TSPL\", \"PAPER SIZE\")"));

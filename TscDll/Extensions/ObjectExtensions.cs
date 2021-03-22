@@ -141,6 +141,13 @@ namespace TscDll.Extensions
             {
                 if (unit.Units != null)
                 {
+                    if (unit.Sgtins != null)
+                    {
+                        foreach (string sgtin in unit.Sgtins)
+                        {
+                            All_Sgtin.Add(sgtin);
+                        }
+                    }
                     foreach (Unit item_sscc in unit.Units)
                     {
                         GetSsccSgtin(All_Sgtin, All_Sscc, item_sscc);

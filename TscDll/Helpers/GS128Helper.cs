@@ -6,7 +6,7 @@ using TSCSDK;
 
 namespace TscDll.Helpers
 {
-    class GS128Helper
+    public class GS128Helper
     {
         /// <summary>
         /// Инициализация принтера для печати GS128
@@ -107,13 +107,7 @@ namespace TscDll.Helpers
             var destRect = new Rectangle(0, 0, width * 11, height * 11);
             var destImage = new Bitmap(width * 11, height * 11);
 
-            //if (width < height)
-            //{
-            //    destRect = new Rectangle(0, 0, height * 11, width * 11);
-            //    destImage = new Bitmap(height * 11, width * 11);
-            //}
-
-            destImage.SetResolution(gs128.HorizontalResolution, gs128.VerticalResolution);
+            destImage.SetResolution(300, 300);
 
             using (var graphics = Graphics.FromImage(destImage))
             {
@@ -129,9 +123,6 @@ namespace TscDll.Helpers
                     graphics.DrawImage(gs128, destRect, 0, 0, gs128.Width, gs128.Height, GraphicsUnit.Pixel, wrapMode);
                 }
             }
-
-            //if (width < height)
-            //    destImage.RotateFlip(RotateFlipType.Rotate90FlipNone);
 
             return destImage;
         }
