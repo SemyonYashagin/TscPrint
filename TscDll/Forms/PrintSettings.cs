@@ -8,19 +8,11 @@ namespace TscDll.Forms
     public partial class PrintSettings : Form
     {
 
-        Settings settings = TscHelper.GetSettings();
+        Settings settings = XMLHelper.GetSettings();
         public PrintSettings()
         {
             InitializeComponent();
-            cB_SgtinSize.DropDownStyle = ComboBoxStyle.DropDownList;
-            cB_SsccSize.DropDownStyle = ComboBoxStyle.DropDownList;
-            cB_PrintMode.DropDownStyle = ComboBoxStyle.DropDownList;
-
-            if (settings != null)
-            {
-                UpdateFields();
-            }
-            else MessageBox.Show("Исходные данные не найдены");
+            UpdateFields();
 
         }
         /// <summary>
@@ -30,11 +22,11 @@ namespace TscDll.Forms
         /// <param name="e"></param>
         private void Button_Synch_Click(object sender, EventArgs e)
         {
-            if (TscHelper.FileExist() && cB_SgtinSize.Text!="" && cB_SsccSize.Text!="" && tB_PrinterName.Text!="" && cB_PrintMode.Text!="")
+            if (XMLHelper.FileExist() && cB_SgtinSize.Text!="" && cB_SsccSize.Text!="" && cB_PrinterName.Text != "" && cB_PrintMode.Text!="")
             {
-                Settings newset = TscHelper.GetSettings();
+                Settings newset = XMLHelper.GetSettings();
 
-                newset.PrinterName = tB_PrinterName.Text;
+                newset.PrinterName = cB_PrinterName.Text;
                 newset.SgtinSize = new Intvalue
                 {
                     Size = cB_SgtinSize.Text,
@@ -51,26 +43,26 @@ namespace TscDll.Forms
                 newset.Density = numericDensity.Value;
                 newset.PrinterMode = cB_PrintMode.Text;
 
-                ResponseData response = TscHelper.SaveSettings(newset);
+                ResponseData response = XMLHelper.SaveSettings(newset);
 
                 if (response.IsSuccess)
                 {
-                    MessageBox.Show("Данные загружены");
-                    TscHelper.GetSettings();
+                    AutoClosingMessageBox.Show("Данные загружены", "Успешно", 1500);
+                    XMLHelper.GetSettings();
                     Close();
                 }
                 else
                 {
-                    MessageBox.Show(response.ErrorMessage);
+                    AutoClosingMessageBox.Show(response.ErrorMessage, "Ошибка", 1500);
                 }
             }
             else
             {
-                MessageBox.Show("Введите данные");
+                AutoClosingMessageBox.Show("Введите данные", "Ошибка", 1500);
             }
         }
         /// <summary>
-        /// Метод для взтия объекта Intvalue из объекта класса Settings
+        /// Метод для взтия объекта Intvalue (SgtinList) из объекта класса Settings
         /// </summary>
         /// <param name="set">объект класса Settings</param>
         /// <param name="size">новый размер</param>
@@ -96,12 +88,27 @@ namespace TscDll.Forms
         /// </summary>
         private void UpdateFields()
         {
-            if (TscHelper.FileExist())
+
+            cB_PrinterName.Items.Clear();
+            foreach (string printer in System.Drawing.Printing.PrinterSettings.InstalledPrinters)
             {
-                Settings settings = TscHelper.GetSettings();
+                cB_PrinterName.Items.Add(printer);
+            }
+
+            if (XMLHelper.FileExist())
+            {
+                Settings settings = XMLHelper.GetSettings();
                 cB_SgtinSize.Items.Clear();
                 cB_SsccSize.Items.Clear();
-                tB_PrinterName.Text = settings.PrinterName;
+                cB_PrinterName.Text = settings.PrinterName;
+
+                if (settings.SsccSize != null && settings.SgtinSize != null && settings.PrinterMode != null)
+                {
+                    cB_SgtinSize.Text = settings.SgtinSize.Size;
+                    cB_SsccSize.Text = settings.SsccSize.Size;
+                    cB_PrintMode.Text = settings.PrinterMode;
+                }
+
                 if (settings.Speed < 2 || settings.Speed > 12)
                     numericSpeed.Value = numericSpeed.Minimum;
                 else
@@ -121,6 +128,26 @@ namespace TscDll.Forms
                     cB_SsccSize.Items.Add(sscc.Size);
                 }
             }
+        }
+
+        private void cB_SgtinSize_KeyPress(object sender, KeyPressEventArgs e)
+        {
+            e.Handled = true;
+        }
+
+        private void cB_SsccSize_KeyPress(object sender, KeyPressEventArgs e)
+        {
+            e.Handled = true;
+        }
+
+        private void cB_PrintMode_KeyPress(object sender, KeyPressEventArgs e)
+        {
+            e.Handled = true;
+        }
+
+        private void cB_PrinterName_KeyPress(object sender, KeyPressEventArgs e)
+        {
+            e.Handled = true;
         }
     }
 }

@@ -29,7 +29,7 @@ namespace TscDll.Forms
         /// </summary>
         private void InitializeComponent()
         {
-            this.tB_PrinterName = new System.Windows.Forms.TextBox();
+            System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(PrintSettings));
             this.label1 = new System.Windows.Forms.Label();
             this.label2 = new System.Windows.Forms.Label();
             this.label3 = new System.Windows.Forms.Label();
@@ -43,16 +43,10 @@ namespace TscDll.Forms
             this.Button_AddNewSize = new System.Windows.Forms.Button();
             this.label6 = new System.Windows.Forms.Label();
             this.cB_PrintMode = new System.Windows.Forms.ComboBox();
+            this.cB_PrinterName = new System.Windows.Forms.ComboBox();
             ((System.ComponentModel.ISupportInitialize)(this.numericSpeed)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.numericDensity)).BeginInit();
             this.SuspendLayout();
-            // 
-            // tB_PrinterName
-            // 
-            this.tB_PrinterName.Location = new System.Drawing.Point(15, 25);
-            this.tB_PrinterName.Name = "tB_PrinterName";
-            this.tB_PrinterName.Size = new System.Drawing.Size(191, 20);
-            this.tB_PrinterName.TabIndex = 0;
             // 
             // label1
             // 
@@ -117,6 +111,7 @@ namespace TscDll.Forms
             this.cB_SgtinSize.Name = "cB_SgtinSize";
             this.cB_SgtinSize.Size = new System.Drawing.Size(191, 21);
             this.cB_SgtinSize.TabIndex = 13;
+            this.cB_SgtinSize.KeyPress += new System.Windows.Forms.KeyPressEventHandler(this.cB_SgtinSize_KeyPress);
             // 
             // cB_SsccSize
             // 
@@ -125,6 +120,7 @@ namespace TscDll.Forms
             this.cB_SsccSize.Name = "cB_SsccSize";
             this.cB_SsccSize.Size = new System.Drawing.Size(191, 21);
             this.cB_SsccSize.TabIndex = 14;
+            this.cB_SsccSize.KeyPress += new System.Windows.Forms.KeyPressEventHandler(this.cB_SsccSize_KeyPress);
             // 
             // numericSpeed
             // 
@@ -193,12 +189,23 @@ namespace TscDll.Forms
             this.cB_PrintMode.Name = "cB_PrintMode";
             this.cB_PrintMode.Size = new System.Drawing.Size(190, 21);
             this.cB_PrintMode.TabIndex = 19;
+            this.cB_PrintMode.KeyPress += new System.Windows.Forms.KeyPressEventHandler(this.cB_PrintMode_KeyPress);
+            // 
+            // cB_PrinterName
+            // 
+            this.cB_PrinterName.FormattingEnabled = true;
+            this.cB_PrinterName.Location = new System.Drawing.Point(16, 26);
+            this.cB_PrinterName.Name = "cB_PrinterName";
+            this.cB_PrinterName.Size = new System.Drawing.Size(190, 21);
+            this.cB_PrinterName.TabIndex = 20;
+            this.cB_PrinterName.KeyPress += new System.Windows.Forms.KeyPressEventHandler(this.cB_PrinterName_KeyPress);
             // 
             // PrintSettings
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.ClientSize = new System.Drawing.Size(221, 317);
+            this.Controls.Add(this.cB_PrinterName);
             this.Controls.Add(this.cB_PrintMode);
             this.Controls.Add(this.label6);
             this.Controls.Add(this.Button_AddNewSize);
@@ -212,12 +219,12 @@ namespace TscDll.Forms
             this.Controls.Add(this.label3);
             this.Controls.Add(this.label2);
             this.Controls.Add(this.label1);
-            this.Controls.Add(this.tB_PrinterName);
             this.FormBorderStyle = System.Windows.Forms.FormBorderStyle.FixedSingle;
+            this.Icon = ((System.Drawing.Icon)(resources.GetObject("$this.Icon")));
             this.MaximizeBox = false;
             this.Name = "PrintSettings";
             this.StartPosition = System.Windows.Forms.FormStartPosition.CenterParent;
-            this.Text = "Настройки принтера";
+            this.Text = "Настройки";
             ((System.ComponentModel.ISupportInitialize)(this.numericSpeed)).EndInit();
             ((System.ComponentModel.ISupportInitialize)(this.numericDensity)).EndInit();
             this.ResumeLayout(false);
@@ -226,8 +233,6 @@ namespace TscDll.Forms
         }
 
         #endregion
-
-        private System.Windows.Forms.TextBox tB_PrinterName;
         private System.Windows.Forms.Label label1;
         private System.Windows.Forms.Label label2;
         private System.Windows.Forms.Label label3;
@@ -241,5 +246,6 @@ namespace TscDll.Forms
         private System.Windows.Forms.Button Button_AddNewSize;
         private System.Windows.Forms.Label label6;
         private System.Windows.Forms.ComboBox cB_PrintMode;
+        private System.Windows.Forms.ComboBox cB_PrinterName;
     }
 }

@@ -5,7 +5,6 @@ using TscDll.Entities;
 using TscDll.Helpers;
 using System.Text;
 using System.ComponentModel;
-using System.Threading;
 
 namespace TscDll.Forms
 {
@@ -27,7 +26,7 @@ namespace TscDll.Forms
         /// <param name="e"></param>
         private void Button_Cancel_Click(object sender, EventArgs e)
         {
-            Settings cur_settings = TscHelper.GetSettings();
+            Settings cur_settings = XMLHelper.GetSettings();
             driver driver = new driver();
             PausePrinting(driver, cur_settings);
             Checking(driver, cur_settings);
@@ -38,7 +37,7 @@ namespace TscDll.Forms
         private void PrinterConnection()
         {
             ethernet ethernet = new ethernet();
-            Settings cur_settings = TscHelper.GetSettings();
+            Settings cur_settings = XMLHelper.GetSettings();
             string IP = TscHelper.GetPrinterIP(cur_settings);
             int PortNumber = TscHelper.GetPrinter_PortNumber(IP);
 
@@ -48,9 +47,11 @@ namespace TscDll.Forms
                 if (ethernet.printerstatus() == 0 || ethernet.printerstatus() == 32)
                     net = true;
                 else net = false;
+                ethernet.closeport();
             }
             else net = false;
-            ethernet.closeport();
+            
+
         }
 
         /// <summary>
@@ -67,11 +68,11 @@ namespace TscDll.Forms
 
             if (result == DialogResult.OK)//continue
             {
-                driver.sendcommand_hex("1B214F");
+                driver.sendcommand_hex("1B214F");//to cancel the pause mode and continue printing
             }
             else// cancel printing
             {
-                driver.sendcommand_hex("1B2143");//reboot the printer
+                driver.sendcommand_hex("1B2143");//rebooting the printer
                 Close();
             }
             driver.closeport();
@@ -99,11 +100,17 @@ namespace TscDll.Forms
         {
             ethernet ethernet = new ethernet();
             ethernet.openport(IP, PortNumber);
-
-            byte b = ethernet.printerstatus();
-
-            ethernet.clearbuffer();
-            ethernet.closeport();
+            byte b;
+            //try
+            //{
+                b = ethernet.printerstatus();
+                ethernet.clearbuffer();
+                ethernet.closeport();
+            //}
+            //catch (System.Net.Sockets.SocketException)
+            //{
+            //    b = 99;
+            //}
 
             return b;
         }
@@ -134,14 +141,17 @@ namespace TscDll.Forms
         {
             if(net)
             {
-                Settings cur_settings = TscHelper.GetSettings();
+                Settings cur_settings = XMLHelper.GetSettings();
                 string IP = TscHelper.GetPrinterIP(cur_settings);
                 int PortNumber = TscHelper.GetPrinter_PortNumber(IP);
 
                 while (a != 0)
                 {
                     a = Check_PrinterStatusEthernet(IP, PortNumber);
-                    if (a == 0) break;
+                    if (a == 0)
+                    { 
+                        break;
+                    }
                 }
             }
             else
@@ -150,6 +160,7 @@ namespace TscDll.Forms
                 {
                     a = Check_PrinterStatusUSB();
                     if (a == 0) break;
+
                 }
             }
         }
@@ -167,7 +178,7 @@ namespace TscDll.Forms
         {
             if(net)
             {
-                Settings cur_settings = TscHelper.GetSettings();
+                Settings cur_settings = XMLHelper.GetSettings();
                 string IP = TscHelper.GetPrinterIP(cur_settings);
                 int PortNumber = TscHelper.GetPrinter_PortNumber(IP);
                 while (a != 32)

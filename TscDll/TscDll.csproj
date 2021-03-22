@@ -32,6 +32,9 @@
     <WarningLevel>4</WarningLevel>
   </PropertyGroup>
   <ItemGroup>
+    <Reference Include="AutoClosingMessageBox, Version=1.0.0.2, Culture=neutral, processorArchitecture=MSIL">
+      <HintPath>..\packages\AutoClosingMessageBox.1.0.0.2\lib\net40\AutoClosingMessageBox.dll</HintPath>
+    </Reference>
     <Reference Include="DevExpress.Data.v15.1, Version=15.1.6.0, Culture=neutral, PublicKeyToken=b88d1754d700e49a" />
     <Reference Include="DevExpress.Printing.v15.1.Core, Version=15.1.6.0, Culture=neutral, PublicKeyToken=b88d1754d700e49a" />
     <Reference Include="DevExpress.Utils.v15.1, Version=15.1.6.0, Culture=neutral, PublicKeyToken=b88d1754d700e49a" />
@@ -67,11 +70,29 @@
     <Compile Include="Entities\ResponseData.cs" />
     <Compile Include="Entities\Settings.cs" />
     <Compile Include="Extensions\ObjectExtensions.cs" />
+    <Compile Include="Forms\AddNewSizeGS128_Form.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="Forms\AddNewSizeGS128_Form.Designer.cs">
+      <DependentUpon>AddNewSizeGS128_Form.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Forms\Gs128Settings.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="Forms\Gs128Settings.Designer.cs">
+      <DependentUpon>Gs128Settings.cs</DependentUpon>
+    </Compile>
     <Compile Include="Forms\Main_form.cs">
       <SubType>Form</SubType>
     </Compile>
     <Compile Include="Forms\Main_form.Designer.cs">
       <DependentUpon>Main_form.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Forms\PrintGS128_Form.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="Forms\PrintGS128_Form.Designer.cs">
+      <DependentUpon>PrintGS128_Form.cs</DependentUpon>
     </Compile>
     <Compile Include="Forms\PrintSettings.cs">
       <SubType>Form</SubType>
@@ -91,7 +112,11 @@
     <Compile Include="Forms\ProgressForm.Designer.cs">
       <DependentUpon>ProgressForm.cs</DependentUpon>
     </Compile>
+    <Compile Include="Helpers\GS128Helper.cs" />
+    <Compile Include="Helpers\SgtinHelper.cs" />
+    <Compile Include="Helpers\SsccHelper.cs" />
     <Compile Include="Helpers\TscHelper.cs" />
+    <Compile Include="Helpers\XMLHelper.cs" />
     <Compile Include="Print.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Properties\Resources.Designer.cs">
@@ -107,8 +132,17 @@
     <None Include="packages.config" />
   </ItemGroup>
   <ItemGroup>
+    <EmbeddedResource Include="Forms\AddNewSizeGS128_Form.resx">
+      <DependentUpon>AddNewSizeGS128_Form.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Forms\Gs128Settings.resx">
+      <DependentUpon>Gs128Settings.cs</DependentUpon>
+    </EmbeddedResource>
     <EmbeddedResource Include="Forms\Main_form.resx">
       <DependentUpon>Main_form.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Forms\PrintGS128_Form.resx">
+      <DependentUpon>PrintGS128_Form.cs</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="Forms\PrintSettings.resx">
       <DependentUpon>PrintSettings.cs</DependentUpon>
@@ -129,6 +163,12 @@
   <ItemGroup>
     <Content Include="ref\tsclibnet.dll" />
     <Content Include="ref\zxing.dll" />
+    <None Include="Resources\refresh.png" />
+    <None Include="Resources\process.ico" />
+    <None Include="Resources\new.ico" />
+    <None Include="Resources\settings.ico" />
+    <None Include="Resources\printer.ico" />
+    <None Include="Resources\printer.png" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
 </Project>

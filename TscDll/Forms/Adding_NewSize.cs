@@ -29,15 +29,15 @@ namespace TscDll.Forms
         {
             if (AddToXMLNewSize()==1)
             {
-                MessageBox.Show("Размер записан ранее");
+                AutoClosingMessageBox.Show("Размер записан ранее", "Ошибка", 1500);
             }
             else if (AddToXMLNewSize() == 2)
             {
-                MessageBox.Show("Некорректные значения");
+                AutoClosingMessageBox.Show("Некорректные значения", "Ошибка", 1500);
             }
             else
             {
-                MessageBox.Show("Новый размер добавлен");
+                AutoClosingMessageBox.Show("Новый размер добавлен", "Успешно", 1500);
                 Close();
             }
         }
@@ -58,17 +58,17 @@ namespace TscDll.Forms
             }
         }
         /// <summary>
-        /// Добавление нового размера в XML 
+        /// Добавление нового размера для Sgtin и SSCC в XML 
         /// </summary>
         /// <returns></returns>
         private int AddToXMLNewSize()
         {
             Intvalue intvalue = new Intvalue();
 
-            if (!TscHelper.FileExist())
+            if (!XMLHelper.FileExist())
             {
                 Settings settings = new Settings();
-                TscHelper.CreateFile(settings);
+                XMLHelper.CreateFile(settings);
             }
 
             if (int.TryParse(tB_newSizeWidth.Text, out int width) && int.TryParse(tB_newSizeHeight.Text, out int height))
@@ -79,7 +79,7 @@ namespace TscDll.Forms
                     intvalue.Width = Convert.ToInt32(tB_newSizeWidth.Text);//width
                     intvalue.Height = Convert.ToInt32(tB_newSizeHeight.Text);//height
 
-                    Settings newSetting = TscHelper.GetSettings();
+                    Settings newSetting = XMLHelper.GetSettings();
 
                     foreach (Intvalue sgtinSize in newSetting.SgtinList)
                     {
@@ -91,7 +91,7 @@ namespace TscDll.Forms
 
                     newSetting.SgtinList.Add(intvalue);
                     newSetting.SsccList.Add(intvalue);
-                    TscHelper.SaveSettings(newSetting);
+                    XMLHelper.SaveSettings(newSetting);
                 }
                 else return 2;
             }
