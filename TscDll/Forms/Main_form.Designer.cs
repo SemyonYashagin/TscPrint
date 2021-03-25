@@ -50,6 +50,7 @@ namespace TscDll.Forms
             this.SsccCount = new DevExpress.XtraGrid.Columns.GridColumn();
             this.splitContainer = new System.Windows.Forms.SplitContainer();
             this.groupBox2 = new System.Windows.Forms.GroupBox();
+            this.progressPanel1 = new DevExpress.XtraWaitForm.ProgressPanel();
             this.but_UpdatePrinterStatus = new System.Windows.Forms.Button();
             this.tB_PrinterMode = new System.Windows.Forms.TextBox();
             this.label5 = new System.Windows.Forms.Label();
@@ -269,6 +270,7 @@ namespace TscDll.Forms
             // 
             // groupBox2
             // 
+            this.groupBox2.Controls.Add(this.progressPanel1);
             this.groupBox2.Controls.Add(this.but_UpdatePrinterStatus);
             this.groupBox2.Controls.Add(this.tB_PrinterMode);
             this.groupBox2.Controls.Add(this.label5);
@@ -280,6 +282,20 @@ namespace TscDll.Forms
             this.groupBox2.TabIndex = 5;
             this.groupBox2.TabStop = false;
             this.groupBox2.Text = "Принтер";
+            // 
+            // progressPanel1
+            // 
+            this.progressPanel1.Appearance.BackColor = System.Drawing.Color.Transparent;
+            this.progressPanel1.Appearance.Options.UseBackColor = true;
+            this.progressPanel1.AppearanceCaption.Font = new System.Drawing.Font("Microsoft Sans Serif", 12F);
+            this.progressPanel1.AppearanceCaption.Options.UseFont = true;
+            this.progressPanel1.AppearanceDescription.Font = new System.Drawing.Font("Microsoft Sans Serif", 8.25F);
+            this.progressPanel1.AppearanceDescription.Options.UseFont = true;
+            this.progressPanel1.Location = new System.Drawing.Point(44, 75);
+            this.progressPanel1.Name = "progressPanel1";
+            this.progressPanel1.Size = new System.Drawing.Size(306, 111);
+            this.progressPanel1.TabIndex = 0;
+            this.progressPanel1.Text = "progressPanel1";
             // 
             // but_UpdatePrinterStatus
             // 
@@ -363,5 +379,6 @@ namespace TscDll.Forms
         private System.Windows.Forms.Label label5;
         public DevExpress.XtraGrid.Columns.GridColumn ProductName;
         private System.Windows.Forms.Button but_UpdatePrinterStatus;
+        private DevExpress.XtraWaitForm.ProgressPanel progressPanel1;
     }
 }

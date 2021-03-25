@@ -59,7 +59,6 @@ namespace TscDll.Forms
 
             if (XMLHelper.FileExist() && settings.SgtinSize!= null && settings.SsccSize!= null)
             {
-
                 tB_Sgtin.Text = settings.SgtinSize.Size;
                 tB_Sscc.Text = settings.SsccSize.Size;
                 tB_PrinterMode.Text = settings.PrinterMode;
@@ -90,26 +89,26 @@ namespace TscDll.Forms
         {
             if (cb_sizes.SelectedItem.ToString() == "SGTIN")//print sgtins
             {
-                Dictionary<string, List<string>> sgtins = GetSgtin(markPrints);
+                List<Tuple<string, List<string>>> sgtins = GetSgtins(markPrints);
 
                 if(sgtins.Count!=0)
                 {
                     Settings set = XMLHelper.GetSettings();
                     SgtinHelper.Init_printer(set.SgtinSize.Width, set.SgtinSize.Height);
-                    SgtinHelper.CreateSgtinBitmap(set.SgtinSize.Width, set.SgtinSize.Height, sgtins);
+                    SgtinHelper.PrintSgtins(set.SgtinSize.Width, set.SgtinSize.Height, sgtins);
                 }
                 else AutoClosingMessageBox.Show("Выберите хотя бы один элемент для печати", "Ошибка", 1500);
 
             }
             else//print sscces
             {
-                Dictionary<string, string> sscces = GetSscc(markPrints);
+                List<Tuple<string, string>> sscces = GetSsccs(markPrints);
                 if (sscces.Count!=0)
                 {
                     Settings set = XMLHelper.GetSettings();
                     SgtinHelper.Init_printer(set.SsccSize.Width, set.SsccSize.Height);
                     //ResponseData response = 
-                    SsccHelper.CreateSsccBitmap(set.SsccSize.Width, set.SsccSize.Height, sscces);
+                    SsccHelper.PrintSsccs(set.SsccSize.Width, set.SsccSize.Height, sscces);
                     //if (response.IsSuccess)
                     //    AutoClosingMessageBox.Show("Напечатано", "Успешно", 1500);
                     //else MessageBox.Show(response.ErrorMessage);
@@ -121,7 +120,6 @@ namespace TscDll.Forms
         /// <summary>
         /// Метод для взятия Sgtin-ов из объекта List<MarkPrintUnit>
         /// </summary>
-        /// <param name="sgtins"></param>
         /// <param name="units"></param>
         /// <returns></returns>
         private Dictionary<string, List<string>> GetSgtin(List<MarkPrintUnit> units)
@@ -144,6 +142,50 @@ namespace TscDll.Forms
             return partyIdSgtins;
         }
 
+        private List<Tuple<string, List<string>>> GetSgtins(List<MarkPrintUnit> units)
+        {
+            List<Tuple<string, List<string>>> partyIdSgtins = new List<Tuple<string, List<string>>>();
+
+            int[] selectedIndex = gridView1.GetSelectedRows();
+
+            for (int i = 0; i < selectedIndex.Length; i++)
+            {
+                List<Tuple<string, List<string>>> sgtins1 = new List<Tuple<string, List<string>>>();
+                int index = selectedIndex[i];
+                sgtins1.Clear();
+                List<Tuple<string, List<string>>> sgtins2 = GetSgtinsRecur(sgtins1, units[index].Units, units[index]);
+
+                foreach (Tuple<string, List<string>> sgtins in sgtins2)
+                    partyIdSgtins.Add(sgtins);
+            }
+
+            return partyIdSgtins;
+        }
+
+        private List<Tuple<string, List<string>>> GetSgtinsRecur(List<Tuple<string, List<string>>> All_Sgtin, Unit unit, MarkPrintUnit units)
+        {
+            if (unit.Units != null)
+            {
+                if (unit.Sgtins != null)
+                {
+                    string uniqueNumber = unit.parentId.ToString() + "|" + units.PartyId;
+                    Tuple<string, List<string>> temp = new Tuple<string, List<string>>(uniqueNumber, unit.Sgtins);
+                    All_Sgtin.Add(temp);
+                }
+                foreach (Unit item_sscc in unit.Units)
+                {
+                    GetSgtinsRecur(All_Sgtin, item_sscc, units);
+                }
+            }
+            if (unit.Units == null)
+            {
+                string uniqueNumber = unit.parentId.ToString() + "|" + units.PartyId;
+                Tuple<string, List<string>> temp = new Tuple<string, List<string>>(uniqueNumber, unit.Sgtins);
+                All_Sgtin.Add(temp);
+            }
+            return All_Sgtin;
+        }
+
         /// <summary>
         /// Метод для рекурсивного взятия Sgtin-ов из объекта Unit
         /// </summary>
@@ -155,7 +197,7 @@ namespace TscDll.Forms
             {
                 if(unit.Sgtins!=null)
                 {
-                    string uniqueNumber = unit.SsccNom.ToString() + "|" + units.PartyId;
+                    string uniqueNumber = unit.Id.ToString() + "|" + units.PartyId;
                     All_Sgtin.Add(uniqueNumber, unit.Sgtins);
                 }
                 foreach (Unit item_sscc in unit.Units)
@@ -165,7 +207,7 @@ namespace TscDll.Forms
             }
             if (unit.Units == null)
             {
-                string uniqueNumber = unit.SsccNom.ToString() + "|" + units.PartyId;
+                string uniqueNumber = unit.Id.ToString() + "|" + units.PartyId;
                 All_Sgtin.Add(uniqueNumber, unit.Sgtins);
             }
             return All_Sgtin;
@@ -192,6 +234,39 @@ namespace TscDll.Forms
             return Sscces;
         }
 
+        private List<Tuple<string, string>> GetSsccs(List<MarkPrintUnit> units)
+        {
+            List<Tuple<string, string>> Sscces = new List<Tuple<string, string>>();
+
+            int[] selectedIndex = gridView1.GetSelectedRows();
+
+            for (int i = 0; i < selectedIndex.Length; i++)
+            {
+                int index = selectedIndex[i];
+                GetSsccsRecur(Sscces, units[index].Units, units[index]);
+            }
+
+            return Sscces;
+        }
+
+        private List<Tuple<string, string>> GetSsccsRecur(List<Tuple<string, string>> All_Sscc, Unit unit, MarkPrintUnit units)
+        {
+            if (unit.Units != null)
+            {
+                foreach (Unit item_sscc in unit.Units)
+                {
+                    GetSsccsRecur(All_Sscc, item_sscc, units);
+                }
+            }
+            if (unit.SsccValue != null)
+            {
+                string uniqueNumber = unit.parentId.ToString() + "/" + unit.Id.ToString() + "|" + units.PartyId;
+                Tuple<string, string> temp = new Tuple<string, string>(uniqueNumber, unit.SsccValue);
+                All_Sscc.Add(temp);
+            }
+            return All_Sscc;
+        }
+
         /// <summary>
         /// Метод для рекурсивного взятия Sscc из объекта Unit
         /// </summary>
@@ -208,7 +283,7 @@ namespace TscDll.Forms
             }
             if(unit.SsccValue!=null)
             {
-                string uniqueNumber = unit.SsccNom.ToString() + "|" + units.PartyId;
+                string uniqueNumber = unit.Id.ToString() + "|" + units.PartyId;
                 All_Sscc.Add(uniqueNumber, unit.SsccValue);
             }
             return All_Sscc;   
@@ -228,7 +303,7 @@ namespace TscDll.Forms
         {
             Object selectedItem = cb_sizes.SelectedItem;
             Settings set = XMLHelper.GetSettings();
-            //buttonPrint.Enabled = false;
+            buttonPrint.Enabled = false;
 
             if (selectedItem != null)
             {
@@ -286,6 +361,11 @@ namespace TscDll.Forms
                     }
                 }
             }            
+        }
+
+        private void progressPanel2_Click(object sender, EventArgs e)
+        {
+
         }
     }
 }

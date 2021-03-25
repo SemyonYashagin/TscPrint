@@ -83,8 +83,7 @@ namespace TscDll.Extensions
                 DataType = System.Type.GetType("System.String"),
                 ColumnName = "ProductName",
                 Caption = "Номенклатура",
-                ReadOnly = true,
-                Unique = true
+                ReadOnly = true
             };
             table.Columns.Add(column);
 
@@ -93,8 +92,7 @@ namespace TscDll.Extensions
                 DataType = System.Type.GetType("System.String"),
                 ColumnName = "Gtin",
                 Caption = "GTIN",
-                ReadOnly = true,
-                Unique = true
+                ReadOnly = true
             };
             table.Columns.Add(column);
 
@@ -103,8 +101,7 @@ namespace TscDll.Extensions
                 DataType = System.Type.GetType("System.String"),
                 ColumnName = "SgtinCount",
                 Caption = "Кол-во SGTIN-ов",
-                ReadOnly = true,
-                Unique = false
+                ReadOnly = true
             };
             table.Columns.Add(column);
 
@@ -113,8 +110,7 @@ namespace TscDll.Extensions
                 DataType = System.Type.GetType("System.String"),
                 ColumnName = "SsccCount",
                 Caption = "Кол-во SSCC",
-                ReadOnly = true,
-                Unique = false
+                ReadOnly = true
             };
             table.Columns.Add(column);
 

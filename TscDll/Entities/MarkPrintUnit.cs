@@ -65,10 +65,10 @@ namespace TscDll.Entities
             }
         }
     }
-    public class Unit: IDisposable
+    public class Unit
     {
-        static private int IdNext = 1;
-        static private int IdOfDestroy = -1;
+        //static private int IdNext = 1;
+        //static private int IdOfDestroy = -1;
         private string ssccValue { get; set; }
 
         /// <summary>Идентификатор SSCC (18 символов) (обязательный параметр)</summary>
@@ -115,26 +115,30 @@ namespace TscDll.Entities
             }
         }
 
-        /// <summary> Уникальный номер коробки</summary>
-        public int SsccNom { get; private set; }
+        ///// <summary> Уникальный номер коробки</summary>
+        //public int SsccNom { get; set; }
 
-        public Unit()
-        {
-            if (IdOfDestroy == -1)
-            {
-                this.SsccNom = Unit.IdNext;
-                Unit.IdNext++;
+        public int Id { get; set; }
 
-            }
-            else
-            {
-                this.SsccNom = Unit.IdOfDestroy;
-            }
-        }
+        public int parentId { get; set; }
 
-        public void Dispose()
-        {
-            Unit.IdOfDestroy = this.SsccNom;
-        }
+        //public Unit()
+        //{
+        //    if (IdOfDestroy == -1)
+        //    {
+        //        this.SsccNom = Unit.IdNext;
+        //        Unit.IdNext++;
+
+        //    }
+        //    else
+        //    {
+        //        this.SsccNom = Unit.IdOfDestroy;
+        //    }
+        //}
+
+        //public void Dispose()
+        //{
+        //    Unit.IdOfDestroy = this.SsccNom;
+        //}
     }
 }

@@ -161,6 +161,7 @@
   </ItemGroup>
   <ItemGroup />
   <ItemGroup>
+    <Content Include="ref\AutoClosingMessageBox.dll" />
     <Content Include="ref\tsclibnet.dll" />
     <Content Include="ref\zxing.dll" />
     <None Include="Resources\refresh.png" />

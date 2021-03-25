@@ -11,7 +11,7 @@ namespace TscDll.Forms
     public partial class ProgressForm : Form
     {
 
-        bool net = false;
+        bool net;//if net=false it means the printer is connected to pc by ethernet else by USB
         byte a = 3;
         public ProgressForm()
         {
@@ -49,9 +49,7 @@ namespace TscDll.Forms
                 else net = false;
                 ethernet.closeport();
             }
-            else net = false;
-            
-
+            else net = false;           
         }
 
         /// <summary>
@@ -101,16 +99,16 @@ namespace TscDll.Forms
             ethernet ethernet = new ethernet();
             ethernet.openport(IP, PortNumber);
             byte b;
-            //try
-            //{
+            try
+            {
                 b = ethernet.printerstatus();
                 ethernet.clearbuffer();
                 ethernet.closeport();
-            //}
-            //catch (System.Net.Sockets.SocketException)
-            //{
-            //    b = 99;
-            //}
+            }
+            catch (System.Net.Sockets.SocketException)
+            {
+                b = 99;
+            }
 
             return b;
         }
