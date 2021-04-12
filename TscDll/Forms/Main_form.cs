@@ -107,11 +107,7 @@ namespace TscDll.Forms
                 {
                     Settings set = XMLHelper.GetSettings();
                     SgtinHelper.Init_printer(set.SsccSize.Width, set.SsccSize.Height);
-                    //ResponseData response = 
                     SsccHelper.PrintSsccs(set.SsccSize.Width, set.SsccSize.Height, sscces);
-                    //if (response.IsSuccess)
-                    //    AutoClosingMessageBox.Show("Напечатано", "Успешно", 1500);
-                    //else MessageBox.Show(response.ErrorMessage);
                 }
                 else AutoClosingMessageBox.Show("Выберите хотя бы один элемент для печати", "Ошибка", 1500);
             }
@@ -122,26 +118,6 @@ namespace TscDll.Forms
         /// </summary>
         /// <param name="units"></param>
         /// <returns></returns>
-        private Dictionary<string, List<string>> GetSgtin(List<MarkPrintUnit> units)
-        {
-            Dictionary<string, List<string>> partyIdSgtins = new Dictionary<string, List<string>>();           
-
-            int[] selectedIndex = gridView1.GetSelectedRows();
-
-            for (int i = 0; i < selectedIndex.Length; i++)
-            {
-                Dictionary<string, List<string>> sgtins1 = new Dictionary<string, List<string>>();
-                int index = selectedIndex[i];
-                sgtins1.Clear();
-                Dictionary<string, List<string>> sgtins2 = GetSgtinRecur(sgtins1, units[index].Units, units[index]);
-
-                foreach (KeyValuePair<string, List<string>> sgtins in sgtins2)
-                    partyIdSgtins.Add(sgtins.Key, sgtins.Value);
-            }
-
-            return partyIdSgtins;
-        }
-
         private List<Tuple<string, List<string>>> GetSgtins(List<MarkPrintUnit> units)
         {
             List<Tuple<string, List<string>>> partyIdSgtins = new List<Tuple<string, List<string>>>();
@@ -158,17 +134,26 @@ namespace TscDll.Forms
                 foreach (Tuple<string, List<string>> sgtins in sgtins2)
                     partyIdSgtins.Add(sgtins);
             }
-
             return partyIdSgtins;
         }
 
+        /// <summary>
+        /// Метод для рекурсивного взятия Sgtin-ов из объекта Unit
+        /// </summary>
+        /// <param name="All_Sgtin"></param>
+        /// <param name="unit"></param>
         private List<Tuple<string, List<string>>> GetSgtinsRecur(List<Tuple<string, List<string>>> All_Sgtin, Unit unit, MarkPrintUnit units)
         {
             if (unit.Units != null)
             {
                 if (unit.Sgtins != null)
                 {
-                    string uniqueNumber = unit.parentId.ToString() + "|" + units.PartyId;
+                    string uniqueNumber = "";
+                    if(unit.parentId == 0)
+                        uniqueNumber = "x" + "|" + units.PartyId;
+                    else
+                        uniqueNumber = unit.parentId.ToString() + "|" + units.PartyId;
+
                     Tuple<string, List<string>> temp = new Tuple<string, List<string>>(uniqueNumber, unit.Sgtins);
                     All_Sgtin.Add(temp);
                 }
@@ -179,36 +164,14 @@ namespace TscDll.Forms
             }
             if (unit.Units == null)
             {
-                string uniqueNumber = unit.parentId.ToString() + "|" + units.PartyId;
+                string uniqueNumber = "";
+                if (unit.parentId == 0)
+                    uniqueNumber = "x" + "|" + units.PartyId;
+                else
+                    uniqueNumber = unit.parentId.ToString() + "|" + units.PartyId;
+
                 Tuple<string, List<string>> temp = new Tuple<string, List<string>>(uniqueNumber, unit.Sgtins);
                 All_Sgtin.Add(temp);
-            }
-            return All_Sgtin;
-        }
-
-        /// <summary>
-        /// Метод для рекурсивного взятия Sgtin-ов из объекта Unit
-        /// </summary>
-        /// <param name="All_Sgtin"></param>
-        /// <param name="unit"></param>
-        private Dictionary<string,List<string>> GetSgtinRecur(Dictionary<string, List<string>> All_Sgtin, Unit unit, MarkPrintUnit units)
-        {
-            if (unit.Units != null)
-            {
-                if(unit.Sgtins!=null)
-                {
-                    string uniqueNumber = unit.Id.ToString() + "|" + units.PartyId;
-                    All_Sgtin.Add(uniqueNumber, unit.Sgtins);
-                }
-                foreach (Unit item_sscc in unit.Units)
-                {
-                    GetSgtinRecur(All_Sgtin, item_sscc, units);
-                }
-            }
-            if (unit.Units == null)
-            {
-                string uniqueNumber = unit.Id.ToString() + "|" + units.PartyId;
-                All_Sgtin.Add(uniqueNumber, unit.Sgtins);
             }
             return All_Sgtin;
         }
@@ -219,21 +182,6 @@ namespace TscDll.Forms
         /// <param name="sscces"></param>
         /// <param name="units"></param>
         /// <returns></returns>
-        private Dictionary<string, string> GetSscc(List<MarkPrintUnit> units)
-        {
-            Dictionary<string, string> Sscces = new Dictionary<string, string>();
-
-            int[] selectedIndex = gridView1.GetSelectedRows();
-
-            for (int i = 0; i < selectedIndex.Length; i++)
-            {
-                int index = selectedIndex[i];
-                GetSsccRecur(Sscces, units[index].Units, units[index]);
-            }
-
-            return Sscces;
-        }
-
         private List<Tuple<string, string>> GetSsccs(List<MarkPrintUnit> units)
         {
             List<Tuple<string, string>> Sscces = new List<Tuple<string, string>>();
@@ -249,6 +197,11 @@ namespace TscDll.Forms
             return Sscces;
         }
 
+        /// <summary>
+        /// Метод для рекурсивного взятия Sscc из объекта Unit
+        /// </summary>
+        /// <param name="All_Sscc"></param>
+        /// <param name="unit"></param>
         private List<Tuple<string, string>> GetSsccsRecur(List<Tuple<string, string>> All_Sscc, Unit unit, MarkPrintUnit units)
         {
             if (unit.Units != null)
@@ -258,35 +211,18 @@ namespace TscDll.Forms
                     GetSsccsRecur(All_Sscc, item_sscc, units);
                 }
             }
+
             if (unit.SsccValue != null)
             {
-                string uniqueNumber = unit.parentId.ToString() + "/" + unit.Id.ToString() + "|" + units.PartyId;
+                string uniqueNumber="";
+                if (unit.parentId == 0)
+                    uniqueNumber = "x" + "/" + unit.Id.ToString() + "|" + units.PartyId;
+                else
+                    uniqueNumber = unit.parentId.ToString() + "/" + unit.Id.ToString() + "|" + units.PartyId;
                 Tuple<string, string> temp = new Tuple<string, string>(uniqueNumber, unit.SsccValue);
                 All_Sscc.Add(temp);
             }
             return All_Sscc;
-        }
-
-        /// <summary>
-        /// Метод для рекурсивного взятия Sscc из объекта Unit
-        /// </summary>
-        /// <param name="All_Sscc"></param>
-        /// <param name="unit"></param>
-        private Dictionary<string, string> GetSsccRecur(Dictionary<string,string> All_Sscc, Unit unit, MarkPrintUnit units)
-        {
-            if (unit.Units != null)
-            {
-                foreach (Unit item_sscc in unit.Units)
-                {
-                    GetSsccRecur(All_Sscc, item_sscc, units);
-                }
-            }
-            if(unit.SsccValue!=null)
-            {
-                string uniqueNumber = unit.Id.ToString() + "|" + units.PartyId;
-                All_Sscc.Add(uniqueNumber, unit.SsccValue);
-            }
-            return All_Sscc;   
         }
 
         private void But_UpdatePrinterStatus_Click(object sender, EventArgs e)
@@ -316,9 +252,9 @@ namespace TscDll.Forms
                     if (result == DialogResult.No)
                     {
                         MessageBox.Show("Вставьте рулон для " + selectedItem.ToString());
-                        //buttonPrint.Enabled = false;
-                        buttonPrint.Enabled = true;
-                        //cb_sizes.Text = null;
+                        buttonPrint.Enabled = false;
+                        //buttonPrint.Enabled = true;
+                        cb_sizes.Text = null;
                     }
                     else
                     {
@@ -340,9 +276,9 @@ namespace TscDll.Forms
                     if (result == DialogResult.No)
                     {
                         MessageBox.Show("Вставьте рулон для " + selectedItem.ToString());
-                        //buttonPrint.Enabled = false;
-                        buttonPrint.Enabled = true;
-                        //cb_sizes.Text = null;
+                        buttonPrint.Enabled = false;
+                        //buttonPrint.Enabled = true;
+                        cb_sizes.Text = null;
                     }
                     else
                     {
@@ -361,11 +297,6 @@ namespace TscDll.Forms
                     }
                 }
             }            
-        }
-
-        private void progressPanel2_Click(object sender, EventArgs e)
-        {
-
         }
     }
 }
