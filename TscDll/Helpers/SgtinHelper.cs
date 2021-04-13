@@ -69,7 +69,7 @@ namespace TscDll.Helpers
             progress.ShowDialog();
         }
 
-        public static void PrintSgtins(int width, int height, SimplePrint sgtinsList)
+        public static void PrintSgtins(int width, int height, List<SimplePrint> sgtinsList)
         {
             driver driver = new driver();
             driver.clearbuffer();
@@ -107,50 +107,59 @@ namespace TscDll.Helpers
             g.SmoothingMode = SmoothingMode.HighQuality;
             g.PixelOffsetMode = PixelOffsetMode.HighQuality;
 
-            foreach (Sgtin sgtin in sgtinsList.sgtins)
+            foreach (SimplePrint unit in sgtinsList)
             {
-                int? uniqueNum = sgtin.parentId;
-                string partyId = sgtin.partyId;
-
-                g.DrawRectangle(skyBluePen,
-                    new Rectangle(460, 50 + 75, 600, 200));
-
-                g.DrawString(uniqueNum.ToString(), font, drawBrush, point);//the code of a box (sscc)
-                g.DrawString(sgtin.nomenShortName, font, drawBrush, shortNomen);
-                g.DrawString(partyId, font, drawBrush, pointParty);//partyID
-                string gtin = sgtin.value.Substring(2, 14);//get gtin from sgtin
-                string sn = sgtin.value.Substring(18, 13);// get serial number from sgtin
-                g.DrawString(gtin, fontSgtin, drawBrush, pointGtin);//gtin
-                g.DrawString(sn, fontSgtin, drawBrush, pointSN);//sn
-                g.DrawImage(writer.Write(sgtin.value), 0, 75);
-
-                if (width != 100 && height != 50)
+                foreach (Sgtin sgtin in unit.sgtins)
                 {
-                    var destRect = new Rectangle(0, 0, width * 11, height * 11);
-                    var destImage = new Bitmap(width * 11, height * 11);
+                    int? uniqueNum = sgtin.id;
+                    string partyId = sgtin.partyId;
 
-                    using (var graphics = Graphics.FromImage(destImage))
+                    g.DrawRectangle(skyBluePen,
+                        new Rectangle(460, 50 + 75, 600, 200));
+
+                    if (uniqueNum != 0) g.DrawString(uniqueNum.ToString(), font, drawBrush, point);//the code of a box (sscc)
+                    else g.DrawString("x", font, drawBrush, point);
+
+                    g.DrawString(sgtin.nomenShortName, font, drawBrush, shortNomen);
+                    g.DrawString(partyId, font, drawBrush, pointParty);//partyID
+                    string gtin = sgtin.value.Substring(2, 14);//get gtin from sgtin
+                    string sn = sgtin.value.Substring(18, 13);// get serial number from sgtin
+                    g.DrawString(gtin, fontSgtin, drawBrush, pointGtin);//gtin
+                    g.DrawString(sn, fontSgtin, drawBrush, pointSN);//sn
+                    g.DrawImage(writer.Write(sgtin.value), 0, 75);
+
+                    if (width != 100 && height != 50)
                     {
-                        using (var wrapMode = new ImageAttributes())
-                        {
-                            wrapMode.SetWrapMode(WrapMode.TileFlipXY);
-                            graphics.DrawImage(datamatrix, destRect, 0, 0, datamatrix.Width, datamatrix.Height, GraphicsUnit.Pixel, wrapMode);
-                        }
-                    }
-                    destImage.SetResolution(300, 300);
-                    driver.send_bitmap(0, 0, destImage);
-                }
-                else
-                {
-                    datamatrix.SetResolution(300, 300);
-                    driver.send_bitmap(0, 0, datamatrix);// print datamatrix     
-                }
+                        var destRect = new Rectangle(0, 0, width * 11, height * 11);
+                        var destImage = new Bitmap(width * 11, height * 11);
 
-                driver.printlabel("1", "1");
+                        using (var graphics = Graphics.FromImage(destImage))
+                        {
+                            using (var wrapMode = new ImageAttributes())
+                            {
+                                wrapMode.SetWrapMode(WrapMode.TileFlipXY);
+                                graphics.DrawImage(datamatrix, destRect, 0, 0, datamatrix.Width, datamatrix.Height, GraphicsUnit.Pixel, wrapMode);
+                            }
+                        }
+                        destImage.SetResolution(300, 300);
+                        driver.send_bitmap(0, 0, destImage);
+                    }
+                    else
+                    {
+                        datamatrix.SetResolution(300, 300);
+                        driver.send_bitmap(0, 0, datamatrix);// print datamatrix     
+                    }
+
+                    driver.printlabel("1", "1");
+
+                    driver.clearbuffer();
+                    g.Clear(Color.White);
+                }
 
                 driver.clearbuffer();
                 g.Clear(Color.White);
             }
+
             driver.closeport();
             g.Dispose();
             skyBluePen.Dispose();

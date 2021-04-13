@@ -103,8 +103,8 @@ namespace TscDll.Helpers
 
                 if (printer_height <= (height * 11.8) && printer_height >= ((height * 11.8) - 20))
                 {
-                    int dot = height * 12;
-                    ethernet.sendcommand($"BACKFEED {dot}");
+                    //int dot = height * 12;
+                    //ethernet.sendcommand($"BACKFEED {dot}");
                     ethernet.closeport();
                     return true;
                 }
@@ -130,8 +130,8 @@ namespace TscDll.Helpers
 
             if (printer_height <= (height * 11.8) && printer_height >= ((height * 11.8) - 20))
             {
-                int dot = height * 12;
-                usb.sendcommand($"BACKFEED {dot}");
+                //int dot = height * 12;
+                //usb.sendcommand($"BACKFEED {dot}");
                 usb.closeport();
                 return true;
             }

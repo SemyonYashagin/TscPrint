@@ -3,6 +3,7 @@ using System;
 using System.Collections.Generic;
 using System.Data;
 using System.IO;
+using System.Linq;
 using System.Text;
 using System.Xml;
 using System.Xml.Serialization;
@@ -70,7 +71,7 @@ namespace TscDll.Extensions
             return stream;
         }
 
-        public static DataTable ToDataTable(SimplePrint marks)
+        public static DataTable ToDataTable(List<SimplePrint> marks)
         {
             DataTable table = new DataTable();
             DataColumn column;
@@ -113,10 +114,23 @@ namespace TscDll.Extensions
                 ReadOnly = true
             };
             table.Columns.Add(column);
-            row = table.NewRow();
-            row[2] = marks.sgtins.Count;
-            row[3] = marks.SSCCs.Count;
-            table.Rows.Add(row);
+            
+            foreach (SimplePrint value in marks)
+            {
+                row = table.NewRow();
+
+                row[0] = value.nomenName;
+
+                if (value.sgtins.Any())
+                    row[2] = value.sgtins.Count;
+                else row[2] = "";
+
+                if (value.SSCCs.Any())
+                    row[3] = value.SSCCs.Count;
+                else row[3] = "";
+
+                table.Rows.Add(row);
+            }
 
             return table;
         }

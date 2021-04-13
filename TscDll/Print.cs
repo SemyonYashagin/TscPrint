@@ -24,7 +24,7 @@ namespace TscDll
         //    return response;
         //}
 
-        public static ResponseData PrintSgtinSscc (SimplePrint units)
+        public static ResponseData PrintSgtinSscc (List<SimplePrint> units)
         {
             ResponseData response = new ResponseData();
 

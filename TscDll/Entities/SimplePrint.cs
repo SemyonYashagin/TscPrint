@@ -8,6 +8,7 @@ namespace TscDll.Entities
 {
     public class SimplePrint
     {
+        public string nomenName { get; set; }
         public IList<Sgtin> sgtins { get; set; }
         public IList<SSCC> SSCCs { get; set; }
     }
@@ -24,7 +25,6 @@ namespace TscDll.Entities
         public int? id { get; set; }
         public int? parentId { get; set; }
         public int nomenId { get; set; }
-        public string nomenName { get; set; }
         public string partyId { get; set; }
         public string value { get; set; }
     }

@@ -13,7 +13,7 @@ namespace TscDll.Forms
     {
         //List<MarkPrintUnit> markPrints = new List<MarkPrintUnit>();
         private Settings settings;
-        SimplePrint marks = new SimplePrint();
+        List<SimplePrint> marks = new List<SimplePrint>();
 
         public Main_form()
         {
@@ -32,7 +32,7 @@ namespace TscDll.Forms
         //    markPrints = units;
         //}
 
-        public void InputToGV(SimplePrint units)
+        public void InputToGV(List<SimplePrint> units)
         {
             gridControl1.DataSource = ObjectExtensions.ToDataTable(units);
             marks = units;
@@ -125,24 +125,33 @@ namespace TscDll.Forms
         {
             if (cb_sizes.SelectedItem.ToString() == "SGTIN")//print sgtins
             {
-                if (marks.sgtins.Count != 0)
+                List<SimplePrint> sgtins = GetSgtins(marks);
+                if (sgtins !=null)
                 {
-                    Settings set = XMLHelper.GetSettings();
-                    SgtinHelper.Init_printer(set.SgtinSize.Width, set.SgtinSize.Height);
-                    SgtinHelper.PrintSgtins(set.SgtinSize.Width, set.SgtinSize.Height, marks);
+                    if (sgtins.Count != 0)
+                    {
+                        Settings set = XMLHelper.GetSettings();
+                        SgtinHelper.Init_printer(set.SgtinSize.Width, set.SgtinSize.Height);
+                        SgtinHelper.PrintSgtins(set.SgtinSize.Width, set.SgtinSize.Height, sgtins);
+                    }
+                    else AutoClosingMessageBox.Show("Выберите хотя бы один элемент для печати", "Ошибка", 1500);
                 }
-                else AutoClosingMessageBox.Show("Выберите хотя бы один элемент для печати", "Ошибка", 1500);
-
+                else AutoClosingMessageBox.Show("Элементов не найдено", "Ошибка", 1500);
             }
             else//print sscces
             {
-                if (marks.SSCCs.Count != 0)
+                List<SimplePrint> sscc = GetSsccs(marks);
+                if (sscc != null)
                 {
-                    Settings set = XMLHelper.GetSettings();
-                    SgtinHelper.Init_printer(set.SsccSize.Width, set.SsccSize.Height);
-                    SsccHelper.PrintSsccs(set.SsccSize.Width, set.SsccSize.Height, marks);
+                    if (sscc.Count != 0)
+                    {
+                        Settings set = XMLHelper.GetSettings();
+                        SgtinHelper.Init_printer(set.SsccSize.Width, set.SsccSize.Height);
+                        SsccHelper.PrintSsccs(set.SsccSize.Width, set.SsccSize.Height, marks);
+                    }
+                    else AutoClosingMessageBox.Show("Выберите хотя бы один элемент для печати", "Ошибка", 1500);
                 }
-                else AutoClosingMessageBox.Show("Выберите хотя бы один элемент для печати", "Ошибка", 1500);
+                else AutoClosingMessageBox.Show("Элементов не найдено", "Ошибка", 1500);
             }
         }
 
@@ -151,21 +160,22 @@ namespace TscDll.Forms
         /// </summary>
         /// <param name="units"></param>
         /// <returns></returns>
-        private List<Tuple<string, List<string>>> GetSgtins(List<MarkPrintUnit> units)
+        private List<SimplePrint> GetSgtins(List<SimplePrint> units)
         {
-            List<Tuple<string, List<string>>> partyIdSgtins = new List<Tuple<string, List<string>>>();
+            List<SimplePrint> partyIdSgtins = new List<SimplePrint>();
 
             int[] selectedIndex = gridView1.GetSelectedRows();
 
             for (int i = 0; i < selectedIndex.Length; i++)
             {
-                List<Tuple<string, List<string>>> sgtins1 = new List<Tuple<string, List<string>>>();
-                int index = selectedIndex[i];
-                sgtins1.Clear();
-                List<Tuple<string, List<string>>> sgtins2 = GetSgtinsRecur(sgtins1, units[index].Units, units[index]);
+                partyIdSgtins.Add(units[i]);
+                //List<Tuple<string, List<string>>> sgtins1 = new List<Tuple<string, List<string>>>();
+                //int index = selectedIndex[i];
+                //sgtins1.Clear();
+                //List<Tuple<string, List<string>>> sgtins2 = GetSgtinsRecur(sgtins1, units[index].Units, units[index]);
 
-                foreach (Tuple<string, List<string>> sgtins in sgtins2)
-                    partyIdSgtins.Add(sgtins);
+                //foreach (Tuple<string, List<string>> sgtins in sgtins2)
+                //    partyIdSgtins.Add(sgtins);
             }
             return partyIdSgtins;
         }
@@ -215,16 +225,15 @@ namespace TscDll.Forms
         /// <param name="sscces"></param>
         /// <param name="units"></param>
         /// <returns></returns>
-        private List<Tuple<string, string>> GetSsccs(List<MarkPrintUnit> units)
+        private List<SimplePrint> GetSsccs(List<SimplePrint> units)
         {
-            List<Tuple<string, string>> Sscces = new List<Tuple<string, string>>();
+            List<SimplePrint> Sscces = new List<SimplePrint>();
 
             int[] selectedIndex = gridView1.GetSelectedRows();
 
             for (int i = 0; i < selectedIndex.Length; i++)
             {
-                int index = selectedIndex[i];
-                GetSsccsRecur(Sscces, units[index].Units, units[index]);
+                Sscces.Add(units[i]);
             }
 
             return Sscces;
