@@ -12,13 +12,25 @@ namespace TscDll
         /// </summary>
         /// <param name="markPrintUnits">Объекты для печати</param>
         /// <returns></returns>
-        public static ResponseData PrintSgtinSscc(List<MarkPrintUnit> markPrintUnits)
+        //public static ResponseData PrintSgtinSscc(List<MarkPrintUnit> markPrintUnits)
+        //{
+        //    ResponseData response = new ResponseData();
+
+        //    Main_form main = new Main_form();
+        //    main.Activate();
+        //    main.InputToGV(markPrintUnits);
+        //    main.ShowDialog();
+
+        //    return response;
+        //}
+
+        public static ResponseData PrintSgtinSscc (SimplePrint units)
         {
             ResponseData response = new ResponseData();
 
             Main_form main = new Main_form();
             main.Activate();
-            main.InputToGV(markPrintUnits);
+            main.InputToGV(units);
             main.ShowDialog();
 
             return response;

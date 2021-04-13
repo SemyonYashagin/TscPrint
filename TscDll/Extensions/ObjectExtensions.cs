@@ -70,7 +70,7 @@ namespace TscDll.Extensions
             return stream;
         }
 
-        public static DataTable ToDataTable(List<MarkPrintUnit> marks)
+        public static DataTable ToDataTable(SimplePrint marks)
         {
             DataTable table = new DataTable();
             DataColumn column;
@@ -113,23 +113,74 @@ namespace TscDll.Extensions
                 ReadOnly = true
             };
             table.Columns.Add(column);
-
-            foreach(MarkPrintUnit unit in marks)
-            {
-                row = table.NewRow();
-                row[0] = unit.NomenProduct;
-                row[1] = unit.Gtin;
-                GetSsccSgtin(sgtins, sscc, unit.Units);
-                row[2] = sgtins.Count;
-                row[3] = sscc.Count;
-
-                table.Rows.Add(row);
-                sgtins.Clear();
-                sscc.Clear();
-            }
+            row = table.NewRow();
+            row[2] = marks.sgtins.Count;
+            row[3] = marks.SSCCs.Count;
+            table.Rows.Add(row);
 
             return table;
         }
+
+        //public static DataTable ToDataTable(List<MarkPrintUnit> marks)
+        //{
+        //    DataTable table = new DataTable();
+        //    DataColumn column;
+        //    DataRow row;
+        //    List<string> sgtins = new List<string>();
+        //    List<string> sscc = new List<string>();
+
+        //    column = new DataColumn
+        //    {
+        //        DataType = System.Type.GetType("System.String"),
+        //        ColumnName = "ProductName",
+        //        Caption = "Номенклатура",
+        //        ReadOnly = true
+        //    };
+        //    table.Columns.Add(column);
+
+        //    column = new DataColumn
+        //    {
+        //        DataType = System.Type.GetType("System.String"),
+        //        ColumnName = "Gtin",
+        //        Caption = "GTIN",
+        //        ReadOnly = true
+        //    };
+        //    table.Columns.Add(column);
+
+        //    column = new DataColumn
+        //    {
+        //        DataType = System.Type.GetType("System.String"),
+        //        ColumnName = "SgtinCount",
+        //        Caption = "Кол-во SGTIN-ов",
+        //        ReadOnly = true
+        //    };
+        //    table.Columns.Add(column);
+
+        //    column = new DataColumn
+        //    {
+        //        DataType = System.Type.GetType("System.String"),
+        //        ColumnName = "SsccCount",
+        //        Caption = "Кол-во SSCC",
+        //        ReadOnly = true
+        //    };
+        //    table.Columns.Add(column);
+
+        //    foreach(MarkPrintUnit unit in marks)
+        //    {
+        //        row = table.NewRow();
+        //        row[0] = unit.NomenProduct;
+        //        row[1] = unit.Gtin;
+        //        GetSsccSgtin(sgtins, sscc, unit.Units);
+        //        row[2] = sgtins.Count;
+        //        row[3] = sscc.Count;
+
+        //        table.Rows.Add(row);
+        //        sgtins.Clear();
+        //        sscc.Clear();
+        //    }
+
+        //    return table;
+        //}
 
         private static void GetSsccSgtin(List<string> All_Sgtin, List<string> All_Sscc, Unit unit)
         {

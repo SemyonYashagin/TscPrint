@@ -11,8 +11,10 @@ namespace TscDll.Forms
 {
     public partial class Main_form : Form
     {
-        List<MarkPrintUnit> markPrints = new List<MarkPrintUnit>();
+        //List<MarkPrintUnit> markPrints = new List<MarkPrintUnit>();
         private Settings settings;
+        SimplePrint marks = new SimplePrint();
+
         public Main_form()
         {
             InitializeComponent();
@@ -24,12 +26,18 @@ namespace TscDll.Forms
         /// Метод для вставки данные в GridView
         /// </summary>
         /// <param name="units">Список объектов MarkPrintUnit</param>
-        public void InputToGV(List<MarkPrintUnit> units)
+        //public void InputToGV(List<MarkPrintUnit> units)
+        //{
+        //    gridControl1.DataSource = ObjectExtensions.ToDataTable(units);
+        //    markPrints = units;
+        //}
+
+        public void InputToGV(SimplePrint units)
         {
             gridControl1.DataSource = ObjectExtensions.ToDataTable(units);
-            markPrints = units;
+            marks = units;
         }
-        
+
         /// <summary>
         /// Обновление статуса принтера
         /// </summary>
@@ -85,29 +93,54 @@ namespace TscDll.Forms
         /// </summary>
         /// <param name="sender"></param>
         /// <param name="e"></param>
+        //private void ButtonPrint_Click(object sender, EventArgs e)
+        //{
+        //    if (cb_sizes.SelectedItem.ToString() == "SGTIN")//print sgtins
+        //    {
+        //        List<Tuple<string, List<string>>> sgtins = GetSgtins(markPrints);
+
+        //        if(sgtins.Count!=0)
+        //        {
+        //            Settings set = XMLHelper.GetSettings();
+        //            SgtinHelper.Init_printer(set.SgtinSize.Width, set.SgtinSize.Height);
+        //            SgtinHelper.PrintSgtins(set.SgtinSize.Width, set.SgtinSize.Height, sgtins);
+        //        }
+        //        else AutoClosingMessageBox.Show("Выберите хотя бы один элемент для печати", "Ошибка", 1500);
+
+        //    }
+        //    else//print sscces
+        //    {
+        //        List<Tuple<string, string>> sscces = GetSsccs(markPrints);
+        //        if (sscces.Count!=0)
+        //        {
+        //            Settings set = XMLHelper.GetSettings();
+        //            SgtinHelper.Init_printer(set.SsccSize.Width, set.SsccSize.Height);
+        //            SsccHelper.PrintSsccs(set.SsccSize.Width, set.SsccSize.Height, sscces);
+        //        }
+        //        else AutoClosingMessageBox.Show("Выберите хотя бы один элемент для печати", "Ошибка", 1500);
+        //    }
+        //}
+
         private void ButtonPrint_Click(object sender, EventArgs e)
         {
             if (cb_sizes.SelectedItem.ToString() == "SGTIN")//print sgtins
             {
-                List<Tuple<string, List<string>>> sgtins = GetSgtins(markPrints);
-
-                if(sgtins.Count!=0)
+                if (marks.sgtins.Count != 0)
                 {
                     Settings set = XMLHelper.GetSettings();
                     SgtinHelper.Init_printer(set.SgtinSize.Width, set.SgtinSize.Height);
-                    SgtinHelper.PrintSgtins(set.SgtinSize.Width, set.SgtinSize.Height, sgtins);
+                    SgtinHelper.PrintSgtins(set.SgtinSize.Width, set.SgtinSize.Height, marks);
                 }
                 else AutoClosingMessageBox.Show("Выберите хотя бы один элемент для печати", "Ошибка", 1500);
 
             }
             else//print sscces
             {
-                List<Tuple<string, string>> sscces = GetSsccs(markPrints);
-                if (sscces.Count!=0)
+                if (marks.SSCCs.Count != 0)
                 {
                     Settings set = XMLHelper.GetSettings();
                     SgtinHelper.Init_printer(set.SsccSize.Width, set.SsccSize.Height);
-                    SsccHelper.PrintSsccs(set.SsccSize.Width, set.SsccSize.Height, sscces);
+                    SsccHelper.PrintSsccs(set.SsccSize.Width, set.SsccSize.Height, marks);
                 }
                 else AutoClosingMessageBox.Show("Выберите хотя бы один элемент для печати", "Ошибка", 1500);
             }
